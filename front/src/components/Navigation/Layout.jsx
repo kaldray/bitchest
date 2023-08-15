@@ -41,7 +41,7 @@ export const Layout = ({ children }) => {
             />
           </Flex>
         </Box>
-        <Box as="main" w={["100%", "75%"]} ml={["15%", "0%"]} p={2} display={"inline"}>
+        <Box as="main" w={["100%", "75%"]} ml={["15%", "0%"]} px={2} pt={2} display={"inline"}>
           {children}
         </Box>
       </Flex>
