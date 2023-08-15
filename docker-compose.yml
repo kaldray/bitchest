@@ -1,0 +1,29 @@
+# Copyright VMware, Inc.
+# SPDX-License-Identifier: APACHE-2.0
+
+version: '2'
+
+services:
+  mysql:
+    env_file:
+      - "./api/.env"
+    image: mysql
+    ports:
+      - '3306:3306'
+  api:
+    env_file:
+      - "./api/.env"
+    image: docker.io/bitnami/laravel:10
+    ports:
+      - '8000:8000'
+    volumes:
+      - './api:/app'
+    depends_on:
+      - mysql
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
