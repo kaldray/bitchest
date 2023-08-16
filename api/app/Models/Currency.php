@@ -10,12 +10,12 @@ class Currency extends Model
 {
     use HasFactory;
 
-    public function cryptoWallets() : HasMany
+    public function cryptoWallets(): HasMany
     {
-        return  $this->hasMany(CryptoWallet::class);
+        return $this->hasMany(CryptoWallet::class);
     }
-    public function currencyHistories() : HasMany
+    public function currencyHistories(): HasMany
     {
-        return  $this->hasMany(CurrencyHistory::class);
+        return $this->hasMany(CurrencyHistory::class);
     }
 }

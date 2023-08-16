@@ -9,17 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CryptoWallet extends Model
 {
-    use HasFactory,SoftDeletes;
-
-
+    use HasFactory, SoftDeletes;
 
     /**
      * The name of the "created at" column.
      *
      * @var string
      */
-    const CREATED_AT = 'purchased_at';
-    protected $dateFormat = 'd/m/Y H:i:s';
+    const CREATED_AT = "purchased_at";
+    protected $dateFormat = "d/m/Y H:i:s";
 
     public function currency(): BelongsTo
     {
@@ -29,5 +27,4 @@ class CryptoWallet extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

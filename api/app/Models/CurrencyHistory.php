@@ -10,7 +10,8 @@ class CurrencyHistory extends Model
 {
     use HasFactory;
 
-    public function currency(): BelongsTo{
+    public function currency(): BelongsTo
+    {
         return $this->belongsTo(Currency::class);
     }
 }
