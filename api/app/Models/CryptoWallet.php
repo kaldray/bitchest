@@ -17,7 +17,6 @@ class CryptoWallet extends Model
      * @var string
      */
     const CREATED_AT = "purchased_at";
-    protected $dateFormat = "d/m/Y H:i:s";
 
     public function currency(): BelongsTo
     {
