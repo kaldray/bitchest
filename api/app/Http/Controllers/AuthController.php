@@ -13,7 +13,7 @@ class AuthController extends Controller
      * @param LoginStoreRequest $request
      * @return Response
      */
-    public function login(LoginStoreRequest $request): Response
+    public function login(LoginStoreRequest $request)
     {
         $credentials = $request->validated();
         if (Auth::attempt($credentials)) {
