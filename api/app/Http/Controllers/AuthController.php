@@ -20,7 +20,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             return response(
-                ["message" => "Utilisateur authentifié", "status" => 201, "user" => $user],
+                ["message" => "Utilisateur authentifié", "status" => 201, "user" => $user->role],
                 Response::HTTP_OK,
             );
         }

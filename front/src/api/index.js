@@ -10,6 +10,10 @@ const api = axios.create({
   },
 });
 
+/**
+ * @typedef {{password:string,email:string}} Credentials
+ */
+
 api.interceptors.response.use(
   (response) => response,
   /**
@@ -31,6 +35,22 @@ api.interceptors.response.use(
   },
 );
 
-// export const getCsrfToken = async () => {
-//   await axios.get(import.meta.env.VITE_API_BASEURL + "/sanctum/csrf-cookie");
-// };
+export const getCsrfToken = async () => {
+  await axios.get(import.meta.env.VITE_API_BASEURL + "/sanctum/csrf-cookie");
+};
+
+/**
+ *
+ * @param {Credentials} credentials
+ * @returns {Promise<void>}
+ */
+export const signIn = async (credentials) => {
+  await getCsrfToken();
+  const response = await api.post("/login", credentials);
+  return response;
+};
+
+export const isAuthenticated = async () => {
+  const response = await api.get("/user");
+  return response.data;
+};
