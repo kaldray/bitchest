@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -22,7 +23,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            return User::all();
+            return UserResource::collection(User::all());
         } catch (AuthorizationException $exception) {
             return $exception;
         }
