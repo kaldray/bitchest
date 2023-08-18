@@ -41,6 +41,7 @@ const indexRoute = new Route({
 const adminRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "admin",
+  component: Pages.Admin,
   beforeLoad: async () => {
     if (getState().user === null) {
       throw redirect({
