@@ -59,3 +59,8 @@ export const getAllUsers = async () => {
   const response = await api.get("/users");
   return response.data;
 };
+
+export const signOut = async () => {
+  const response = await api.get("/logout");
+  return response;
+};
