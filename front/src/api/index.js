@@ -64,3 +64,12 @@ export const signOut = async () => {
   const response = await api.get("/logout");
   return response;
 };
+
+/**
+ * @param {string} id
+ * @returns {Promise<void>}
+ */
+export const removeUser = async (id) => {
+  const response = await api.delete(`/users/${id}`);
+  return response;
+};

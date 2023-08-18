@@ -1,6 +1,8 @@
 import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
-import { useLoader } from "@tanstack/react-router";
+import { useLoader, useRouter } from "@tanstack/react-router";
+
 import { CustomTable } from "@/components/table/table.jsx";
+import { removeUser } from "@/api/index.js";
 
 /**
  * @typedef {{id:number,email:string,role:string}} User
@@ -12,6 +14,18 @@ export const Admin = () => {
    * @type {Users} users
    */
   const users = useLoader();
+  const router = useRouter();
+
+  const removeOneUser = async (id) => {
+    try {
+      const response = await removeUser(id);
+      if (response.status === 200) {
+        router.invalidate();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const thead = (
     <>
@@ -34,10 +48,14 @@ export const Admin = () => {
             <Td>{u.email}</Td>
             <Td>{u.role}</Td>
             <Td>
-              <Button bg={"yellow.500"}>Modifier</Button>
+              <Button type={"button"} bg={"yellow.500"}>
+                Modifier
+              </Button>
             </Td>
             <Td>
-              <Button bg={"red.500"}>Supprimer</Button>
+              <Button type={"button"} bg={"red.500"} onClick={() => removeOneUser(u.id)}>
+                Supprimer
+              </Button>
             </Td>
           </Tr>
         );

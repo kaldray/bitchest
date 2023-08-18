@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Response;
 
 class UserController extends Controller
 {
@@ -58,6 +59,17 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        try {
+            $user->delete();
+            return Response::json(
+                [
+                    "message" => "L'opération à été un succès",
+                    "status" => \Illuminate\Http\Response::HTTP_OK,
+                ],
+                \Illuminate\Http\Response::HTTP_OK,
+            );
+        } catch (\Exception $exception) {
+            return $exception;
+        }
     }
 }
