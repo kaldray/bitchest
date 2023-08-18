@@ -2,7 +2,7 @@ import { RootRoute, Route, Outlet, redirect } from "@tanstack/react-router";
 
 import * as Pages from "@/pages/index.js";
 import { Layout } from "@/components/Navigation/Layout";
-import { isAuthenticated } from "@/api/index.js";
+import { getAllUsers, isAuthenticated } from "@/api/index.js";
 import { router } from "@/router/index.js";
 import { userStore } from "@/store/userStore.js";
 
@@ -42,6 +42,10 @@ const adminRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "admin",
   component: Pages.Admin,
+  loader: async () => {
+    const res = await getAllUsers();
+    return res;
+  },
   beforeLoad: async () => {
     if (getState().user === null) {
       throw redirect({

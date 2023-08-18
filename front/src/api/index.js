@@ -54,3 +54,8 @@ export const isAuthenticated = async () => {
   const response = await api.get("/user");
   return response.data;
 };
+
+export const getAllUsers = async () => {
+  const response = await api.get("/users");
+  return response.data;
+};
