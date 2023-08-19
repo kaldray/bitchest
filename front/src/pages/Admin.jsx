@@ -48,7 +48,12 @@ export const Admin = () => {
             <Td>{u.email}</Td>
             <Td>{u.role}</Td>
             <Td>
-              <Button type={"button"} bg={"yellow.500"}>
+              <Button
+                onClick={() =>
+                  router.navigate({ to: "/update-user/$id", from: "admin", params: { id: u.id } })
+                }
+                type={"button"}
+                bg={"yellow.500"}>
                 Modifier
               </Button>
             </Td>

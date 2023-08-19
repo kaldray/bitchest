@@ -43,7 +43,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        try {
+            return new UserResource(User::query()->findOrFail($user->id));
+        } catch (\Exception $exception) {
+            return $exception;
+        }
     }
 
     /**
@@ -51,7 +55,19 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        try {
+            $validateData = $request->validated();
+            $user->update($validateData);
+            return Response::json(
+                [
+                    "message" => "La paire a bien été modifié.",
+                    "status" => \Illuminate\Http\Response::HTTP_OK,
+                ],
+                \Illuminate\Http\Response::HTTP_OK,
+            );
+        } catch (\Exception $exception) {
+            return $exception;
+        }
     }
 
     /**

@@ -73,3 +73,22 @@ export const removeUser = async (id) => {
   const response = await api.delete(`/users/${id}`);
   return response;
 };
+
+/**
+ * @param {string} id
+ * @returns {Promise<void>}
+ */
+export const getUserById = async (id) => {
+  const response = await api.get(`/users/${id}`);
+  return response.data;
+};
+
+/**
+ * @param {string} id
+ * @param {object} payload
+ * @returns {Promise<void>}
+ */
+export const updateUserById = async (id, payload) => {
+  const response = await api.patch(`/users/${id}`, payload);
+  return response;
+};

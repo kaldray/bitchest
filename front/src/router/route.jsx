@@ -2,7 +2,7 @@ import { RootRoute, Route, Outlet, redirect } from "@tanstack/react-router";
 
 import * as Pages from "@/pages/index.js";
 import { Layout } from "@/components/Navigation/Layout";
-import { getAllUsers, isAuthenticated } from "@/api/index.js";
+import { getAllUsers, getUserById, isAuthenticated } from "@/api/index.js";
 import { router } from "@/router/index.js";
 import { userStore } from "@/store/userStore.js";
 
@@ -41,7 +41,11 @@ const indexRoute = new Route({
 const adminRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "admin",
-  component: Pages.Admin,
+  component: () => (
+    <>
+      <Pages.Admin />
+    </>
+  ),
   loader: async () => {
     const res = await getAllUsers();
     return res;
@@ -58,6 +62,26 @@ const adminRoute = new Route({
       });
     }
   },
+});
+const updateUserRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "update-user/$id",
+  loader: async ({ params: { id } }) => {
+    const res = await getUserById(id);
+    return res;
+  },
+  beforeLoad: async () => {
+    if (getState().user === null) {
+      throw redirect({
+        to: "/",
+      });
+    }
+  },
+  component: Pages.AdminUpdateUser,
+});
+const createUserRoute = new Route({
+  getParentRoute: () => adminRoute,
+  path: "create-user",
 });
 const clientRoute = new Route({
   getParentRoute: () => rootRoute,
@@ -76,4 +100,4 @@ const clientRoute = new Route({
   },
 });
 
-export { indexRoute, adminRoute, clientRoute, rootRoute };
+export { indexRoute, adminRoute, clientRoute, rootRoute, updateUserRoute, createUserRoute };
