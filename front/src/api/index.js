@@ -1,5 +1,10 @@
 import axios from "axios";
 
+import { router } from "@/router/index.js";
+import { userStore } from "@/store/userStore.js";
+
+const { setState } = userStore;
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_ENDPOINT,
   withCredentials: true,
@@ -20,13 +25,16 @@ api.interceptors.response.use(
    * @param {AxiosError} error
    * @returns
    */
-  (error) => {
+  async (error) => {
     if (error.response) {
       /**
        * @constant {AxiosError} apiError
        */
       const apiError = error.response.data;
-      if (error.response.status === 401) {
+
+      if (error.response.status === 401 && window.location.pathname !== "/") {
+        setState(null);
+        await router.navigate({ to: "/" });
         return Promise.reject(apiError);
       }
       return Promise.reject(apiError);
