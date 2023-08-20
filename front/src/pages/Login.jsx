@@ -10,11 +10,11 @@ import {
 import { useNavigate } from "@tanstack/react-router";
 
 import { signIn } from "@/api/index.js";
-import { useUserStore } from "@/store/userStore.js";
+import { userStore } from "@/store/userStore.js";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { setUser } = useUserStore((state) => state);
+  const { setState } = userStore;
 
   /**
    *
@@ -33,10 +33,10 @@ export const Login = () => {
     try {
       const response = await signIn(credentials);
       if (response.status === 200 && response.data.user.role === "admin") {
-        setUser(response.data.user);
+        setState({ user: response.data.user });
         return navigate({ to: "/admin" });
       } else {
-        setUser(response.data.user);
+        setState({ user: response.data.user });
         return navigate({ to: "/client" });
       }
     } catch (err) {

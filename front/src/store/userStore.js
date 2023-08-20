@@ -1,4 +1,3 @@
-import { useStore } from "zustand";
 import { createStore } from "zustand/vanilla";
 import { devtools } from "zustand/middleware";
 
@@ -14,5 +13,3 @@ export const userStore = createStore(
     { name: "userStore", store: "user", type: "user" },
   ),
 );
-
-export const useUserStore = (selector) => useStore(userStore, selector);

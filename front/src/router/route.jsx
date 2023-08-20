@@ -27,10 +27,10 @@ const indexRoute = new Route({
     try {
       const response = await isAuthenticated();
       if (response === "admin") {
-        setState(response);
+        setState({ user: response });
         router.navigate({ to: "admin" });
       } else {
-        setState(response);
+        setState({ user: response });
         router.navigate({ to: "client" });
       }
     } catch (err) {

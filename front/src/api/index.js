@@ -34,7 +34,7 @@ api.interceptors.response.use(
       const apiError = error.response.data;
 
       if (error.response.status === 401 && window.location.pathname !== "/") {
-        setState(null);
+        setState({ user: null });
         await router.navigate({ to: "/" });
         return Promise.reject(apiError);
       }
