@@ -1,3 +1,3 @@
-export const CurreniesList = () => {
+export const CurrenciesList = () => {
   return <div>CurreniesList</div>;
 };

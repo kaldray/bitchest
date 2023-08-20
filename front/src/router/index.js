@@ -6,7 +6,7 @@ import {
   rootRoute,
   updateUserRoute,
   createUserRoute,
-  curreniesListRoute,
+  currenciesListRoute,
 } from "@/router/route";
 
 const routeTree = rootRoute.addChildren([
@@ -15,7 +15,7 @@ const routeTree = rootRoute.addChildren([
   clientRoute,
   updateUserRoute,
   createUserRoute,
-  curreniesListRoute,
+  currenciesListRoute,
 ]);
 
 export const router = new Router({ routeTree });

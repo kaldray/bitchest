@@ -107,10 +107,10 @@ const clientRoute = new Route({
     }
   },
 });
-const curreniesListRoute = new Route({
+const currenciesListRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "currencies",
-  component: Pages.CurreniesList,
+  component: Pages.CurrenciesList,
 });
 
 export {
@@ -120,5 +120,5 @@ export {
   rootRoute,
   updateUserRoute,
   createUserRoute,
-  curreniesListRoute,
+  currenciesListRoute,
 };
