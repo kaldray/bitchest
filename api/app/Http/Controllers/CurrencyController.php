@@ -19,4 +19,15 @@ class CurrencyController extends Controller
         }
         return $exception;
     }
+
+    public function show(Currency $currency)
+    {
+        try {
+            return new CurrencyResource(
+                Currency::with("currencyHistories")->findOrFail($currency->id),
+            );
+        } catch (\Exception $exception) {
+            return $exception;
+        }
+    }
 }

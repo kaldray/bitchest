@@ -19,7 +19,10 @@ Route::middleware("auth:sanctum")->group(function () {
         return $request->user()->role;
     });
     Route::resource("users", \App\Http\Controllers\UserController::class);
-    Route::resource("currency", \App\Http\Controllers\CurrencyController::class)->only(["index"]);
+    Route::resource("currency", \App\Http\Controllers\CurrencyController::class)->only([
+        "index",
+        "show",
+    ]);
 });
 
 Route::controller(\App\Http\Controllers\AuthController::class)->group(function () {
