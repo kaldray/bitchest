@@ -1,6 +1,6 @@
 import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
-import { useLoader, useRouter } from "@tanstack/react-router";
-
+import { Link as ChakraLink } from "@chakra-ui/react";
+import { useLoader, useRouter, Link } from "@tanstack/react-router";
 import { CustomTable } from "@/components/table/table.jsx";
 import { removeUser } from "@/api/index.js";
 
@@ -76,6 +76,15 @@ export const Admin = () => {
         flexDir={"column"}
         gap={"5rem"}
         mt={"5rem"}>
+        <ChakraLink
+          as={Link}
+          bg={"blue.200"}
+          p={3}
+          borderRadius={"6px"}
+          to={"create-user"}
+          from={"/"}>
+          Ajouter un utilisateur
+        </ChakraLink>
         <CustomTable thead={thead} tbody={tbody} title={"Liste des utilisateurs"} />
       </Flex>
     </>

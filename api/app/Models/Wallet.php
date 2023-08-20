@@ -13,6 +13,8 @@ class Wallet extends Model
 {
     use HasFactory;
 
+    protected $fillable = ["quantity"];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

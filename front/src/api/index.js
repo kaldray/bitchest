@@ -17,6 +17,7 @@ const api = axios.create({
 
 /**
  * @typedef {{password:string,email:string}} Credentials
+ * @typedef {{password:string,email:string,role:string}} Payload
  */
 
 api.interceptors.response.use(
@@ -98,5 +99,14 @@ export const getUserById = async (id) => {
  */
 export const updateUserById = async (id, payload) => {
   const response = await api.patch(`/users/${id}`, payload);
+  return response;
+};
+
+/**
+ * @param {Payload} payload
+ * @returns {Promise<void>}
+ */
+export const addUser = async (payload) => {
+  const response = await api.post(`/users`, payload);
   return response;
 };

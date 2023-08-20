@@ -80,8 +80,16 @@ const updateUserRoute = new Route({
   component: Pages.AdminUpdateUser,
 });
 const createUserRoute = new Route({
-  getParentRoute: () => adminRoute,
+  getParentRoute: () => rootRoute,
   path: "create-user",
+  component: Pages.AdminCreateUser,
+  beforeLoad: async () => {
+    if (getState().user === null) {
+      throw redirect({
+        to: "/",
+      });
+    }
+  },
 });
 const clientRoute = new Route({
   getParentRoute: () => rootRoute,

@@ -6,6 +6,8 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Models\Wallet;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Response;
 
@@ -35,7 +37,22 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        try {
+            $user = User::create($request->validated());
+            $user->wallet()->create(["quantity" => 500]);
+            return Response::json(
+                [
+                    "message" => "L'opération s'est déroulée avec succès",
+                    "status" => \Illuminate\Http\Response::HTTP_OK,
+                ],
+                \Illuminate\Http\Response::HTTP_OK,
+            );
+        } catch (ValidationException $exception) {
+            return Response::json([
+                "message" => $exception,
+                "status" => \Illuminate\Http\Response::HTTP_OK,
+            ]);
+        }
     }
 
     /**
