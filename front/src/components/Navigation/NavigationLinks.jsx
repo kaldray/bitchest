@@ -5,6 +5,7 @@ import { userStore } from "@/store/userStore";
 import { signOut } from "@/api";
 import { AdminNavLink } from "@/components/Navigation/AdminNavLink";
 import { ClientNavLink } from "@/components/Navigation/ClientNavLink";
+import { CustomLink } from "@/components/Navigation/CustomLink";
 
 export const NavigationLinks = ({ mobileSize }) => {
   const { setState, getState } = userStore;
@@ -31,10 +32,23 @@ export const NavigationLinks = ({ mobileSize }) => {
             right={isToDisplay}
             p={5}
             justifyContent={"center"}
-            flexDir={"column"}
+            flexDir={"column-reverse"}
             alignItems={"center"}
             gap={3}>
             <Button onClick={() => signOutAndRedirect()}>Déconnexion</Button>
+            <CustomLink
+              to={"/currencies"}
+              from={"/"}
+              bg={"blue.700"}
+              px={"16px"}
+              py={"8px"}
+              verticalAlign={"middle"}
+              borderRadius={"6px"}
+              minW={"130px"}
+              textAlign={"center"}
+              color={"white"}>
+              Liste des crypto-monnaies
+            </CustomLink>
             {getState().user === "admin" && <AdminNavLink />}
             {getState().user === "client" && <ClientNavLink />}
           </Flex>

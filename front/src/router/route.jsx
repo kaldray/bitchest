@@ -107,5 +107,18 @@ const clientRoute = new Route({
     }
   },
 });
+const curreniesListRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "currencies",
+  component: Pages.CurreniesList,
+});
 
-export { indexRoute, adminRoute, clientRoute, rootRoute, updateUserRoute, createUserRoute };
+export {
+  indexRoute,
+  adminRoute,
+  clientRoute,
+  rootRoute,
+  updateUserRoute,
+  createUserRoute,
+  curreniesListRoute,
+};
