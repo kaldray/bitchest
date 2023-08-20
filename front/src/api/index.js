@@ -110,3 +110,8 @@ export const addUser = async (payload) => {
   const response = await api.post(`/users`, payload);
   return response;
 };
+
+export const getCurrencies = async () => {
+  const response = await api.get("/currency");
+  return response.data;
+};
