@@ -6,9 +6,10 @@ import { signOut } from "@/api";
 import { AdminNavLink } from "@/components/Navigation/AdminNavLink";
 import { ClientNavLink } from "@/components/Navigation/ClientNavLink";
 
-export const NavigationLinks = () => {
+export const NavigationLinks = ({ mobileSize }) => {
   const { setState, getState } = userStore;
   const navigate = useNavigate();
+  const isToDisplay = mobileSize === "100%" ? 0 : 200;
   const signOutAndRedirect = async () => {
     try {
       const response = await signOut();
@@ -25,7 +26,14 @@ export const NavigationLinks = () => {
     <>
       {getState().user !== null && (
         <>
-          <Flex p={5} justifyContent={"center"} flexDir={"column"} alignItems={"center"} gap={3}>
+          <Flex
+            position={["relative"]}
+            right={isToDisplay}
+            p={5}
+            justifyContent={"center"}
+            flexDir={"column"}
+            alignItems={"center"}
+            gap={3}>
             <Button onClick={() => signOutAndRedirect()}>Déconnexion</Button>
             {getState().user === "admin" && <AdminNavLink />}
             {getState().user === "client" && <ClientNavLink />}

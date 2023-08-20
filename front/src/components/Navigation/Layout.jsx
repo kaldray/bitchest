@@ -36,7 +36,6 @@ export const Layout = ({ children }) => {
             hideBelow="sm">
             <Image src="/bitchest_logo.png" alt="Logo de Bitchest" />
           </Flex>
-          <NavigationLinks />
           <Flex p={2} hideFrom="sm" justifyContent={endOrCenter}>
             <IconButton
               aria-label={"Ouvrir/Fermer le menu latéral"}
@@ -44,6 +43,7 @@ export const Layout = ({ children }) => {
               onClick={() => toggleSidebar()}
             />
           </Flex>
+          <NavigationLinks mobileSize={mobileSize} />
         </Box>
         <Box as="main" w={["100%", "75%"]} ml={["15%", "0%"]} px={2} pt={2} display={"inline"}>
           {children}
