@@ -27,7 +27,7 @@ export const NavigationLinks = ({ mobileSize }) => {
       {getState().user !== null && (
         <>
           <Flex
-            position={["relative"]}
+            position={["relative", "initial"]}
             right={isToDisplay}
             p={5}
             justifyContent={"center"}
