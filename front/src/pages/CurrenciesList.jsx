@@ -6,7 +6,7 @@ import { CustomLink } from "@/components/Navigation/CustomLink";
 export const CurrenciesList = () => {
   /**
    *
-   * @type {[{id:string,crypto_name:string}]}
+   * @type {[{id:string,crypto_name:string,currency_histories:[{id:number,quoting:number,date:string}]}]}
    */
   const currencies = useLoader();
 
@@ -25,25 +25,23 @@ export const CurrenciesList = () => {
     <>
       {currencies.map((val) => {
         return (
-          <>
-            <Tr key={val.id}>
-              <Td>{val.id} </Td>
-              <Td>{val.crypto_name}</Td>
-              <Td>10</Td>
-              <Td>
-                <CustomLink
-                  to={"currency/$id"}
-                  from={"/"}
-                  p={2}
-                  params={{ id: val.id }}
-                  bg={"blue.700"}
-                  color={"white"}
-                  borderRadius={"6px"}>
-                  Voir le cours
-                </CustomLink>
-              </Td>
-            </Tr>
-          </>
+          <Tr key={val.id}>
+            <Td>{val.id} </Td>
+            <Td>{val.crypto_name}</Td>
+            <Td>{val.currency_histories[0].quoting}</Td>
+            <Td>
+              <CustomLink
+                to={"currency/$id"}
+                from={"/"}
+                p={2}
+                params={{ id: val.id }}
+                bg={"blue.700"}
+                color={"white"}
+                borderRadius={"6px"}>
+                Voir le cours
+              </CustomLink>
+            </Td>
+          </Tr>
         );
       })}
     </>
