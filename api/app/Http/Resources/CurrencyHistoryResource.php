@@ -17,7 +17,7 @@ class CurrencyHistoryResource extends JsonResource
         return [
             "id" => $this->id,
             "quoting" => $this->quoting,
-            "date" => $this->date,
+            "date" => $this->date->format("d-m-Y"),
         ];
     }
 }
