@@ -115,3 +115,13 @@ export const getCurrencies = async () => {
   const response = await api.get("/currency");
   return response.data;
 };
+
+/**
+ *
+ * @param {string} id
+ * @returns {Promise<void>}
+ */
+export const getCurrencyRate = async (id) => {
+  const response = await api.get(`currency/${id}`);
+  return response.data;
+};

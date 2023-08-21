@@ -2,7 +2,13 @@ import { RootRoute, Route, Outlet, redirect } from "@tanstack/react-router";
 
 import * as Pages from "@/pages/index.js";
 import { Layout } from "@/components/Navigation/Layout";
-import { getAllUsers, getCurrencies, getUserById, isAuthenticated } from "@/api/index.js";
+import {
+  getAllUsers,
+  getCurrencies,
+  getCurrencyRate,
+  getUserById,
+  isAuthenticated,
+} from "@/api/index.js";
 import { router } from "@/router/index.js";
 import { userStore } from "@/store/userStore.js";
 
@@ -111,8 +117,37 @@ const currenciesListRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "currencies",
   component: Pages.CurrenciesList,
+  beforeLoad: async () => {
+    if (getState().user === null) {
+      throw redirect({
+        to: "/",
+        search: {
+          redirect: router.state.location.href,
+        },
+      });
+    }
+  },
   loader: async () => {
     return await getCurrencies();
+  },
+});
+
+const currencyRate = new Route({
+  getParentRoute: () => rootRoute,
+  path: "currency/$id",
+  component: Pages.CurrencyRate,
+  beforeLoad: async () => {
+    if (getState().user === null) {
+      throw redirect({
+        to: "/",
+        search: {
+          redirect: router.state.location.href,
+        },
+      });
+    }
+  },
+  loader: async ({ params: { id } }) => {
+    return await getCurrencyRate(id);
   },
 });
 
@@ -124,4 +159,5 @@ export {
   updateUserRoute,
   createUserRoute,
   currenciesListRoute,
+  currencyRate,
 };
