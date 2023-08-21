@@ -20,7 +20,9 @@ class CurrencyHistory extends Model
      */
     public $timestamps = false;
 
-    protected $dateFormat = "d/m/Y H:i:s";
+    protected $casts = [
+        "date" => "datetime:d-m-Y",
+    ];
 
     public function currency(): BelongsTo
     {
