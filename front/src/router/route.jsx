@@ -29,13 +29,19 @@ const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/",
   component: Pages.Login,
-  beforeLoad: async () => {
+  beforeLoad: async ({ search }) => {
     try {
       const response = await isAuthenticated();
       if (response === "admin") {
         setState({ user: response });
         router.navigate({ to: "admin" });
+        if (search?.redirect !== null) {
+          return router.history.push(search.redirect);
+        }
       } else {
+        if (search?.redirect !== null) {
+          return router.history.push(search.redirect);
+        }
         setState({ user: response });
         router.navigate({ to: "client" });
       }
@@ -60,11 +66,6 @@ const adminRoute = new Route({
     if (getState().user === null) {
       throw redirect({
         to: "/",
-      });
-    }
-    if (getState().user === "client") {
-      throw redirect({
-        to: "/client",
       });
     }
   },
