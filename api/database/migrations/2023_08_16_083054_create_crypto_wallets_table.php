@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->timestamps();
             $table->softDeletes("sell_at");
-            $table->decimal("capital_gain");
+            $table->decimal("capital_gain")->nullable(true);
             $table->unsignedBigInteger("quantity")->nullable(false);
 
             $table

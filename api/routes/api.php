@@ -23,6 +23,11 @@ Route::middleware("auth:sanctum")->group(function () {
         "index",
         "show",
     ]);
+    Route::resource("crypto-wallet", \App\Http\Controllers\CryptoWalletController::class)->only([
+        "store",
+        "show",
+        "destroy",
+    ]);
 });
 
 Route::controller(\App\Http\Controllers\AuthController::class)->group(function () {

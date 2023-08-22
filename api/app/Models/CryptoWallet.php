@@ -19,7 +19,8 @@ class CryptoWallet extends Model
      *
      * @var string
      */
-    const CREATED_AT = "purchased_at";
+
+    protected $fillable = ["quantity", "user_id", "currency_id"];
 
     public function currency(): BelongsTo
     {
