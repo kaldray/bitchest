@@ -165,6 +165,8 @@ const purchaseRoute = new Route({
   },
 });
 
+const walletRoute = new Route({ path: "wallet", getParentRoute: () => rootRoute });
+
 export {
   indexRoute,
   adminRoute,
@@ -175,4 +177,5 @@ export {
   currenciesListRoute,
   currencyRate,
   purchaseRoute,
+  walletRoute,
 };
