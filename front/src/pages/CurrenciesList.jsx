@@ -1,14 +1,16 @@
-import { CustomTable } from "@/components/table/table";
-import { Flex, Td, Th, Tr } from "@chakra-ui/react";
 import { useLoader } from "@tanstack/react-router";
+import { Flex, Td, Th, Tr } from "@chakra-ui/react";
+
+import { CustomTable } from "@/components/table/table";
+import { userStore } from "@/store/userStore";
 import { CustomLink } from "@/components/Navigation/CustomLink";
 
 export const CurrenciesList = () => {
   /**
-   *
    * @type {[{id:string,crypto_name:string,currency_histories:[{id:number,quoting:number,date:string}]}]}
    */
   const currencies = useLoader();
+  const { getState } = userStore;
 
   const thead = (
     <>
@@ -17,6 +19,7 @@ export const CurrenciesList = () => {
         <Th>Nom de la crypto-monnaie</Th>
         <Th>Cours actuelle</Th>
         <Th>Cours sur la période</Th>
+        {getState().user === "client" && <Th>Acheter</Th>}
       </Tr>
     </>
   );
@@ -41,6 +44,20 @@ export const CurrenciesList = () => {
                 Voir le cours
               </CustomLink>
             </Td>
+            {getState().user === "client" && (
+              <Td>
+                <CustomLink
+                  from={"/"}
+                  to={"purchase"}
+                  searchParams={{ currency_id: val.id, currency_name: val.crypto_name }}
+                  p={2.5}
+                  bg={"blue.500"}
+                  color={"white"}
+                  borderRadius={"6px"}>
+                  Acheter
+                </CustomLink>
+              </Td>
+            )}
           </Tr>
         );
       })}

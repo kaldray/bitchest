@@ -32,15 +32,14 @@ const indexRoute = new Route({
   beforeLoad: async ({ search }) => {
     try {
       const response = await isAuthenticated();
+      setState({ user: response });
       if (response === "admin") {
-        setState({ user: response });
-        if (search?.redirect !== null) {
+        if (search?.redirect !== undefined) {
           return router.history.push(search.redirect);
         }
         router.navigate({ to: "admin" });
       } else {
-        setState({ user: response });
-        if (search?.redirect !== null) {
+        if (search?.redirect !== undefined) {
           return router.history.push(search.redirect);
         }
         router.navigate({ to: "client" });
@@ -107,11 +106,6 @@ const clientRoute = new Route({
         to: "/",
       });
     }
-    if (getState().user === "admin") {
-      throw redirect({
-        to: "/admin",
-      });
-    }
   },
 });
 const currenciesListRoute = new Route({
@@ -152,6 +146,25 @@ const currencyRate = new Route({
   },
 });
 
+const purchaseRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "purchase",
+  beforeLoad: async () => {
+    if (getState().user === null) {
+      throw redirect({
+        to: "/",
+      });
+    }
+  },
+  component: Pages.PurchaseCurrency,
+  validateSearch: (search) => {
+    return {
+      currency_id: search.currency_id,
+      currency_name: search.currency_name,
+    };
+  },
+});
+
 export {
   indexRoute,
   adminRoute,
@@ -161,4 +174,5 @@ export {
   createUserRoute,
   currenciesListRoute,
   currencyRate,
+  purchaseRoute,
 };

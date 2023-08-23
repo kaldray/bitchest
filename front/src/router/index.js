@@ -8,6 +8,7 @@ import {
   createUserRoute,
   currenciesListRoute,
   currencyRate,
+  purchaseRoute,
 } from "@/router/route";
 
 const routeTree = rootRoute.addChildren([
@@ -18,6 +19,7 @@ const routeTree = rootRoute.addChildren([
   createUserRoute,
   currenciesListRoute,
   currencyRate,
+  purchaseRoute,
 ]);
 
 export const router = new Router({ routeTree });
