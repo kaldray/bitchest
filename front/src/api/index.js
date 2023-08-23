@@ -125,3 +125,13 @@ export const getCurrencyRate = async (id) => {
   const response = await api.get(`currency/${id}`);
   return response.data;
 };
+
+/**
+ *
+ * @param {{quantity:string,currency_id:string}} payload
+ * @returns {Promise<void>}
+ */
+export const purchaseCurrency = async (payload) => {
+  const response = await api.post("/crypto-wallet", payload);
+  return response;
+};
