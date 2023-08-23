@@ -6,15 +6,16 @@ import { Link } from "@tanstack/react-router";
  * @param {string} props.from
  * @param {string} props.to
  * @param {Object} props.params
+ * @param {Object} props.searchParams
  * @param {JSX.Element} props.children
  * @param {Object} props.style
  * @returns {JSX.Element}
  * @constructor
  */
-export const CustomLink = ({ to, from, children, params, ...style }) => {
+export const CustomLink = ({ to, from, children, params, searchParams, ...style }) => {
   return (
     <>
-      <ChakraLink as={Link} to={to} from={from} params={params} {...style}>
+      <ChakraLink as={Link} to={to} from={from} params={params} search={searchParams} {...style}>
         {children}
       </ChakraLink>
     </>
