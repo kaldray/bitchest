@@ -34,15 +34,15 @@ const indexRoute = new Route({
       const response = await isAuthenticated();
       if (response === "admin") {
         setState({ user: response });
+        if (search?.redirect !== null) {
+          return router.history.push(search.redirect);
+        }
         router.navigate({ to: "admin" });
-        if (search?.redirect !== null) {
-          return router.history.push(search.redirect);
-        }
       } else {
+        setState({ user: response });
         if (search?.redirect !== null) {
           return router.history.push(search.redirect);
         }
-        setState({ user: response });
         router.navigate({ to: "client" });
       }
     } catch (err) {
