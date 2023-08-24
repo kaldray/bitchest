@@ -23,10 +23,13 @@ Route::middleware("auth:sanctum")->group(function () {
         "index",
         "show",
     ]);
+    Route::delete("/crypto-wallet/{crypto_wallet:currency_id}", [
+        \App\Http\Controllers\CryptoWalletController::class,
+        "delete",
+    ]);
     Route::resource("crypto-wallet", \App\Http\Controllers\CryptoWalletController::class)->only([
         "store",
         "show",
-        "destroy",
     ]);
 });
 

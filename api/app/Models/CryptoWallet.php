@@ -14,13 +14,11 @@ class CryptoWallet extends Model
 {
     use HasFactory, SoftDeletes;
 
-    /**
-     * The name of the "created at" column.
-     *
-     * @var string
-     */
+    protected $dates = ["sell_at"];
 
-    protected $fillable = ["quantity", "user_id", "currency_id"];
+    const DELETED_AT = "sell_at";
+
+    protected $fillable = ["quantity", "user_id", "currency_id", "capital_gain"];
 
     public function currency(): BelongsTo
     {

@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create("currency_histories", function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger("quoting");
-            $table->timestamp("date");
+            $table->date("date");
 
             $table
                 ->foreignId("currency_id")
