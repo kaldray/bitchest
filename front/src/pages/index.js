@@ -5,3 +5,4 @@ export * from "./AdminCreateUser.jsx";
 export * from "./CurrenciesList.jsx";
 export * from "./CurrencyRate.jsx";
 export * from "./PurchaseCurrency.jsx";
+export * from "./UserWallets.jsx";

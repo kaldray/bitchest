@@ -7,6 +7,7 @@ import {
   getCurrencies,
   getCurrencyRate,
   getUserById,
+  getUsersWallet,
   isAuthenticated,
 } from "@/api/index.js";
 import { router } from "@/router/index.js";
@@ -165,7 +166,21 @@ const purchaseRoute = new Route({
   },
 });
 
-const walletRoute = new Route({ path: "wallet", getParentRoute: () => rootRoute });
+const walletRoute = new Route({
+  path: "wallet",
+  getParentRoute: () => rootRoute,
+  beforeLoad: async () => {
+    if (getState().user === null) {
+      throw redirect({
+        to: "/",
+      });
+    }
+  },
+  component: Pages.UserWallets,
+  loader: async () => {
+    return getUsersWallet();
+  },
+});
 
 export {
   indexRoute,

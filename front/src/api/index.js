@@ -135,3 +135,8 @@ export const purchaseCurrency = async (payload) => {
   const response = await api.post("/crypto-wallet", payload);
   return response;
 };
+
+export const getUsersWallet = async () => {
+  const response = await api.get("/me");
+  return response.data;
+};
