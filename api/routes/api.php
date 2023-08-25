@@ -18,6 +18,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get("/user", function (Request $request) {
         return $request->user()->role;
     });
+    Route::get("/me", [\App\Http\Controllers\ClientController::class, "index"]);
     Route::resource("users", \App\Http\Controllers\UserController::class);
     Route::resource("currency", \App\Http\Controllers\CurrencyController::class)->only([
         "index",

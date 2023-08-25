@@ -17,7 +17,11 @@ class UserResource extends JsonResource
         return [
             "id" => $this->id,
             "email" => $this->email,
-            "role" => $this->role,
+            "role" => $this->when($this->role === "admin", $this->role),
+            "crypto_wallets" => CryptoWalletRessource::collection(
+                $this->whenLoaded("cryptoWallets"),
+            ),
+            "wallet" => WalletRessource::make($this->whenLoaded("wallet")),
         ];
     }
 }
