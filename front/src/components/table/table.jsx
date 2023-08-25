@@ -11,7 +11,7 @@ import { Table, TableCaption, TableContainer, Tbody, Thead } from "@chakra-ui/re
 export const CustomTable = ({ title, thead, tbody }) => {
   return (
     <>
-      <TableContainer>
+      <TableContainer border={"3px solid black"} width={"80%"}>
         <Table variant="simple">
           <TableCaption>{title}</TableCaption>
           <Thead>{thead}</Thead>
