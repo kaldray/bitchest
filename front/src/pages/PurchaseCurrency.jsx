@@ -38,14 +38,14 @@ export const PurchaseCurrency = () => {
             title: "Achat effectuer.",
             description: "Nous avons pris en compte votre achat.",
             status: "success",
-            onCloseComplete: setSuccess(false),
+            onCloseComplete: () => setSuccess(false),
           })}
         {error !== null &&
           toast({
             title: "Une erreur est survenue.",
             description: error,
             status: "error",
-            onCloseComplete: setError(null),
+            onCloseComplete: () => setError(null),
           })}
         <Text as={"h1"} my={"1rem"}>
           Sélectionner une quantité pour : {currency_name}
