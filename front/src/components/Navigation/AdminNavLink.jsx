@@ -4,8 +4,7 @@ export const AdminNavLink = () => {
   return (
     <>
       <CustomLink
-        to={"/admin"}
-        from={"/"}
+        to={{ to: "/admin", from: "/" }}
         bg={"blue.700"}
         px={"16px"}
         py={"8px"}

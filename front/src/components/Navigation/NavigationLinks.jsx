@@ -37,8 +37,7 @@ export const NavigationLinks = ({ mobileSize }) => {
             gap={3}>
             <Button onClick={() => signOutAndRedirect()}>Déconnexion</Button>
             <CustomLink
-              to={"/currencies"}
-              from={"/"}
+              to={{ to: "/currencies", from: "/" }}
               bg={"blue.700"}
               px={"16px"}
               py={"8px"}

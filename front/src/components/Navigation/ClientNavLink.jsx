@@ -4,8 +4,7 @@ export const ClientNavLink = () => {
   return (
     <>
       <CustomLink
-        to={"/wallet"}
-        from={"/"}
+        to={{ to: "/wallet", from: "/" }}
         bg={"blue.700"}
         px={"16px"}
         py={"8px"}

@@ -34,10 +34,8 @@ export const CurrenciesList = () => {
             <Td>{val.currency_histories[0].quoting}</Td>
             <Td>
               <CustomLink
-                to={"currency/$id"}
-                from={"/"}
+                to={{ to: "currency/$id", from: "/", params: { id: val.id } }}
                 p={2}
-                params={{ id: val.id }}
                 bg={"blue.700"}
                 color={"white"}
                 borderRadius={"6px"}>
@@ -47,9 +45,11 @@ export const CurrenciesList = () => {
             {getState().user === "client" && (
               <Td>
                 <CustomLink
-                  from={"/"}
-                  to={"purchase"}
-                  searchParams={{ currency_id: val.id, currency_name: val.crypto_name }}
+                  to={{
+                    to: "purchase",
+                    from: "/",
+                    searchParams: { currency_id: val.id, currency_name: val.crypto_name },
+                  }}
                   p={2.5}
                   bg={"blue.500"}
                   color={"white"}
