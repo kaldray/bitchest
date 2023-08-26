@@ -16,7 +16,7 @@ class CryptoWalletRessource extends JsonResource
     {
         return [
             "quantity" => $this->quantity,
-            "created_at" => $this->created_at,
+            "created_at" => $this->when($this->created_at !== null, $this->created_at),
             "capital_gain" => $this->capital_gain,
             "currency" => CurrencyResource::make($this->whenLoaded("currency")),
         ];
