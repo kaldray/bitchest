@@ -1,6 +1,7 @@
-import { useLoader } from "@tanstack/react-router";
+import { useLoader, useRouter } from "@tanstack/react-router";
 import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
 import { CustomTable } from "@/components/table/table";
+import { sellCurrency } from "@/api";
 
 /**
  * Represents a user with their crypto wallet information.
@@ -38,6 +39,25 @@ export const UserWallets = () => {
    * @type {User[]}
    */
   const userWithWallet = useLoader();
+  const router = useRouter();
+
+  /**
+   *
+   * @param {React.SyntheticEvent} e
+   * @param {string} currencyId
+   * @returns {Promise<void>}
+   */
+  const sellACurrency = async (e, currencyId) => {
+    e.preventDefault();
+    try {
+      const res = await sellCurrency(currencyId);
+      if (res.status === 201) {
+        router.invalidate();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const thead = (
     <>
@@ -57,7 +77,11 @@ export const UserWallets = () => {
             <Td>{val.currency.crypto_name}</Td>
             <Td>{val.quantity} </Td>
             <Td>
-              <Button bg={"blue.500"} color={"white"} borderRadius={"6px"}>
+              <Button
+                bg={"blue.500"}
+                color={"white"}
+                borderRadius={"6px"}
+                onClick={(e) => sellACurrency(e, val.currency.id)}>
                 Vendre
               </Button>
             </Td>
