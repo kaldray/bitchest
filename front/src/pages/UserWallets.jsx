@@ -71,7 +71,7 @@ export const UserWallets = () => {
 
   const tbody = (
     <>
-      {userWithWallet[0].crypto_wallets.map((val) => {
+      {userWithWallet[0]?.crypto_wallets.map((val) => {
         return (
           <Tr key={val.currency.id}>
             <Td>{val.currency.crypto_name}</Td>
@@ -94,7 +94,11 @@ export const UserWallets = () => {
   return (
     <>
       <Flex justifyContent={"center"} alignItems={"center"} height={"100%"}>
-        <CustomTable thead={thead} tbody={tbody} title={"Mon portefeuille"}></CustomTable>
+        {userWithWallet[0].crypto_wallets.length === 0 ? (
+          <p>Votre portefeuille est vide </p>
+        ) : (
+          <CustomTable thead={thead} tbody={tbody} title={"Mon portefeuille"}></CustomTable>
+        )}
       </Flex>
     </>
   );
