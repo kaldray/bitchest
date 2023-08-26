@@ -2,6 +2,7 @@ import { useLoader, useRouter } from "@tanstack/react-router";
 import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
 import { CustomTable } from "@/components/table/table";
 import { sellCurrency } from "@/api";
+import { CustomLink } from "@/components/Navigation/CustomLink";
 
 /**
  * Represents a user with their crypto wallet information.
@@ -64,6 +65,7 @@ export const UserWallets = () => {
       <Tr>
         <Th>Crypto-monnaie</Th>
         <Th>Quantité</Th>
+        <Th>Détails</Th>
         <Th>Vendre</Th>
       </Tr>
     </>
@@ -76,6 +78,20 @@ export const UserWallets = () => {
           <Tr key={val.currency.id}>
             <Td>{val.currency.crypto_name}</Td>
             <Td>{val.quantity} </Td>
+            <Td>
+              <CustomLink
+                to={{
+                  to: "/wallet/detail/$id",
+                  from: "/",
+                  params: { id: val.currency.id },
+                }}
+                bg={"blue.700"}
+                color={"white"}
+                borderRadius={"6px"}
+                p={2.5}>
+                Voir le détail
+              </CustomLink>
+            </Td>
             <Td>
               <Button
                 bg={"blue.500"}

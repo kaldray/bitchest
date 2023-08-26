@@ -6,3 +6,4 @@ export * from "./CurrenciesList.jsx";
 export * from "./CurrencyRate.jsx";
 export * from "./PurchaseCurrency.jsx";
 export * from "./UserWallets.jsx";
+export * from "./UserDetailWallet.jsx";

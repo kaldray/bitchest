@@ -182,6 +182,19 @@ const walletRoute = new Route({
   },
 });
 
+const walletDetailRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "wallet/detail/$id",
+  beforeLoad: async () => {
+    if (getState().user === null) {
+      throw redirect({
+        to: "/",
+      });
+    }
+  },
+  component: Pages.UserDetailWallet,
+});
+
 export {
   indexRoute,
   adminRoute,
@@ -193,4 +206,5 @@ export {
   currencyRate,
   purchaseRoute,
   walletRoute,
+  walletDetailRoute,
 };
