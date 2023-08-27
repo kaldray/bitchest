@@ -150,3 +150,13 @@ export const sellCurrency = async (id) => {
   const response = await api.delete(`/crypto-wallet/${id}`);
   return response;
 };
+
+/**
+ *
+ * @param {string} id
+ * @returns {Promise<void>}
+ */
+export const getUserWalletDetail = async (id) => {
+  const response = await api.get(`me/${id}`);
+  return response.data;
+};
