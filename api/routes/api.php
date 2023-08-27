@@ -22,6 +22,9 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::get("/me", "index");
         Route::get("/me/{currency}", "show");
     });
+    Route::controller(\App\Http\Controllers\WalletController::class)->group(function () {
+        Route::get("wallet", "show");
+    });
     Route::resource("users", \App\Http\Controllers\UserController::class);
     Route::resource("currency", \App\Http\Controllers\CurrencyController::class)->only([
         "index",
