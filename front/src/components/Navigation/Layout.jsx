@@ -4,6 +4,7 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { useSidebarStore } from "@/store/sidebarStore";
 import { NavigationLinks } from "@/components/Navigation/NavigationLinks";
 import { useLoader } from "@tanstack/react-router";
+import { userStore } from "@/store/userStore";
 
 /**
  * @param {Object} props
@@ -12,6 +13,7 @@ import { useLoader } from "@tanstack/react-router";
  */
 export const Layout = ({ children }) => {
   const { mobileSize, toggleSidebar } = useSidebarStore((store) => store);
+  const { getState } = userStore;
   /**
    * @type {import("@/pages/UserWallets").Wallet}
    */
@@ -46,9 +48,11 @@ export const Layout = ({ children }) => {
             flexDir={"column"}
             alignItems={"center"}
             h={"calc(100% - 61.1667px)"}>
-            <Box as={"span"} aria-label={""}>
-              Solde : {wallet.quantity} €
-            </Box>
+            {getState().user === "client" && (
+              <Box as={"span"} aria-label={""}>
+                Solde : {wallet.quantity} €
+              </Box>
+            )}
             <Flex p={2} hideFrom="sm" justifyContent={endOrCenter}>
               <IconButton
                 aria-label={"Ouvrir/Fermer le menu latéral"}
