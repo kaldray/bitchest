@@ -136,7 +136,7 @@ export const purchaseCurrency = async (payload) => {
   return response;
 };
 
-export const getUsersWallet = async () => {
+export const getUsersCryptoWallet = async () => {
   const response = await api.get("/me");
   return response.data;
 };
@@ -156,7 +156,7 @@ export const sellCurrency = async (id) => {
  * @param {string} id
  * @returns {Promise<void>}
  */
-export const getUserWalletDetail = async (id) => {
+export const getUserCryptoWalletDetail = async (id) => {
   const response = await api.get(`me/${id}`);
   return response.data;
 };

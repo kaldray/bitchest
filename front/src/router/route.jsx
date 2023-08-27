@@ -7,8 +7,8 @@ import {
   getCurrencies,
   getCurrencyRate,
   getUserById,
-  getUsersWallet,
-  getUserWalletDetail,
+  getUsersCryptoWallet,
+  getUserCryptoWalletDetail,
   isAuthenticated,
 } from "@/api/index.js";
 import { router } from "@/router/index.js";
@@ -179,7 +179,7 @@ const walletRoute = new Route({
   },
   component: Pages.UserWallets,
   loader: async () => {
-    return getUsersWallet();
+    return getUsersCryptoWallet();
   },
 });
 
@@ -194,7 +194,7 @@ const walletDetailRoute = new Route({
     }
   },
   loader: async ({ params: { id } }) => {
-    return getUserWalletDetail(id);
+    return getUserCryptoWalletDetail(id);
   },
   component: Pages.UserDetailWallet,
 });
