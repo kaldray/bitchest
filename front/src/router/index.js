@@ -26,4 +26,4 @@ const routeTree = rootRoute.addChildren([
   walletDetailRoute,
 ]);
 
-export const router = new Router({ routeTree });
+export const router = new Router({ routeTree, defaultPreload: "intent" });
