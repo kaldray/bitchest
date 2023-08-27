@@ -3,6 +3,7 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 
 import { useSidebarStore } from "@/store/sidebarStore";
 import { NavigationLinks } from "@/components/Navigation/NavigationLinks";
+import { useLoader } from "@tanstack/react-router";
 
 /**
  * @param {Object} props
@@ -11,7 +12,10 @@ import { NavigationLinks } from "@/components/Navigation/NavigationLinks";
  */
 export const Layout = ({ children }) => {
   const { mobileSize, toggleSidebar } = useSidebarStore((store) => store);
-
+  /**
+   * @type {import("@/pages/UserWallets").Wallet}
+   */
+  const wallet = useLoader();
   const endOrCenter = mobileSize === "100%" ? "flex-end" : "center";
 
   return (
@@ -23,27 +27,37 @@ export const Layout = ({ children }) => {
           w={[mobileSize, "100%"]}
           h="100vh"
           zIndex={10}
-          as="aside"
+          as="nav"
           position={["absolute", "initial"]}
           display={"inline-block"}>
-          <Flex
+          <Box
             justifyContent={"center"}
             maxW={200}
             mx={"auto"}
             boxSize="sm"
             w={200}
             h={"auto"}
-            hideBelow="sm">
+            hideBelow="sm"
+            aria-hidden={true}>
             <Image src="/bitchest_logo.png" alt="Logo de Bitchest" />
+          </Box>
+          <Flex
+            justifyContent={"space-between"}
+            flexDir={"column"}
+            alignItems={"center"}
+            h={"calc(100% - 61.1667px)"}>
+            <Box as={"span"} aria-label={""}>
+              Solde : {wallet.quantity} €
+            </Box>
+            <Flex p={2} hideFrom="sm" justifyContent={endOrCenter}>
+              <IconButton
+                aria-label={"Ouvrir/Fermer le menu latéral"}
+                icon={<HamburgerIcon />}
+                onClick={() => toggleSidebar()}
+              />
+            </Flex>
+            <NavigationLinks mobileSize={mobileSize} />
           </Flex>
-          <Flex p={2} hideFrom="sm" justifyContent={endOrCenter}>
-            <IconButton
-              aria-label={"Ouvrir/Fermer le menu latéral"}
-              icon={<HamburgerIcon />}
-              onClick={() => toggleSidebar()}
-            />
-          </Flex>
-          <NavigationLinks mobileSize={mobileSize} />
         </Box>
         <Box as="main" w={["100%", "75%"]} ml={["15%", "0%"]} px={2} pt={2} display={"inline"}>
           {children}

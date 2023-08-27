@@ -160,3 +160,8 @@ export const getUserCryptoWalletDetail = async (id) => {
   const response = await api.get(`me/${id}`);
   return response.data;
 };
+
+export const getUserWallet = async () => {
+  const response = await api.get("/wallet");
+  return response.data;
+};

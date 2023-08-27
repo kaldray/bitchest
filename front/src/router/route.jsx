@@ -10,6 +10,7 @@ import {
   getUsersCryptoWallet,
   getUserCryptoWalletDetail,
   isAuthenticated,
+  getUserWallet,
 } from "@/api/index.js";
 import { router } from "@/router/index.js";
 import { userStore } from "@/store/userStore.js";
@@ -24,6 +25,11 @@ let rootRoute = new RootRoute({
       </Layout>
     </>
   ),
+  loader: async () => {
+    if (getState().user === "client") {
+      return getUserWallet();
+    }
+  },
 });
 
 //
