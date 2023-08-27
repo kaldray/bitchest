@@ -1,4 +1,4 @@
-import { useSearch } from "@tanstack/react-router";
+import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Flex, FormControl, FormLabel, Input, Text, useToast } from "@chakra-ui/react";
 import { purchaseRoute } from "@/router/route";
 import { purchaseCurrency } from "@/api";
@@ -8,6 +8,7 @@ export const PurchaseCurrency = () => {
   const { currency_id, currency_name } = useSearch({ from: purchaseRoute.id });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
+  const router = useRouter();
   const toast = useToast({
     duration: 5000,
     position: "top",
@@ -24,6 +25,8 @@ export const PurchaseCurrency = () => {
       const response = await purchaseCurrency(payload);
       if (response.status === 201) {
         setSuccess(true);
+        router.invalidate();
+        router.navigate({ to: "/currencies", from: "/" });
       }
     } catch (err) {
       setError(err.message);
