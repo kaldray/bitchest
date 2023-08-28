@@ -1,13 +1,14 @@
 import { create } from "zustand";
 
-export const useSidebarStore = create((set, get) => ({
-  mobileSize: "15%",
+export const useSidebarStore = create((set) => ({
+  isOpen: window.innerWidth >= 768,
   toggleSidebar: () => {
-    const size = get().mobileSize;
-    if (size === "15%") {
-      return set(() => ({ mobileSize: "100%" }));
-    } else {
-      return set(() => ({ mobileSize: "15%" }));
-    }
+    set((state) => ({ isOpen: !state.isOpen }));
+  },
+  openSideBar: () => {
+    set(() => ({ isOpen: true }));
+  },
+  closeSideBar: () => {
+    set(() => ({ isOpen: false }));
   },
 }));

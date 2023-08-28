@@ -1,5 +1,6 @@
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link } from "@tanstack/react-router";
+import { useSidebarStore } from "@/store/sidebarStore";
 
 /**
  * @param {Object} props
@@ -10,9 +11,16 @@ import { Link } from "@tanstack/react-router";
  * @constructor
  */
 export const CustomLink = ({ to, children, ...style }) => {
+  const closeSidebar = useSidebarStore((state) => state.closeSideBar);
+  const shouldCloseSideBar = () => {
+    if (window.innerWidth < 768) {
+      closeSidebar();
+    }
+  };
+
   return (
     <>
-      <ChakraLink as={Link} {...to} {...style}>
+      <ChakraLink onClick={() => shouldCloseSideBar()} as={Link} {...to} {...style}>
         {children}
       </ChakraLink>
     </>

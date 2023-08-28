@@ -109,7 +109,7 @@ export const UserWallets = () => {
 
   return (
     <>
-      <Flex justifyContent={"center"} alignItems={"center"} height={"100%"}>
+      <Flex justifyContent={"center"} alignItems={"center"} height={"100%"} mt={"5rem"}>
         {userWithWallet[0].crypto_wallets.length === 0 ? (
           <p>Votre portefeuille est vide </p>
         ) : (
