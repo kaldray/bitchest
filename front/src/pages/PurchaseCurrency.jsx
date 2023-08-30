@@ -39,6 +39,7 @@ export const PurchaseCurrency = () => {
         alignItems={"center"}
         justifyContent={"center"}
         flexDir={"column"}
+        height={"100%"}
         mt={["5rem", "5rem", "0rem"]}>
         {success &&
           toast({
