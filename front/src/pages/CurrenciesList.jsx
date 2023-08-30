@@ -71,7 +71,8 @@ export const CurrenciesList = () => {
         justifyContent={"center"}
         flexDir={"column"}
         gap={"5rem"}
-        mt={["5rem", "5rem", "0rem"]}>
+        mt={["5rem", "5rem", "0rem"]}
+        height={"100%"}>
         <CustomTable thead={thead} tbody={tbody} title={"Liste des crypto-monnaies"} />
       </Flex>
     </>
