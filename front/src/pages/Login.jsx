@@ -32,7 +32,7 @@ export const Login = () => {
     };
     try {
       const response = await signIn(credentials);
-      if (response.status === 200 && response.data.user.role === "admin") {
+      if (response.status === 200 && response.data.user === "admin") {
         setState({ user: response.data.user });
         return navigate({ to: "/admin" });
       } else {
