@@ -75,6 +75,7 @@ export const Admin = () => {
         justifyContent={"center"}
         flexDir={"column"}
         gap={"5rem"}
+        height={"100%"}
         mt={["5rem", "5rem", "0rem"]}>
         <ChakraLink
           as={Link}
