@@ -42,7 +42,10 @@ export const Sidebar = () => {
           flexDir={"column"}
           alignItems={"center"}
           h={"calc(100% - 61.1667px)"}>
-          <Flex justifyContent={"space-between"} w={"100%"} alignItems={"center"}>
+          <Flex
+            justifyContent={["space-between", "space-between", "center"]}
+            w={"100%"}
+            alignItems={"center"}>
             {getState().user === "client" && (
               <Box as={"span"} fontWeight={"700"} p={2}>
                 Solde : {wallet.quantity} €
