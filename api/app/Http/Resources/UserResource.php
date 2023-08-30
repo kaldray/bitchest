@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends JsonResource
 {
@@ -17,7 +18,7 @@ class UserResource extends JsonResource
         return [
             "id" => $this->id,
             "email" => $this->email,
-            "role" => $this->when($this->role === "admin", $this->role),
+            "role" => $this->when(Auth::user()->role === "admin", $this->role),
             "crypto_wallets" => CryptoWalletRessource::collection(
                 $this->whenLoaded("cryptoWallets"),
             ),
