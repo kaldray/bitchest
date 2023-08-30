@@ -35,7 +35,11 @@ export const PurchaseCurrency = () => {
 
   return (
     <>
-      <Flex alignItems={"center"} justifyContent={"center"} flexDir={"column"} mt={"5rem"}>
+      <Flex
+        alignItems={"center"}
+        justifyContent={"center"}
+        flexDir={"column"}
+        mt={["5rem", "5rem", "0rem"]}>
         {success &&
           toast({
             title: "Achat effectuer.",

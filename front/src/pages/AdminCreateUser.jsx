@@ -24,7 +24,7 @@ export const AdminCreateUser = () => {
 
   return (
     <>
-      <Box w={["60%", "80%"]} mx={"auto"}>
+      <Box w={["60%", "80%"]} mx={"auto"} mt={["5rem", "5rem", "0rem"]}>
         <Text textAlign={"center"} as={"h1"} fontSize={"1.2rem"} fontWeight={"700"} my={"5rem"}>
           Ajouter un utilisateur
         </Text>

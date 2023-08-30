@@ -26,7 +26,11 @@ export const AdminUpdateUser = () => {
 
   return (
     <>
-      <Flex alignItems={"center"} justifyContent={"center"} flexDir={"column"} mt={"5rem"}>
+      <Flex
+        alignItems={"center"}
+        justifyContent={"center"}
+        flexDir={"column"}
+        mt={["5rem", "5rem", "0rem"]}>
         <Text as={"h1"} my={"1rem"}>
           Modifier un utilisateur
         </Text>

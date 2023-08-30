@@ -52,7 +52,12 @@ export const CurrencyRate = () => {
 
   return (
     <>
-      <Flex justifyContent={"center"} alignItems={"center"} height={"100%"} p={5}>
+      <Flex
+        justifyContent={"center"}
+        alignItems={"center"}
+        height={"100%"}
+        p={5}
+        mt={["5rem", "5rem", "0rem"]}>
         <Line options={options} data={data} />
       </Flex>
     </>
