@@ -10,6 +10,8 @@ use App\Models\Wallet;
 use App\Services\UserService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Response;
 
 class UserController extends Controller
@@ -24,7 +26,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): AnonymousResourceCollection|\Exception
     {
         try {
             return $this->userService->getAllUsers();
@@ -36,7 +38,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): JsonResponse
     {
         try {
             $this->userService->createUser($request);
@@ -58,7 +60,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(User $user): UserResource|\Exception
     {
         try {
             return $this->userService->getUser($user);
@@ -70,7 +72,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user): JsonResponse|\Exception
     {
         try {
             $this->userService->updateUser($request, $user);
@@ -89,7 +91,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user): JsonResponse|\Exception
     {
         try {
             $this->userService->deleteUser($user);
