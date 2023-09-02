@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Services\UserService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Response;
@@ -16,7 +17,7 @@ class UserController extends Controller
     /**
      * Create the controller instance.
      */
-    public function __construct()
+    public function __construct(protected UserService $userService)
     {
         $this->authorizeResource(User::class, "user");
     }
@@ -26,7 +27,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            return UserResource::collection(User::all());
+            return $this->userService->getAllUsers();
         } catch (AuthorizationException $exception) {
             return $exception;
         }
@@ -38,8 +39,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         try {
-            $user = User::create($request->validated());
-            $user->wallet()->create(["quantity" => 500]);
+            $this->userService->createUser($request);
             return Response::json(
                 [
                     "message" => "L'opération s'est déroulée avec succès",
@@ -61,7 +61,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         try {
-            return new UserResource(User::query()->findOrFail($user->id));
+            return $this->userService->getUser($user);
         } catch (\Exception $exception) {
             return $exception;
         }
@@ -73,8 +73,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         try {
-            $validateData = $request->validated();
-            $user->update($validateData);
+            $this->userService->updateUser($request, $user);
             return Response::json(
                 [
                     "message" => "La paire a bien été modifié.",
@@ -93,7 +92,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         try {
-            $user->delete();
+            $this->userService->deleteUser($user);
             return Response::json(
                 [
                     "message" => "L'opération à été un succès",
