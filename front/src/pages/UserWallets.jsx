@@ -1,7 +1,6 @@
-import { useLoader, useRouter } from "@tanstack/react-router";
-import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
+import { useLoader } from "@tanstack/react-router";
+import { Flex, Td, Th, Tr } from "@chakra-ui/react";
 import { CustomTable } from "@/components/table/table";
-import { sellCurrency } from "@/api";
 import { CustomLink } from "@/components/Navigation/CustomLink";
 
 /**
@@ -17,6 +16,7 @@ import { CustomLink } from "@/components/Navigation/CustomLink";
  * Represents a crypto wallet.
  * @typedef {Object} CryptoWallet
  * @property {string} quantity - The quantity of cryptocurrency in the wallet.
+ * @property {string|null} capital_gain - The capital gain for this cryptocurrency.
  * @property {Currency} currency - The currency information of the cryptocurrency.
  */
 
@@ -40,33 +40,14 @@ export const UserWallets = () => {
    * @type {User[]}
    */
   const userWithWallet = useLoader();
-  const router = useRouter();
-
-  /**
-   *
-   * @param {React.SyntheticEvent} e
-   * @param {string} currencyId
-   * @returns {Promise<void>}
-   */
-  const sellACurrency = async (e, currencyId) => {
-    e.preventDefault();
-    try {
-      const res = await sellCurrency(currencyId);
-      if (res.status === 201) {
-        router.invalidate();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const thead = (
     <>
       <Tr>
         <Th>Crypto-monnaie</Th>
         <Th>Quantité</Th>
+        <Th>Bénéfices</Th>
         <Th>Détails</Th>
-        <Th>Vendre</Th>
       </Tr>
     </>
   );
@@ -78,6 +59,7 @@ export const UserWallets = () => {
           <Tr key={val.currency.id}>
             <Td>{val.currency.crypto_name}</Td>
             <Td>{val.quantity} </Td>
+            <Td>{val.capital_gain ?? 0}</Td>
             <Td>
               <CustomLink
                 to={{
@@ -91,15 +73,6 @@ export const UserWallets = () => {
                 p={2.5}>
                 Voir le détail
               </CustomLink>
-            </Td>
-            <Td>
-              <Button
-                bg={"blue.500"}
-                color={"white"}
-                borderRadius={"6px"}
-                onClick={(e) => sellACurrency(e, val.currency.id)}>
-                Vendre
-              </Button>
             </Td>
           </Tr>
         );
