@@ -20,6 +20,7 @@ class CryptoWalletRessource extends JsonResource
                 $this->created_at?->format("d-m-Y"),
                 $this->created_at?->format("d-m-Y"),
             ),
+            "sell_at" => $this->when($this->sell_at !== null, $this->sell_at?->format("d-m-Y")),
             "capital_gain" => $this->capital_gain,
             "currency" => CurrencyResource::make($this->whenLoaded("currency")),
         ];
