@@ -23,9 +23,11 @@ class ClientController extends Controller
                             ->select([
                                 "user_id",
                                 "currency_id",
+                                \DB::raw("SUM(capital_gain) as capital_gain"),
                                 \DB::raw("SUM(quantity) as quantity"),
                             ])
-                            ->groupBy(["user_id", "currency_id"]);
+                            ->groupBy(["user_id", "currency_id"])
+                            ->withTrashed();
                     },
                     "cryptoWallets.currency",
                 ])
@@ -50,7 +52,7 @@ class ClientController extends Controller
                 User::with([
                     "wallet",
                     "cryptoWallets" => function (HasMany $query) use ($currency) {
-                        return $query->where("currency_id", $currency->id);
+                        return $query->where("currency_id", $currency->id)->withTrashed();
                     },
                     "cryptoWallets.currency",
                 ])
