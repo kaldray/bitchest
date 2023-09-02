@@ -34,13 +34,12 @@ class CalculateProfits
             ->map(function ($item) {
                 return $item->quoting;
             });
-        $results[] = [];
+        $results = [];
         if (count($numberOfCurrency) === count($quotingAtPurchaseDate)) {
             $longueur = count($numberOfCurrency);
             for ($i = 0; $i < $longueur; $i++) {
                 array_push($results, $numberOfCurrency[$i] * $quotingAtPurchaseDate[$i]);
             }
-            $results = array_sum($results);
         } else {
             $quantity = $numberOfCurrency->reduce(function ($val, $acc) {
                 return $val + $acc;

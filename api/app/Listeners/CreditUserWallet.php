@@ -24,18 +24,16 @@ class CreditUserWallet
      */
     public function handle(CryptoSale $event)
     {
-        $benefices = $event->cryptoToDeleted
-            ->map(function ($item) use ($event) {
-                return $item->quantity * $event->currencyHistory->quoting;
-            })
-            ->sum();
+        $benefices = $event->cryptoToDeleted->map(function ($item) use ($event) {
+            return $item->quantity * $event->currencyHistory->quoting;
+        });
         $userWallet = Wallet::where(
             "user_id",
             "=",
             $event->cryptoToDeleted->first()->user_id,
         )->first();
-        $userWallet->quantity = $userWallet->quantity + $benefices;
+        $userWallet->quantity = $userWallet->quantity + $benefices->sum();
         $userWallet->save();
-        return $benefices;
+        return $benefices->toArray();
     }
 }
