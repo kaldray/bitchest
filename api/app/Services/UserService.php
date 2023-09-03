@@ -13,9 +13,9 @@ class UserService
     {
     }
 
-    public function getAllUsers(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getAllUsers(): \Illuminate\Database\Eloquent\Collection
     {
-        return UserResource::collection($this->user::all());
+        return $this->user::all();
     }
 
     public function createUser(StoreUserRequest $request): void
@@ -24,9 +24,9 @@ class UserService
         $this->walletService->createUserWallet($user);
     }
 
-    public function getUser(User $user): UserResource
+    public function getUser(User $user): \Illuminate\Database\Eloquent\Collection
     {
-        return UserResource::make($this->user::query()->findOrFail($user->id));
+        return $this->user::query()->findOrFail($user->id);
     }
 
     public function updateUser(UpdateUserRequest $request, User $user): void

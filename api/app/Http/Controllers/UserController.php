@@ -29,7 +29,7 @@ class UserController extends Controller
     public function index(): AnonymousResourceCollection|\Exception
     {
         try {
-            return $this->userService->getAllUsers();
+            return UserResource::collection($this->userService->getAllUsers());
         } catch (AuthorizationException $exception) {
             return $exception;
         }
@@ -63,7 +63,7 @@ class UserController extends Controller
     public function show(User $user): UserResource|\Exception
     {
         try {
-            return $this->userService->getUser($user);
+            return UserResource::make($this->userService->getUser($user));
         } catch (\Exception $exception) {
             return $exception;
         }
