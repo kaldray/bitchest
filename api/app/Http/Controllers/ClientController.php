@@ -9,31 +9,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ClientController extends Controller
 {
+    public function __construct(protected User $user)
+    {
+    }
+
     /**
      * Display user's wallets with aggregate quantity for each currency
      */
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Exception
     {
         try {
-            return UserResource::collection(
-                User::with([
-                    "wallet",
-                    "cryptoWallets" => function (HasMany $query) {
-                        $query
-                            ->select([
-                                "user_id",
-                                "currency_id",
-                                \DB::raw("SUM(capital_gain) as capital_gain"),
-                                \DB::raw("SUM(quantity) as quantity"),
-                            ])
-                            ->groupBy(["user_id", "currency_id"])
-                            ->withTrashed();
-                    },
-                    "cryptoWallets.currency",
-                ])
-                    ->where("id", \Auth::user()->id)
-                    ->get(),
-            );
+            return UserResource::collection($this->user->getUserCryptoWalletListWithTrashed());
         } catch (\Exception $exception) {
             return $exception;
         }
@@ -49,15 +35,7 @@ class ClientController extends Controller
     ): \Exception|\Illuminate\Http\Resources\Json\AnonymousResourceCollection {
         try {
             return UserResource::collection(
-                User::with([
-                    "wallet",
-                    "cryptoWallets" => function (HasMany $query) use ($currency) {
-                        return $query->where("currency_id", $currency->id)->withTrashed();
-                    },
-                    "cryptoWallets.currency",
-                ])
-                    ->where("id", \Auth::user()->id)
-                    ->get(),
+                $this->user->getUserCryptoWalletListDetailsWithTrashed($currency),
             );
         } catch (\Exception $exception) {
             return $exception;
