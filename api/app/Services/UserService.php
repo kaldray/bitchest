@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\UserResource;
 use App\Models\User;
 
 class UserService
@@ -24,7 +23,7 @@ class UserService
         $this->walletService->createUserWallet($user);
     }
 
-    public function getUser(User $user): \Illuminate\Database\Eloquent\Collection
+    public function getUser(User $user): \Illuminate\Database\Eloquent\Collection|\App\Models\User
     {
         return $this->user::query()->findOrFail($user->id);
     }
