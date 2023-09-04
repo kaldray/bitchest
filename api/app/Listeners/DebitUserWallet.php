@@ -11,8 +11,10 @@ class DebitUserWallet
     /**
      * Create the event listener.
      */
-    public function __construct(protected CurrencyHistory $currencyHistory)
-    {
+    public function __construct(
+        protected CurrencyHistory $currencyHistory,
+        protected Wallet $wallet,
+    ) {
         //
     }
 
@@ -24,7 +26,7 @@ class DebitUserWallet
         $quoting = $this->currencyHistory->getQuotingAtCurrentDate(
             $event->cryptoWallet->currency_id,
         );
-        $userWallet = Wallet::where("user_id", "=", $event->cryptoWallet->user_id)->first();
+        $userWallet = $this->wallet->getUserWallet();
         $debit = $quoting->quoting * $event->cryptoWallet->quantity;
         $userWallet->quantity = $userWallet->quantity - $debit;
         $userWallet->save();
