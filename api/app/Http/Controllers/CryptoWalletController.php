@@ -53,12 +53,14 @@ class CryptoWalletController extends Controller
                 $quotingForSell,
                 $deletedCrypto,
             );
-            $diff = CryptoProfits::dispatch($deletedCrypto);
-            $capital_gain = $this->cryptoWalletServices->calculateCapitalGain(
-                $capitalGainAtCurrentDate,
-                $diff,
+            $amountOfPurchaseDate = $this->cryptoWalletServices->calculatePurchaseAmount(
+                $deletedCrypto,
             );
-            $this->cryptoWalletServices->fillCapitalGainValue($deletedCrypto, $capital_gain);
+            $capitalGain = $this->cryptoWalletServices->calculateCapitalGain(
+                $capitalGainAtCurrentDate,
+                $amountOfPurchaseDate,
+            );
+            $this->cryptoWalletServices->fillCapitalGainValue($deletedCrypto, $capitalGain);
             return Response::json(
                 [
                     "message" => "L'opération s'est déroulée avec succès",

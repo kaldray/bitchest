@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Collection;
 
 class WalletService
 {
-    public function __construct(protected Wallet $wallet)
-    {
+    public function __construct(
+        protected Wallet $wallet,
+        protected CurrencyHistory $currencyHistory,
+    ) {
     }
 
-    public function createUserWallet(User $user)
+    public function createUserWallet(User $user): void
     {
         $user->wallet()->create(["quantity" => 500]);
     }
@@ -21,7 +23,7 @@ class WalletService
     public function creditUserWallet(
         CurrencyHistory $quotingForDeletedCrypto,
         Collection $deletedCrypto,
-    ) {
+    ): array {
         $capitalGainEachCrypto = $deletedCrypto->map(function ($item) use (
             $quotingForDeletedCrypto,
         ) {

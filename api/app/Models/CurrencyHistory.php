@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,5 +35,15 @@ class CurrencyHistory extends Model
         return $this::whereDate("date", now())
             ->where("currency_id", "=", $currency_id)
             ->first(["quoting"]);
+    }
+
+    public function getQuotingForDates(\Illuminate\Support\Collection $dates, Collection $currency)
+    {
+        return $this::whereIn("date", $dates)
+            ->where("currency_id", $currency->first()->currency_id)
+            ->get()
+            ->map(function ($item) {
+                return $item->quoting;
+            });
     }
 }
