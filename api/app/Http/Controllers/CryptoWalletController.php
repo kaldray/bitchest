@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\CryptoProfits;
 use App\Events\CryptoPurchase;
 use App\Http\Requests\StoreCryptoWalletRequest;
 use App\Models\CryptoWallet;
