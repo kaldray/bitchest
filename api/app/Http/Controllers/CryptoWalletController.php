@@ -8,6 +8,7 @@ use App\Events\CryptoSale;
 use App\Http\Requests\StoreCryptoWalletRequest;
 use App\Models\CryptoWallet;
 use App\Models\CurrencyHistory;
+use App\Services\CryptoWalletServices;
 use Illuminate\Support\Facades\Response;
 
 class CryptoWalletController extends Controller
@@ -15,10 +16,15 @@ class CryptoWalletController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+    public function __construct(protected CryptoWalletServices $cryptoWalletServices)
+    {
+    }
+
     public function store(StoreCryptoWalletRequest $request)
     {
         try {
-            $data = CryptoWallet::create($request->validated());
+            $data = $this->cryptoWalletServices->purchaseCurrency($request);
             CryptoPurchase::dispatch($data);
             return Response::json(
                 [

@@ -28,4 +28,11 @@ class CurrencyHistory extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+
+    public function getQuotingAtCurrentDate($currency_id)
+    {
+        return $this::whereDate("date", now())
+            ->where("currency_id", "=", $currency_id)
+            ->first(["quoting"]);
+    }
 }
