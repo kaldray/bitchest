@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Events\CryptoProfits;
 use App\Events\CryptoPurchase;
-use App\Events\CryptoSale;
 use App\Http\Requests\StoreCryptoWalletRequest;
 use App\Models\CryptoWallet;
-use App\Models\CurrencyHistory;
 use App\Services\CryptoWalletServices;
 use App\Services\CurrencyHistoryServices;
+use App\Services\WalletService;
 use Illuminate\Support\Facades\Response;
 
 class CryptoWalletController extends Controller
@@ -21,6 +20,7 @@ class CryptoWalletController extends Controller
     public function __construct(
         protected CryptoWalletServices $cryptoWalletServices,
         protected CurrencyHistoryServices $currencyHistoryServices,
+        protected WalletService $walletService,
     ) {
     }
 
@@ -48,9 +48,16 @@ class CryptoWalletController extends Controller
                 $cryptoWallet->id,
             );
             $deletedCrypto = $this->cryptoWalletServices->deleteCrypto($cryptoWallet);
-            $benef = CryptoSale::dispatch($quotingForSell, $deletedCrypto);
+
+            $capitalGainAtCurrentDate = $this->walletService->creditUserWallet(
+                $quotingForSell,
+                $deletedCrypto,
+            );
             $diff = CryptoProfits::dispatch($deletedCrypto);
-            $capital_gain = $this->cryptoWalletServices->calculateCapitalGain($benef, $diff);
+            $capital_gain = $this->cryptoWalletServices->calculateCapitalGain(
+                $capitalGainAtCurrentDate,
+                $diff,
+            );
             $this->cryptoWalletServices->fillCapitalGainValue($deletedCrypto, $capital_gain);
             return Response::json(
                 [

@@ -7,7 +7,6 @@ use App\Models\CryptoWallet;
 
 class CryptoWalletServices
 {
-    private array $capital_gain = [];
     public function __construct(protected CryptoWallet $cryptoWallet)
     {
     }
@@ -29,17 +28,17 @@ class CryptoWalletServices
         });
     }
 
-    public function calculateCapitalGain(array $benef, array $diff)
+    public function calculateCapitalGain(array $benef, array $diff): array
     {
-        $longueur = count($benef[0]);
+        $longueur = count($benef);
         $capital_gain = [];
         for ($i = 0; $i < $longueur; $i++) {
-            array_push($capital_gain, $benef[0][$i] - $diff[0][$i]);
+            array_push($capital_gain, $benef[$i] - $diff[0][$i]);
         }
         return $capital_gain;
     }
 
-    public function fillCapitalGainValue($deletedCrypto, $capital_gain)
+    public function fillCapitalGainValue($deletedCrypto, $capital_gain): void
     {
         $deletedCrypto->each(function (CryptoWallet $item, $key) use ($capital_gain) {
             $item->update(["capital_gain" => $capital_gain[$key]]);

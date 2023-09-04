@@ -8,7 +8,7 @@ use App\Models\User;
 
 class UserService
 {
-    public function __construct(protected User $user, protected UserWalletService $walletService)
+    public function __construct(protected User $user, protected WalletService $walletService)
     {
     }
 
