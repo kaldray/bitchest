@@ -50,7 +50,7 @@ const indexRoute = new Route({
         if (search?.redirect !== undefined) {
           return router.history.push(search.redirect);
         }
-        router.navigate({ to: "client" });
+        router.navigate({ to: "wallet" });
       }
     } catch (err) {
       return Pages.Login;
@@ -105,17 +105,7 @@ const createUserRoute = new Route({
     }
   },
 });
-const clientRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: "client",
-  beforeLoad: async () => {
-    if (getState().user === null) {
-      throw redirect({
-        to: "/",
-      });
-    }
-  },
-});
+
 const currenciesListRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "currencies",
@@ -208,7 +198,6 @@ const walletDetailRoute = new Route({
 export {
   indexRoute,
   adminRoute,
-  clientRoute,
   rootRoute,
   updateUserRoute,
   createUserRoute,

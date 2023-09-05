@@ -37,7 +37,7 @@ export const Login = () => {
         return navigate({ to: "/admin" });
       } else {
         setState({ user: response.data.user });
-        return navigate({ to: "/client" });
+        return navigate({ to: "/wallet" });
       }
     } catch (err) {
       console.log(err);
