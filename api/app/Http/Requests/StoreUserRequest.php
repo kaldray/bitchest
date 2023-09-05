@@ -29,7 +29,8 @@ class StoreUserRequest extends FormRequest
         return [
             "role" => ["required", new Enum(UserRole::class)],
             "email" => ["email", "required"],
-            "password" => ["required", Password::min(4)],
+            "password" => ["required", Password::min(4), "confirmed"],
+            "password_confirmation" => ["required", Password::min(4)],
         ];
     }
 }
