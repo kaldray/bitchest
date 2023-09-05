@@ -15,7 +15,6 @@ export const CurrenciesList = () => {
   const thead = (
     <>
       <Tr>
-        <Th>Id</Th>
         <Th>Nom de la crypto-monnaie</Th>
         <Th>Cours actuelle</Th>
         <Th>Cours sur la période</Th>
@@ -29,7 +28,6 @@ export const CurrenciesList = () => {
       {currencies.map((val) => {
         return (
           <Tr key={val.id}>
-            <Td>{val.id} </Td>
             <Td>{val.crypto_name}</Td>
             <Td>{val.currency_histories[0].quoting}</Td>
             <Td>

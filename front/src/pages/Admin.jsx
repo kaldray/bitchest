@@ -30,7 +30,6 @@ export const Admin = () => {
   const thead = (
     <>
       <Tr>
-        <Th>ID</Th>
         <Th>Email</Th>
         <Th>Rôle</Th>
         <Th>Modifier</Th>
@@ -44,7 +43,6 @@ export const Admin = () => {
       {users.map((u) => {
         return (
           <Tr key={u.id}>
-            <Td>{u.id}</Td>
             <Td>{u.email}</Td>
             <Td>{u.role}</Td>
             <Td>
