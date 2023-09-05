@@ -48,7 +48,11 @@ export const CurrenciesList = () => {
                   to={{
                     to: "purchase",
                     from: "/",
-                    search: { currency_id: val.id, currency_name: val.crypto_name },
+                    search: {
+                      currency_id: val.id,
+                      currency_name: val.crypto_name,
+                      quoting: val.currency_histories[0].quoting,
+                    },
                   }}
                   p={2.5}
                   bg={"blue.500"}

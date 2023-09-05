@@ -5,7 +5,7 @@ import { purchaseCurrency } from "@/api";
 import { useState } from "react";
 
 export const PurchaseCurrency = () => {
-  const { currency_id, currency_name } = useSearch({ from: purchaseRoute.id });
+  const { currency_id, currency_name, quoting } = useSearch({ from: purchaseRoute.id });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -19,7 +19,7 @@ export const PurchaseCurrency = () => {
     const target = e.target;
     const payload = {
       quantity: target.quantity.value,
-      currency_id: target.currency_id.value,
+      currency_id: currency_id,
     };
     try {
       const response = await purchaseCurrency(payload);
@@ -56,7 +56,8 @@ export const PurchaseCurrency = () => {
             onCloseComplete: () => setError(null),
           })}
         <Text as={"h1"} my={"1rem"}>
-          Sélectionner une quantité pour : {currency_name}
+          Sélectionner une quantité pour :{" "}
+          <span style={{ fontWeight: "700" }}>{currency_name}</span>
         </Text>
         <Flex
           p={"2rem"}
@@ -67,12 +68,12 @@ export const PurchaseCurrency = () => {
           flexDir={"column"}
           onSubmit={(e) => makePurchase(e)}>
           <FormControl>
-            <FormLabel>Quantité</FormLabel>
-            <Input type={"number"} required={true} name={"quantity"} />
+            <FormLabel>Cours actuel</FormLabel>
+            <Input type={"text"} disabled={true} name={"quoting"} value={quoting + " €"} />
           </FormControl>
           <FormControl>
-            <FormLabel>CurrencyId</FormLabel>
-            <Input name={"currency_id"} readOnly={true} value={currency_id} type="text" />
+            <FormLabel>Quantité</FormLabel>
+            <Input type={"number"} required={true} name={"quantity"} />
           </FormControl>
           <Button type={"submit"}>Acheter</Button>
         </Flex>
