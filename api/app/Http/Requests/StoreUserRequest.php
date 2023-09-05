@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\UserRole;
 use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
 
 class StoreUserRequest extends FormRequest
@@ -25,7 +27,7 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "role" => ["required", "exists:users,role"],
+            "role" => ["required", new Enum(UserRole::class)],
             "email" => ["email", "required"],
             "password" => ["required", Password::min(4)],
         ];
