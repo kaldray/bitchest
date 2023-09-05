@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,5 +28,15 @@ class CryptoWallet extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function sellCrypto(CryptoWallet $cryptoWallet): CryptoWallet|Collection
+    {
+        return $this::where("currency_id", "=", $cryptoWallet->currency_id)
+            ->where("user_id", "=", $cryptoWallet->user_id)
+            ->get()
+            ->each(function ($item) {
+                $item->delete();
+            });
     }
 }

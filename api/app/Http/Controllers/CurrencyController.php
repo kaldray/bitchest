@@ -9,19 +9,17 @@ use Illuminate\Http\Request;
 
 class CurrencyController extends Controller
 {
+    public function __construct(protected Currency $currency)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         try {
-            return CurrencyResource::collection(
-                Currency::with([
-                    "currencyHistories" => function (HasMany $query) {
-                        $query->orderBy("date", "desc");
-                    },
-                ])->get(),
-            );
+            return CurrencyResource::collection($this->currency->getCurrenciesWithHistories());
         } catch (\Exception $exception) {
         }
         return $exception;
@@ -30,9 +28,7 @@ class CurrencyController extends Controller
     public function show(Currency $currency)
     {
         try {
-            return new CurrencyResource(
-                Currency::with("currencyHistories")->findOrFail($currency->id),
-            );
+            return new CurrencyResource($this->currency->getCurrencyHistory($currency));
         } catch (\Exception $exception) {
             return $exception;
         }

@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 
 class WalletController extends Controller
 {
+    public function __construct(protected Wallet $wallet)
+    {
+    }
+
     public function show()
     {
         try {
-            return WalletRessource::make(Wallet::where("user_id", \Auth::user()->id)->first());
+            return WalletRessource::make($this->wallet->getUserWallet());
         } catch (\Exception $exception) {
             return $exception;
         }

@@ -43,7 +43,6 @@ export const UserDetailWallet = () => {
     }
   };
 
-  console.log(userDetailedWallet);
   const hasCurrenToSell = userDetailedWallet[0].crypto_wallets.every(
     (val) => typeof val.sell_at === "string",
   );
