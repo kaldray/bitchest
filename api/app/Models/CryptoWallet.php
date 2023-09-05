@@ -32,7 +32,7 @@ class CryptoWallet extends Model
 
     public function sellCrypto(CryptoWallet $cryptoWallet): CryptoWallet|Collection
     {
-        return $this::where("currency_id", "=", $cryptoWallet->currency_id)
+        return $this::where("id", "=", $cryptoWallet->id)
             ->where("user_id", "=", $cryptoWallet->user_id)
             ->get()
             ->each(function ($item) {
