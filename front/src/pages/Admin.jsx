@@ -1,8 +1,24 @@
-import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Td,
+  Text,
+  Th,
+  Tr,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { useLoader, useRouter, Link } from "@tanstack/react-router";
 import { CustomTable } from "@/components/table/table.jsx";
 import { removeUser } from "@/api/index.js";
+import { useState } from "react";
 
 /**
  * @typedef {{id:number,email:string,role:string}} User
@@ -15,6 +31,8 @@ export const Admin = () => {
    */
   const users = useLoader();
   const router = useRouter();
+  const [userId, setUserId] = useState(null);
+  const { onClose, isOpen, onOpen } = useDisclosure();
 
   const removeOneUser = async (id) => {
     try {
@@ -56,7 +74,13 @@ export const Admin = () => {
               </Button>
             </Td>
             <Td>
-              <Button type={"button"} bg={"red.500"} onClick={() => removeOneUser(u.id)}>
+              <Button
+                type={"button"}
+                bg={"red.500"}
+                onClick={() => {
+                  onOpen();
+                  setUserId(u.id);
+                }}>
                 Supprimer
               </Button>
             </Td>
@@ -86,6 +110,30 @@ export const Admin = () => {
         </ChakraLink>
         <CustomTable thead={thead} tbody={tbody} title={"Liste des utilisateurs"} />
       </Flex>
+      <Modal isCentered={true} closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Veuillez confirmer votre choix</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>Voulez vraiment supprimer l&apos;utilisateur ?</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button bg={"blue.300"} mr={3} onClick={onClose}>
+              Annuler
+            </Button>
+            <Button
+              bg={"red.500"}
+              variant="solid"
+              onClick={() => {
+                removeOneUser(userId);
+                onClose();
+              }}>
+              Supprimer
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
