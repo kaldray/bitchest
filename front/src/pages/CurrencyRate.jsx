@@ -40,12 +40,32 @@ export const CurrencyRate = () => {
   const options = {
     responsive: true,
     plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.dataset.label;
+            label += " : ";
+            let value = context.raw;
+            value += " €";
+            return label + value;
+          },
+        },
+      },
       legend: {
         position: "top",
       },
       title: {
         display: true,
         text: currencyRate.crypto_name,
+      },
+    },
+    scales: {
+      y: {
+        ticks: {
+          callback: function (val) {
+            return this.getLabelForValue(val) + " €";
+          },
+        },
       },
     },
   };

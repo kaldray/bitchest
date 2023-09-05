@@ -16,7 +16,9 @@ export const CurrenciesList = () => {
     <>
       <Tr>
         <Th>Nom de la crypto-monnaie</Th>
-        <Th>Cours actuelle</Th>
+        <Th>
+          Cours actuelle <sup>en euros</sup>
+        </Th>
         <Th>Cours sur la période</Th>
         {getState().user === "client" && <Th>Acheter</Th>}
       </Tr>
@@ -29,7 +31,7 @@ export const CurrenciesList = () => {
         return (
           <Tr key={val.id}>
             <Td>{val.crypto_name}</Td>
-            <Td>{val.currency_histories[0].quoting}</Td>
+            <Td>{val.currency_histories[0].quoting} €</Td>
             <Td>
               <CustomLink
                 to={{ to: "currency/$id", from: "/", params: { id: val.id } }}
