@@ -44,7 +44,7 @@ class CryptoWalletController extends Controller
     {
         try {
             $quotingForSell = $this->currencyHistoryServices->getQuotingAtCurrentDate(
-                $cryptoWallet->id,
+                $cryptoWallet->currency_id,
             );
             $deletedCrypto = $this->cryptoWalletServices->deleteCrypto($cryptoWallet);
 
