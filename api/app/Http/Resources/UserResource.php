@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             "id" => $this->id,
             "email" => $this->email,
             "role" => $this->when(Auth::user()->role === "admin", $this->role),
-            "crypto_wallets" => CryptoWalletRessource::collection(
+            "crypto_wallets" => CryptoWalletResource::collection(
                 $this->whenLoaded("cryptoWallets"),
             ),
             "wallet" => WalletRessource::make($this->whenLoaded("wallet")),

@@ -30,7 +30,7 @@ Route::middleware("auth:sanctum")->group(function () {
         "index",
         "show",
     ]);
-    Route::delete("/crypto-wallet/{crypto_wallet:currency_id}", [
+    Route::delete("/crypto-wallet/{crypto_wallet}", [
         \App\Http\Controllers\CryptoWalletController::class,
         "delete",
     ]);
