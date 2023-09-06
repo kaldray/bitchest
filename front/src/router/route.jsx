@@ -20,7 +20,7 @@ const { setState, getState } = userStore;
 let rootRoute = new RootRoute();
 
 const layout = new RootRoute({
-  getParentRoute: () => authenticatedGuard,
+  getParentRoute: () => unauthenticatedGuard,
   id: "layout",
   component: () => (
     <>
@@ -43,7 +43,7 @@ const layout = new RootRoute({
   },
 });
 
-const authenticatedGuard = new Route({
+const unauthenticatedGuard = new Route({
   id: "guard",
   getParentRoute: () => rootRoute,
   beforeLoad: async ({ search }) => {
@@ -70,8 +70,33 @@ const authenticatedGuard = new Route({
   },
 });
 
-const loginRoute = new Route({
+const authenticatedGuard = new Route({
   getParentRoute: () => rootRoute,
+  id: "authenticated",
+  beforeLoad: async ({ search }) => {
+    try {
+      const response = await isAuthenticated();
+      if (response === "admin") {
+        setState({ user: response });
+        if (search?.redirect !== undefined) {
+          return router.history.push(search.redirect);
+        }
+        router.navigate({ to: "admin", from: "/" });
+      } else {
+        setState({ user: response });
+        if (search?.redirect !== undefined) {
+          return router.history.push(search.redirect);
+        }
+        router.navigate({ to: "wallet", from: "/" });
+      }
+    } catch (e) {
+      return Pages.Login;
+    }
+  },
+});
+
+const loginRoute = new Route({
+  getParentRoute: () => authenticatedGuard,
   path: "/",
   component: Pages.Login,
 });
@@ -177,5 +202,6 @@ export {
   walletRoute,
   walletDetailRoute,
   layout,
+  unauthenticatedGuard,
   authenticatedGuard,
 };

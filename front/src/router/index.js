@@ -10,13 +10,14 @@ import {
   purchaseRoute,
   walletRoute,
   walletDetailRoute,
-  authenticatedGuard,
+  unauthenticatedGuard,
   layout,
+  authenticatedGuard,
 } from "@/router/route";
 
 const routeTree = rootRoute.addChildren([
-  loginRoute,
-  authenticatedGuard.addChildren([
+  authenticatedGuard.addChildren([loginRoute]),
+  unauthenticatedGuard.addChildren([
     layout.addChildren([
       adminRoute,
       updateUserRoute,
