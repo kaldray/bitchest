@@ -1,8 +1,8 @@
 import { Router } from "@tanstack/react-router";
 import {
-  indexRoute,
-  adminRoute,
+  loginRoute,
   rootRoute,
+  adminRoute,
   updateUserRoute,
   createUserRoute,
   currenciesListRoute,
@@ -10,18 +10,24 @@ import {
   purchaseRoute,
   walletRoute,
   walletDetailRoute,
+  authenticatedGuard,
+  layout,
 } from "@/router/route";
 
 const routeTree = rootRoute.addChildren([
-  indexRoute,
-  adminRoute,
-  updateUserRoute,
-  createUserRoute,
-  currenciesListRoute,
-  currencyRate,
-  purchaseRoute,
-  walletRoute,
-  walletDetailRoute,
+  loginRoute,
+  authenticatedGuard.addChildren([
+    layout.addChildren([
+      adminRoute,
+      updateUserRoute,
+      createUserRoute,
+      currenciesListRoute,
+      currencyRate,
+      purchaseRoute,
+      walletRoute,
+      walletDetailRoute,
+    ]),
+  ]),
 ]);
 
 export const router = new Router({ routeTree, defaultPreload: "intent" });

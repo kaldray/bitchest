@@ -17,7 +17,11 @@ import { userStore } from "@/store/userStore.js";
 
 const { setState, getState } = userStore;
 
-let rootRoute = new RootRoute({
+let rootRoute = new RootRoute();
+
+const layout = new RootRoute({
+  getParentRoute: () => authenticatedGuard,
+  id: "layout",
   component: () => (
     <>
       <Layout>
@@ -26,39 +30,53 @@ let rootRoute = new RootRoute({
     </>
   ),
   loader: async () => {
-    if (getState().user === "client") {
-      return getUserWallet();
+    try {
+      if (getState().user === "client") {
+        return getUserWallet();
+      }
+    } catch (e) {
+      console.log(e, "root");
+      throw redirect({
+        to: "/",
+      });
     }
   },
 });
 
-//
-const indexRoute = new Route({
+const authenticatedGuard = new Route({
+  id: "guard",
   getParentRoute: () => rootRoute,
-  path: "/",
-  component: Pages.Login,
   beforeLoad: async ({ search }) => {
     try {
+      if (typeof getState().user === "string") return;
       const response = await isAuthenticated();
       setState({ user: response });
       if (response === "admin") {
         if (search?.redirect !== undefined) {
           return router.history.push(search.redirect);
         }
-        router.navigate({ to: "admin" });
+        router.navigate({ to: "admin", from: "/" });
       } else {
         if (search?.redirect !== undefined) {
           return router.history.push(search.redirect);
         }
-        router.navigate({ to: "wallet" });
+        router.navigate({ to: "wallet", from: "/" });
       }
-    } catch (err) {
-      return Pages.Login;
+    } catch (e) {
+      throw redirect({
+        to: "/",
+      });
     }
   },
 });
-const adminRoute = new Route({
+
+const loginRoute = new Route({
   getParentRoute: () => rootRoute,
+  path: "/",
+  component: Pages.Login,
+});
+const adminRoute = new Route({
+  getParentRoute: () => layout,
   path: "admin",
   component: () => (
     <>
@@ -69,16 +87,9 @@ const adminRoute = new Route({
     const res = await getAllUsers();
     return res;
   },
-  beforeLoad: async () => {
-    if (getState().user === null) {
-      throw redirect({
-        to: "/",
-      });
-    }
-  },
 });
 const updateUserRoute = new Route({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layout,
   path: "update-user/$id",
   loader: async ({ params: { id } }) => {
     const res = await getUserById(id);
@@ -94,58 +105,31 @@ const updateUserRoute = new Route({
   component: Pages.AdminUpdateUser,
 });
 const createUserRoute = new Route({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layout,
   path: "create-user",
   component: Pages.AdminCreateUser,
-  beforeLoad: async () => {
-    if (getState().user === null) {
-      throw redirect({
-        to: "/",
-      });
-    }
-  },
 });
 
 const currenciesListRoute = new Route({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layout,
   path: "currencies",
   component: Pages.CurrenciesList,
-  beforeLoad: async () => {
-    if (getState().user === null) {
-      throw redirect({
-        to: "/",
-        search: {
-          redirect: router.state.location.href,
-        },
-      });
-    }
-  },
   loader: async () => {
-    return await getCurrencies();
+    return getCurrencies();
   },
 });
 
 const currencyRate = new Route({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layout,
   path: "currency/$id",
   component: Pages.CurrencyRate,
-  beforeLoad: async () => {
-    if (getState().user === null) {
-      throw redirect({
-        to: "/",
-        search: {
-          redirect: router.state.location.href,
-        },
-      });
-    }
-  },
   loader: async ({ params: { id } }) => {
     return await getCurrencyRate(id);
   },
 });
 
 const purchaseRoute = new Route({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layout,
   path: "purchase",
   beforeLoad: async () => {
     if (getState().user === null) {
@@ -165,14 +149,7 @@ const purchaseRoute = new Route({
 
 const walletRoute = new Route({
   path: "wallet",
-  getParentRoute: () => rootRoute,
-  beforeLoad: async () => {
-    if (getState().user === null) {
-      throw redirect({
-        to: "/",
-      });
-    }
-  },
+  getParentRoute: () => layout,
   component: Pages.UserWallets,
   loader: async () => {
     return getUsersCryptoWallet();
@@ -180,15 +157,8 @@ const walletRoute = new Route({
 });
 
 const walletDetailRoute = new Route({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layout,
   path: "wallet/detail/$id",
-  beforeLoad: () => {
-    if (getState().user === null) {
-      throw redirect({
-        to: "/",
-      });
-    }
-  },
   loader: async ({ params: { id } }) => {
     return getUserCryptoWalletDetail(id);
   },
@@ -196,7 +166,7 @@ const walletDetailRoute = new Route({
 });
 
 export {
-  indexRoute,
+  loginRoute,
   adminRoute,
   rootRoute,
   updateUserRoute,
@@ -206,4 +176,6 @@ export {
   purchaseRoute,
   walletRoute,
   walletDetailRoute,
+  layout,
+  authenticatedGuard,
 };
