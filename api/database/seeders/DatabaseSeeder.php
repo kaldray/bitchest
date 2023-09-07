@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\CryptoWallet;
 use App\Models\Currency;
 use App\Models\CurrencyHistory;
 use App\Models\User;
@@ -18,20 +19,17 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        User::factory(2)
+        User::factory(4)
             ->state(new Sequence(["role" => "client"], ["role" => "admin"]))
             ->has(Wallet::factory()->count(1))
             ->create();
-        //            ->each(function ($user) {
-        //                $wallet = Wallet::factory()->make();
-        //                $user->wallet()->save($wallet);
-        //            });
         Currency::factory(10)
             ->has(
                 CurrencyHistory::factory()
                     ->count(30)
                     ->generateQuoting(),
             )
+            ->has(CryptoWallet::factory(2))
             ->create();
     }
 }
