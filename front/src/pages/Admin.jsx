@@ -19,6 +19,7 @@ import { useLoader, useRouter, Link } from "@tanstack/react-router";
 import { CustomTable } from "@/components/table/table.jsx";
 import { removeUser } from "@/api/index.js";
 import { useState } from "react";
+import { CustomLink } from "@/components/Navigation/CustomLink";
 
 /**
  * @typedef {{id:number,email:string,role:string}} User
@@ -64,14 +65,14 @@ export const Admin = () => {
             <Td>{u.email}</Td>
             <Td>{u.role}</Td>
             <Td>
-              <Button
-                onClick={() =>
-                  router.navigate({ to: "/update-user/$id", from: "admin", params: { id: u.id } })
-                }
-                type={"button"}
-                bg={"yellow.500"}>
+              <CustomLink
+                to={{ to: "/update-user/$id", from: "admin", params: { id: u.id } }}
+                p={3}
+                borderRadius={"6px"}
+                bg={"blue.700"}
+                color={"white"}>
                 Modifier
-              </Button>
+              </CustomLink>
             </Td>
             <Td>
               <Button
@@ -101,8 +102,9 @@ export const Admin = () => {
         mt={["5rem", "5rem", "0rem"]}>
         <ChakraLink
           as={Link}
-          bg={"blue.200"}
+          bg={"blue.700"}
           p={3}
+          color={"white"}
           borderRadius={"6px"}
           to={"create-user"}
           from={"/"}>
