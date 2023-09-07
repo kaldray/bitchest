@@ -20,7 +20,17 @@ export const CustomLink = ({ to, children, ...style }) => {
 
   return (
     <>
-      <ChakraLink onClick={() => shouldCloseSideBar()} as={Link} {...to} {...style}>
+      <ChakraLink
+        activeProps={{
+          style: {
+            fontWeight: "bold",
+            textDecoration: "underline",
+          },
+        }}
+        onClick={() => shouldCloseSideBar()}
+        as={Link}
+        {...to}
+        {...style}>
         {children}
       </ChakraLink>
     </>
