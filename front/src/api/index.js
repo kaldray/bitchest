@@ -64,8 +64,13 @@ export const isAuthenticated = async () => {
   return response.data;
 };
 
-export const getAllUsers = async () => {
-  const response = await api.get("/users");
+/**
+ *
+ * @param {AbortController} abortController
+ * @returns {Promise<any>}
+ */
+export const getAllUsers = async (abortController) => {
+  const response = await api.get("/users", { signal: abortController.signal });
   return response.data;
 };
 
@@ -85,10 +90,11 @@ export const removeUser = async (id) => {
 
 /**
  * @param {string} id
+ * @param {AbortController} abortController
  * @returns {Promise<void>}
  */
-export const getUserById = async (id) => {
-  const response = await api.get(`/users/${id}`);
+export const getUserById = async (id, abortController) => {
+  const response = await api.get(`/users/${id}`, { signal: abortController.signal });
   return response.data;
 };
 
@@ -111,18 +117,24 @@ export const addUser = async (payload) => {
   return response;
 };
 
-export const getCurrencies = async () => {
-  const response = await api.get("/currency");
+/**
+ *
+ * @param {AbortController} abortController
+ * @returns {Promise<any>}
+ */
+export const getCurrencies = async (abortController) => {
+  const response = await api.get("/currency", { signal: abortController.signal });
   return response.data;
 };
 
 /**
  *
  * @param {string} id
+ * @param {AbortController} abortController
  * @returns {Promise<void>}
  */
-export const getCurrencyRate = async (id) => {
-  const response = await api.get(`currency/${id}`);
+export const getCurrencyRate = async (id, abortController) => {
+  const response = await api.get(`currency/${id}`, { signal: abortController.signal });
   return response.data;
 };
 
@@ -136,8 +148,13 @@ export const purchaseCurrency = async (payload) => {
   return response;
 };
 
-export const getUsersCryptoWallet = async () => {
-  const response = await api.get("/me");
+/**
+ *
+ * @param {AbortController} abortController
+ * @returns {Promise<any>}
+ */
+export const getUsersCryptoWallet = async (abortController) => {
+  const response = await api.get("/me", { signal: abortController.signal });
   return response.data;
 };
 
@@ -154,14 +171,19 @@ export const sellCurrency = async (id) => {
 /**
  *
  * @param {string} id
+ * @param {AbortController} abortController
  * @returns {Promise<void>}
  */
-export const getUserCryptoWalletDetail = async (id) => {
-  const response = await api.get(`me/${id}`);
+export const getUserCryptoWalletDetail = async (id, abortController) => {
+  const response = await api.get(`me/${id}`, { signal: abortController.signal });
   return response.data;
 };
 
-export const getUserWallet = async () => {
-  const response = await api.get("/wallet");
+/**
+ *
+ * @param {AbortController} abortController
+ * @returns {Promise<any>}
+ */ export const getUserWallet = async (abortController) => {
+  const response = await api.get("/wallet", { signal: abortController.signal });
   return response.data;
 };

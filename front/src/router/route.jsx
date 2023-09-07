@@ -31,10 +31,10 @@ const layout = new RootRoute({
       </Layout>
     </>
   ),
-  loader: async () => {
+  loader: async ({ abortController }) => {
     try {
       if (getState().user === "client") {
-        return getUserWallet();
+        return getUserWallet(abortController);
       }
     } catch (e) {
       console.log(e, "root");
@@ -116,8 +116,8 @@ const adminRoute = new Route({
       <Pages.Admin />
     </>
   ),
-  loader: async () => {
-    return getAllUsers();
+  loader: async ({ abortController }) => {
+    return getAllUsers(abortController);
   },
   wrapInSuspense: true,
   pendingComponent: () => (
@@ -129,8 +129,8 @@ const adminRoute = new Route({
 const updateUserRoute = new Route({
   getParentRoute: () => layout,
   path: "update-user/$id",
-  loader: async ({ params: { id } }) => {
-    return getUserById(id);
+  loader: async ({ params: { id }, abortController }) => {
+    return getUserById(id, abortController);
   },
   component: Pages.AdminUpdateUser,
   wrapInSuspense: true,
@@ -150,8 +150,8 @@ const currenciesListRoute = new Route({
   getParentRoute: () => layout,
   path: "currencies",
   component: Pages.CurrenciesList,
-  loader: async () => {
-    return getCurrencies();
+  loader: async ({ abortController }) => {
+    return getCurrencies(abortController);
   },
   wrapInSuspense: true,
   pendingComponent: () => (
@@ -165,8 +165,8 @@ const currencyRate = new Route({
   getParentRoute: () => layout,
   path: "currency/$id",
   component: Pages.CurrencyRate,
-  loader: async ({ params: { id } }) => {
-    return await getCurrencyRate(id);
+  loader: async ({ params: { id }, abortController }) => {
+    return getCurrencyRate(id, abortController);
   },
   wrapInSuspense: true,
   pendingComponent: () => (
@@ -199,8 +199,8 @@ const walletRoute = new Route({
   path: "wallet",
   getParentRoute: () => layout,
   component: Pages.UserWallets,
-  loader: async () => {
-    return getUsersCryptoWallet();
+  loader: async ({ abortController }) => {
+    return getUsersCryptoWallet(abortController);
   },
   wrapInSuspense: true,
   pendingComponent: () => (
@@ -213,8 +213,8 @@ const walletRoute = new Route({
 const walletDetailRoute = new Route({
   getParentRoute: () => layout,
   path: "wallet/detail/$id",
-  loader: async ({ params: { id } }) => {
-    return getUserCryptoWalletDetail(id);
+  loader: async ({ params: { id }, abortController }) => {
+    return getUserCryptoWalletDetail(id, abortController);
   },
   component: Pages.UserDetailWallet,
   wrapInSuspense: true,
