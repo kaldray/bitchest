@@ -15,10 +15,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { useLoader, useRouter, Link } from "@tanstack/react-router";
-import { CustomTable } from "@/components/table/table.jsx";
-import { removeUser } from "@/api/index.js";
 import { useState } from "react";
+import { useLoader, useRouter, Link } from "@tanstack/react-router";
+
+import * as CustomTable from "@/components/table/Table.jsx";
+import { removeUser } from "@/api/index.js";
 import { CustomLink } from "@/components/Navigation/CustomLink";
 
 /**
@@ -46,51 +47,6 @@ export const Admin = () => {
     }
   };
 
-  const thead = (
-    <>
-      <Tr>
-        <Th>Email</Th>
-        <Th>Rôle</Th>
-        <Th>Modifier</Th>
-        <Th>Supprimer</Th>
-      </Tr>
-    </>
-  );
-
-  const tbody = (
-    <>
-      {users.map((u) => {
-        return (
-          <Tr key={u.id}>
-            <Td>{u.email}</Td>
-            <Td>{u.role}</Td>
-            <Td>
-              <CustomLink
-                to={{ to: "/update-user/$id", from: "admin", params: { id: u.id } }}
-                p={3}
-                borderRadius={"6px"}
-                bg={"blue.700"}
-                color={"white"}>
-                Modifier
-              </CustomLink>
-            </Td>
-            <Td>
-              <Button
-                type={"button"}
-                bg={"red.500"}
-                onClick={() => {
-                  onOpen();
-                  setUserId(u.id);
-                }}>
-                Supprimer
-              </Button>
-            </Td>
-          </Tr>
-        );
-      })}
-    </>
-  );
-
   return (
     <>
       <Flex
@@ -110,7 +66,47 @@ export const Admin = () => {
           from={"/"}>
           Ajouter un utilisateur
         </ChakraLink>
-        <CustomTable thead={thead} tbody={tbody} title={"Liste des utilisateurs"} />
+        <CustomTable.TableRoot title={"Liste des utilisateurs"}>
+          <CustomTable.CustomThead>
+            <Tr>
+              <Th>Email</Th>
+              <Th>Rôle</Th>
+              <Th>Modifier</Th>
+              <Th>Supprimer</Th>
+            </Tr>
+          </CustomTable.CustomThead>
+          <CustomTable.CustomTbody>
+            {users.map((u) => {
+              return (
+                <Tr key={u.id}>
+                  <Td>{u.email}</Td>
+                  <Td>{u.role}</Td>
+                  <Td>
+                    <CustomLink
+                      to={{ to: "/update-user/$id", from: "admin", params: { id: u.id } }}
+                      p={3}
+                      borderRadius={"6px"}
+                      bg={"blue.700"}
+                      color={"white"}>
+                      Modifier
+                    </CustomLink>
+                  </Td>
+                  <Td>
+                    <Button
+                      type={"button"}
+                      bg={"red.500"}
+                      onClick={() => {
+                        onOpen();
+                        setUserId(u.id);
+                      }}>
+                      Supprimer
+                    </Button>
+                  </Td>
+                </Tr>
+              );
+            })}
+          </CustomTable.CustomTbody>
+        </CustomTable.TableRoot>
       </Flex>
       <Modal isCentered={true} closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

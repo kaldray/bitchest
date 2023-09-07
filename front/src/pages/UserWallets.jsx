@@ -1,6 +1,7 @@
 import { useLoader } from "@tanstack/react-router";
 import { Flex, Td, Th, Tr } from "@chakra-ui/react";
-import { CustomTable } from "@/components/table/table";
+
+import * as CustomTable from "@/components/table/Table.jsx";
 import { CustomLink } from "@/components/Navigation/CustomLink";
 
 /**
@@ -41,47 +42,6 @@ export const UserWallets = () => {
    */
   const userWithWallet = useLoader();
 
-  const thead = (
-    <>
-      <Tr>
-        <Th>Crypto-monnaie</Th>
-        <Th>Quantité</Th>
-        <Th>
-          Bénéfices <sup>en euros</sup>
-        </Th>
-        <Th>Détails</Th>
-      </Tr>
-    </>
-  );
-
-  const tbody = (
-    <>
-      {userWithWallet[0]?.crypto_wallets.map((val) => {
-        return (
-          <Tr key={val.currency.id}>
-            <Td>{val.currency.crypto_name}</Td>
-            <Td>{val.quantity} </Td>
-            <Td>{val.capital_gain ?? 0} €</Td>
-            <Td>
-              <CustomLink
-                to={{
-                  to: "/wallet/detail/$id",
-                  from: "/",
-                  params: { id: val.currency.id },
-                }}
-                bg={"blue.700"}
-                color={"white"}
-                borderRadius={"6px"}
-                p={2.5}>
-                Voir le détail
-              </CustomLink>
-            </Td>
-          </Tr>
-        );
-      })}
-    </>
-  );
-
   return (
     <>
       <Flex
@@ -92,7 +52,43 @@ export const UserWallets = () => {
         {userWithWallet[0].crypto_wallets.length === 0 ? (
           <p>Votre portefeuille est vide </p>
         ) : (
-          <CustomTable thead={thead} tbody={tbody} title={"Mon portefeuille"}></CustomTable>
+          <CustomTable.TableRoot title={"Mon portefeuille"}>
+            <CustomTable.CustomThead>
+              <Tr>
+                <Th>Crypto-monnaie</Th>
+                <Th>Quantité</Th>
+                <Th>
+                  Bénéfices <sup>en euros</sup>
+                </Th>
+                <Th>Détails</Th>
+              </Tr>
+            </CustomTable.CustomThead>
+            <CustomTable.CustomTbody>
+              {userWithWallet[0]?.crypto_wallets.map((val) => {
+                return (
+                  <Tr key={val.currency.id}>
+                    <Td>{val.currency.crypto_name}</Td>
+                    <Td>{val.quantity} </Td>
+                    <Td>{val.capital_gain ?? 0} €</Td>
+                    <Td>
+                      <CustomLink
+                        to={{
+                          to: "/wallet/detail/$id",
+                          from: "/",
+                          params: { id: val.currency.id },
+                        }}
+                        bg={"blue.700"}
+                        color={"white"}
+                        borderRadius={"6px"}
+                        p={2.5}>
+                        Voir le détail
+                      </CustomLink>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </CustomTable.CustomTbody>
+          </CustomTable.TableRoot>
         )}
       </Flex>
     </>

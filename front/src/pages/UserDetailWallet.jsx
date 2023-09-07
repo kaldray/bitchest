@@ -1,6 +1,7 @@
 import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
 import { useLoader, useRouter } from "@tanstack/react-router";
-import { CustomTable } from "@/components/table/table";
+
+import * as CustomTable from "@/components/table/Table";
 import { sellCurrency } from "@/api";
 
 /**
@@ -44,48 +45,6 @@ export const UserDetailWallet = () => {
     }
   };
 
-  const thead = (
-    <>
-      <Tr>
-        <Th>Crypto-monnaie</Th>
-        <Th>Date d&apos;achat</Th>
-        <Th>Date de vente</Th>
-        <Th>Quantité</Th>
-        <Th>Bénéfices</Th>
-        <Th>Vendre</Th>
-      </Tr>
-    </>
-  );
-
-  const tbody = (
-    <>
-      {userDetailedWallet[0].crypto_wallets.map((val, key) => {
-        return (
-          <Tr key={val.currency.id + key}>
-            <Td>{val.currency.crypto_name}</Td>
-            <Td>{val.created_at}</Td>
-            <Td>{val.sell_at ?? "non vendu"}</Td>
-            <Td>{val.quantity}</Td>
-            <Td>{val.capital_gain ?? 0}</Td>
-            <Td>
-              <Button
-                bg={"blue.300"}
-                _hover={{ bg: "blue.500" }}
-                color={"white"}
-                borderRadius={"6px"}
-                aria-disabled={typeof val.sell_at === "string"}
-                isDisabled={typeof val.sell_at === "string"}
-                type={"button"}
-                onClick={(e) => sellACurrency(e, val.id)}>
-                Vendre
-              </Button>
-            </Td>
-          </Tr>
-        );
-      })}
-    </>
-  );
-
   return (
     <>
       <Flex
@@ -94,10 +53,50 @@ export const UserDetailWallet = () => {
         justifyContent={"center"}
         alignItems={"center"}
         height={"100%"}>
-        <CustomTable
-          thead={thead}
-          tbody={tbody}
-          title={"Voici le détail de vos achats."}></CustomTable>
+        <CustomTable.TableRoot title={"Voici le détail de vos achats."}>
+          <CustomTable.CustomThead>
+            <Tr>
+              <Th>Crypto-monnaie</Th>
+              <Th>Date d&apos;achat</Th>
+              <Th>Date de vente</Th>
+              <Th>Quantité</Th>
+              <Th>Bénéfices</Th>
+              <Th>Vendre</Th>
+            </Tr>
+          </CustomTable.CustomThead>
+          <CustomTable.CustomTbody>
+            {userDetailedWallet[0].crypto_wallets.map((val, key) => {
+              return (
+                <Tr key={val.currency.id + key}>
+                  <Td>{val.currency.crypto_name}</Td>
+                  <Td>{val.created_at}</Td>
+                  <Td>{val.sell_at ?? "non vendu"}</Td>
+                  <Td>{val.quantity}</Td>
+                  <Td>{val.capital_gain ?? 0}</Td>
+                  <Td>
+                    <Button
+                      bg={"blue.300"}
+                      _hover={{ bg: "blue.500" }}
+                      title={"Vendre la crypto-monnaie"}
+                      _disabled={{
+                        bg: "blue.100",
+                        cursor: "not-allowed",
+                        opacity: "0.5",
+                      }}
+                      color={"black"}
+                      borderRadius={"6px"}
+                      aria-disabled={typeof val.sell_at === "string"}
+                      isDisabled={typeof val.sell_at === "string"}
+                      type={"button"}
+                      onClick={(e) => sellACurrency(e, val.id)}>
+                      Vendre
+                    </Button>
+                  </Td>
+                </Tr>
+              );
+            })}
+          </CustomTable.CustomTbody>
+        </CustomTable.TableRoot>
       </Flex>
     </>
   );
