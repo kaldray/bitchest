@@ -117,25 +117,28 @@ const adminRoute = new Route({
     </>
   ),
   loader: async () => {
-    const res = await getAllUsers();
-    return res;
+    return getAllUsers();
   },
+  wrapInSuspense: true,
+  pendingComponent: () => (
+    <>
+      <TableSkeleton skeletonHeight={"400px"} />
+    </>
+  ),
 });
 const updateUserRoute = new Route({
   getParentRoute: () => layout,
   path: "update-user/$id",
   loader: async ({ params: { id } }) => {
-    const res = await getUserById(id);
-    return res;
-  },
-  beforeLoad: async () => {
-    if (getState().user === null) {
-      throw redirect({
-        to: "/",
-      });
-    }
+    return getUserById(id);
   },
   component: Pages.AdminUpdateUser,
+  wrapInSuspense: true,
+  pendingComponent: () => (
+    <>
+      <TableSkeleton skeletonHeight={"400px"} />
+    </>
+  ),
 });
 const createUserRoute = new Route({
   getParentRoute: () => layout,
