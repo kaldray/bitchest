@@ -14,6 +14,8 @@ import {
 } from "@/api/index.js";
 import { router } from "@/router/index.js";
 import { userStore } from "@/store/userStore.js";
+import { TableSkeleton } from "@/components/skeleton/TableSkeleton";
+import { Skeleton } from "@chakra-ui/react";
 
 const { setState, getState } = userStore;
 
@@ -41,6 +43,12 @@ const layout = new RootRoute({
       });
     }
   },
+  wrapInSuspense: true,
+  pendingComponent: () => (
+    <>
+      <Skeleton h={"100vh"} w={"200px"} />
+    </>
+  ),
 });
 
 const unauthenticatedGuard = new Route({
@@ -142,6 +150,12 @@ const currenciesListRoute = new Route({
   loader: async () => {
     return getCurrencies();
   },
+  wrapInSuspense: true,
+  pendingComponent: () => (
+    <>
+      <TableSkeleton skeletonHeight={"600px"} />
+    </>
+  ),
 });
 
 const currencyRate = new Route({
@@ -151,6 +165,12 @@ const currencyRate = new Route({
   loader: async ({ params: { id } }) => {
     return await getCurrencyRate(id);
   },
+  wrapInSuspense: true,
+  pendingComponent: () => (
+    <>
+      <TableSkeleton skeletonHeight={"400px"} />
+    </>
+  ),
 });
 
 const purchaseRoute = new Route({
@@ -179,6 +199,12 @@ const walletRoute = new Route({
   loader: async () => {
     return getUsersCryptoWallet();
   },
+  wrapInSuspense: true,
+  pendingComponent: () => (
+    <>
+      <TableSkeleton skeletonHeight={"300px"} />
+    </>
+  ),
 });
 
 const walletDetailRoute = new Route({
@@ -188,6 +214,16 @@ const walletDetailRoute = new Route({
     return getUserCryptoWalletDetail(id);
   },
   component: Pages.UserDetailWallet,
+  wrapInSuspense: true,
+  pendingComponent: ({ useMatch, useRouteContext }) => (
+    <>
+      <TableSkeleton
+        skeletonHeight={"400px"}
+        useMatch={useMatch}
+        useRouteContext={useRouteContext}
+      />
+    </>
+  ),
 });
 
 export {
