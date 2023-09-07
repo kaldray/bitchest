@@ -46,7 +46,9 @@ export const UserWallets = () => {
       <Tr>
         <Th>Crypto-monnaie</Th>
         <Th>Quantité</Th>
-        <Th>Bénéfices</Th>
+        <Th>
+          Bénéfices <sup>en euros</sup>
+        </Th>
         <Th>Détails</Th>
       </Tr>
     </>
@@ -59,7 +61,7 @@ export const UserWallets = () => {
           <Tr key={val.currency.id}>
             <Td>{val.currency.crypto_name}</Td>
             <Td>{val.quantity} </Td>
-            <Td>{val.capital_gain ?? 0}</Td>
+            <Td>{val.capital_gain ?? 0} €</Td>
             <Td>
               <CustomLink
                 to={{
