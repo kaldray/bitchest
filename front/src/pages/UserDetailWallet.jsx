@@ -69,7 +69,8 @@ export const UserDetailWallet = () => {
             <Td>{val.capital_gain ?? 0}</Td>
             <Td>
               <Button
-                bg={"blue.500"}
+                bg={"blue.300"}
+                _hover={{ bg: "blue.500" }}
                 color={"white"}
                 borderRadius={"6px"}
                 aria-disabled={typeof val.sell_at === "string"}
