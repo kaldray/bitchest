@@ -30,6 +30,7 @@ export const AdminUpdateUser = () => {
         alignItems={"center"}
         justifyContent={"center"}
         flexDir={"column"}
+        height={"100%"}
         mt={["5rem", "5rem", "0rem"]}>
         <Text as={"h1"} my={"1rem"}>
           Modifier un utilisateur
@@ -37,6 +38,7 @@ export const AdminUpdateUser = () => {
         <Flex
           p={"2rem"}
           border={"1px"}
+          w={"80%"}
           borderColor="gray.200"
           as={"form"}
           gap={"1rem"}
