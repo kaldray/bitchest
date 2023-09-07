@@ -86,4 +86,9 @@ class User extends Authenticatable
             ->where("id", \Auth::user()->id)
             ->get();
     }
+
+    public function getAllUsersExceptConnectedOne()
+    {
+        return $this::all()->where("id", "!=", Auth::user()->id);
+    }
 }

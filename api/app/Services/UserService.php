@@ -14,7 +14,7 @@ class UserService
 
     public function getAllUsers(): \Illuminate\Database\Eloquent\Collection
     {
-        return $this->user::all();
+        return $this->user->getAllUsersExceptConnectedOne();
     }
 
     public function createUser(StoreUserRequest $request): void
