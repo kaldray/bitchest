@@ -60,7 +60,9 @@ export const UserDetailWallet = () => {
               <Th>Date d&apos;achat</Th>
               <Th>Date de vente</Th>
               <Th>Quantité</Th>
-              <Th>Bénéfices</Th>
+              <Th>
+                Bénéfices <sup>en euros</sup>
+              </Th>
               <Th>Vendre</Th>
             </Tr>
           </CustomTable.CustomThead>
@@ -72,7 +74,7 @@ export const UserDetailWallet = () => {
                   <Td>{val.created_at}</Td>
                   <Td>{val.sell_at ?? "non vendu"}</Td>
                   <Td>{val.quantity}</Td>
-                  <Td>{val.capital_gain ?? 0}</Td>
+                  <Td>{val.capital_gain ?? 0} €</Td>
                   <Td>
                     <Button
                       bg={"blue.300"}
