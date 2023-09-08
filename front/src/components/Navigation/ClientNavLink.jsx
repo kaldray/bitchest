@@ -13,7 +13,7 @@ export const ClientNavLink = () => {
         minW={"130px"}
         textAlign={"center"}
         color={"white"}>
-        Mon portefueille
+        Mon portefeuille
       </CustomLink>
     </>
   );
