@@ -1,4 +1,7 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
   Button,
   Container,
   FormControl,
@@ -8,12 +11,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
 import { signIn } from "@/api/index.js";
 import { userStore } from "@/store/userStore.js";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const { setState } = userStore;
 
   /**
@@ -40,7 +45,7 @@ export const Login = () => {
         return navigate({ to: "/wallet" });
       }
     } catch (err) {
-      console.log(err);
+      setError(err);
     }
   };
 
@@ -48,6 +53,14 @@ export const Login = () => {
     <>
       <Container h={"100vh"} centerContent>
         <VStack w={"100%"} justifyContent={"center"} h={"100%"}>
+          {error !== null && (
+            <>
+              <Alert status="error" my={"1rem"}>
+                <AlertIcon />
+                <AlertDescription>{error.message}</AlertDescription>
+              </Alert>
+            </>
+          )}
           <Heading as={"h1"}>Se connecter</Heading>
           <VStack
             bg={"blue.200"}
@@ -58,18 +71,18 @@ export const Login = () => {
             as={"form"}
             onSubmit={(e) => login(e)}>
             <FormControl isRequired>
-              <FormLabel color={"white"}>Email</FormLabel>
+              <FormLabel color={"black"}>Email</FormLabel>
               <Input
                 name={"email"}
                 required
+                color={"black"}
                 type="email"
                 placeholder={"test@test.com"}
-                color={"white"}
               />
             </FormControl>
             <FormControl isRequired>
-              <FormLabel color={"white"}>Mot de passe</FormLabel>
-              <Input name={"password"} required type="password" color={"white"} />
+              <FormLabel color={"black"}>Mot de passe</FormLabel>
+              <Input name={"password"} required type="password" color={"black"} />
             </FormControl>
             <Button type={"submit"}>Se connecter</Button>
           </VStack>
