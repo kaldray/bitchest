@@ -36,7 +36,6 @@ Route::middleware("auth:sanctum")->group(function () {
     ]);
     Route::resource("crypto-wallet", \App\Http\Controllers\CryptoWalletController::class)->only([
         "store",
-        "show",
     ]);
 });
 
