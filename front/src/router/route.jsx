@@ -46,7 +46,7 @@ const layout = new RootRoute({
   wrapInSuspense: true,
   pendingComponent: () => (
     <>
-      <Skeleton h={"100vh"} w={"200px"} />
+      <Skeleton h={"100vh"} w={"250px"} />
     </>
   ),
 });
