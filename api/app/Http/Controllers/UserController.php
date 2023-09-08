@@ -78,7 +78,7 @@ class UserController extends Controller
             $this->userService->updateUser($request, $user);
             return Response::json(
                 [
-                    "message" => "La paire a bien été modifié.",
+                    "message" => "L'utilisateur a bien été modifié'",
                     "status" => \Illuminate\Http\Response::HTTP_OK,
                 ],
                 \Illuminate\Http\Response::HTTP_OK,
