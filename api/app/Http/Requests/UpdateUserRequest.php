@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -23,7 +25,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             "email" => ["unique:users,email"],
-            "role" => ["required", "exists:users,role"],
+            "role" => ["required", new Enum(UserRole::class)],
         ];
     }
 }
