@@ -18,27 +18,32 @@ class UserController extends Controller
 {
     /**
      * Create the controller instance.
+     * @param UserService $userService
      */
     public function __construct(protected UserService $userService)
     {
         $this->authorizeResource(User::class, "user");
     }
+
     /**
      * Display a listing of the resource.
+     * @return AnonymousResourceCollection|\Exception
      */
     public function index(): AnonymousResourceCollection|\Exception
     {
         try {
             return UserResource::collection($this->userService->getAllUsers());
-        } catch (AuthorizationException $exception) {
+        } catch (\Exception $exception) {
             return $exception;
         }
     }
 
     /**
      * Store a newly created resource in storage.
+     * @param StoreUserRequest $request
+     * @return JsonResponse|\Exception
      */
-    public function store(StoreUserRequest $request): JsonResponse
+    public function store(StoreUserRequest $request): JsonResponse|\Exception
     {
         try {
             $this->userService->createUser($request);
@@ -49,16 +54,15 @@ class UserController extends Controller
                 ],
                 \Illuminate\Http\Response::HTTP_OK,
             );
-        } catch (ValidationException $exception) {
-            return Response::json([
-                "message" => $exception,
-                "status" => \Illuminate\Http\Response::HTTP_OK,
-            ]);
+        } catch (\Exception $exception) {
+            return $exception;
         }
     }
 
     /**
      * Display the specified resource.
+     * @param User $user
+     * @return UserResource|\Exception
      */
     public function show(User $user): UserResource|\Exception
     {
@@ -71,6 +75,9 @@ class UserController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param UpdateUserRequest $request
+     * @param User $user
+     * @return JsonResponse|\Exception
      */
     public function update(UpdateUserRequest $request, User $user): JsonResponse|\Exception
     {
@@ -90,6 +97,8 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param User $user
+     * @return JsonResponse|\Exception$
      */
     public function destroy(User $user): JsonResponse|\Exception
     {

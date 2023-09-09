@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticationService
 {
-    public function signIn(LoginStoreRequest $request)
-    {
+    public function signIn(
+        LoginStoreRequest $request,
+    ): \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Foundation\Application|Response {
         if (Auth::attempt($request->validated())) {
             $user = Auth::user();
             return response(
@@ -21,7 +22,7 @@ class AuthenticationService
         return response(["message" => "Les informations sont incorrectes.", "status" => 401], 401);
     }
 
-    public function signOut(Request $request)
+    public function signOut(Request $request): Response
     {
         Auth::guard("web")->logout();
         $request->session()->invalidate();

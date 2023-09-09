@@ -8,6 +8,7 @@ use App\Models\CryptoWallet;
 use App\Services\CryptoWalletServices;
 use App\Services\CurrencyHistoryServices;
 use App\Services\WalletService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
 class CryptoWalletController extends Controller
@@ -23,7 +24,11 @@ class CryptoWalletController extends Controller
     ) {
     }
 
-    public function store(StoreCryptoWalletRequest $request)
+    /**
+     * @param StoreCryptoWalletRequest $request
+     * @return JsonResponse|\Exception
+     */
+    public function store(StoreCryptoWalletRequest $request): JsonResponse|\Exception
     {
         try {
             $data = $this->cryptoWalletServices->purchaseCurrency($request);
@@ -40,7 +45,11 @@ class CryptoWalletController extends Controller
         }
     }
 
-    public function delete(CryptoWallet $cryptoWallet)
+    /**
+     * @param CryptoWallet $cryptoWallet
+     * @return JsonResponse|\Exception
+     */
+    public function delete(CryptoWallet $cryptoWallet): JsonResponse|\Exception
     {
         try {
             $quotingForSell = $this->currencyHistoryServices->getQuotingAtCurrentDate(
@@ -48,16 +57,16 @@ class CryptoWalletController extends Controller
             );
             $deletedCrypto = $this->cryptoWalletServices->deleteCrypto($cryptoWallet);
 
-            $capitalGainAtCurrentDate = $this->walletService->creditUserWallet(
+            $amountAtSellingDate = $this->walletService->creditUserWallet(
                 $quotingForSell,
                 $deletedCrypto,
             );
-            $amountOfPurchaseDate = $this->cryptoWalletServices->calculatePurchaseAmount(
+            $amountAtPurchaseDate = $this->cryptoWalletServices->calculatePurchaseAmount(
                 $deletedCrypto,
             );
             $capitalGain = $this->cryptoWalletServices->calculateCapitalGain(
-                $capitalGainAtCurrentDate,
-                $amountOfPurchaseDate,
+                $amountAtSellingDate,
+                $amountAtPurchaseDate,
             );
             $this->cryptoWalletServices->fillCapitalGainValue($deletedCrypto, $capitalGain);
             return Response::json(

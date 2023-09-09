@@ -18,13 +18,14 @@ class AuthController extends Controller
      * @param LoginStoreRequest $request
      * @return Response
      */
-    public function login(LoginStoreRequest $request)
+    public function login(LoginStoreRequest $request): Response
     {
         return $this->authenticationService->signIn($request);
     }
 
-    public function logout(Request $request)
-    {
+    public function logout(
+        Request $request,
+    ): \Illuminate\Foundation\Application|Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory {
         return $this->authenticationService->signOut($request);
     }
 }

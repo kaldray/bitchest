@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\WalletRessource;
 use App\Models\Wallet;
-use Illuminate\Http\Request;
+use Exception;
 
 class WalletController extends Controller
 {
@@ -12,11 +12,14 @@ class WalletController extends Controller
     {
     }
 
+    /**
+     * @return WalletRessource|Exception
+     */
     public function show()
     {
         try {
             return WalletRessource::make($this->wallet->getUserWallet());
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $exception;
         }
     }

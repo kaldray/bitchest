@@ -42,7 +42,12 @@ class CryptoWalletServices
         return $capital_gain;
     }
 
-    public function fillCapitalGainValue($deletedCrypto, $capital_gain): void
+    /**
+     * @param Collection $deletedCrypto
+     * @param array $capital_gain
+     * @return void
+     */
+    public function fillCapitalGainValue(Collection $deletedCrypto, array $capital_gain): void
     {
         $deletedCrypto->each(function (CryptoWallet $item, $key) use ($capital_gain) {
             $item->update(["capital_gain" => $capital_gain[$key]]);
@@ -72,7 +77,11 @@ class CryptoWalletServices
         return $this->currencyHistory->getQuotingForDates($dates, $deletedCrypto);
     }
 
-    public function calculatePurchaseAmount($deletedCrypto)
+    /**
+     * @param Collection $deletedCrypto
+     * @return array|mixed
+     */
+    public function calculatePurchaseAmount(Collection $deletedCrypto)
     {
         $dates = $this->getPurchasedDate($deletedCrypto);
         $quantityCurrencies = $this->getQuantityForDeletedItem($deletedCrypto);

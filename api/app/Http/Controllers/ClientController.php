@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Currency;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ClientController extends Controller
 {
@@ -15,8 +16,9 @@ class ClientController extends Controller
 
     /**
      * Display user's wallets with aggregate quantity for each currency
+     * @return AnonymousResourceCollection|\Exception
      */
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Exception
+    public function index(): AnonymousResourceCollection|\Exception
     {
         try {
             return UserResource::collection($this->user->getUserCryptoWalletListWithTrashed());
@@ -28,11 +30,10 @@ class ClientController extends Controller
     /***
      * Display user's wallet with data for one currency only
      * @param Currency $currency
-     * @return \Exception|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Exception|AnonymousResourceCollection
      */
-    public function show(
-        Currency $currency,
-    ): \Exception|\Illuminate\Http\Resources\Json\AnonymousResourceCollection {
+    public function show(Currency $currency): \Exception|AnonymousResourceCollection
+    {
         try {
             return UserResource::collection(
                 $this->user->getUserCryptoWalletListDetailsWithTrashed($currency),

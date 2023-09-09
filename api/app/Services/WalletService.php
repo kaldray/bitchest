@@ -15,11 +15,20 @@ class WalletService
     ) {
     }
 
+    /**
+     * @param User $user
+     * @return void
+     */
     public function createUserWallet(User $user): void
     {
         $user->wallet()->create(["quantity" => 500]);
     }
 
+    /**
+     * @param CurrencyHistory $quotingForDeletedCrypto
+     * @param Collection $deletedCrypto
+     * @return array
+     */
     public function creditUserWallet(
         CurrencyHistory $quotingForDeletedCrypto,
         Collection $deletedCrypto,

@@ -14,7 +14,7 @@ class CurrencyController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display currencies with histories.
      */
     public function index()
     {
@@ -25,6 +25,11 @@ class CurrencyController extends Controller
         return $exception;
     }
 
+    /**
+     * Get currency histories.
+     * @param Currency $currency
+     * @return CurrencyResource|\Exception
+     */
     public function show(Currency $currency)
     {
         try {
