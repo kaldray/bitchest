@@ -12,11 +12,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { addUser } from "@/api/index.js";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const AdminCreateUser = () => {
   const navigate = useNavigate();
+  const router = useRouter();
   const [error, setError] = useState(null);
   const addNewUser = async (e) => {
     e.preventDefault();
@@ -30,6 +31,7 @@ export const AdminCreateUser = () => {
     try {
       const response = await addUser(payload);
       if (response.status === 200) {
+        router.invalidate({ matchId: "admin" });
         navigate({ to: "admin", from: "/" });
       }
     } catch (err) {

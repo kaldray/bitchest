@@ -1,4 +1,4 @@
-import { useLoader, useNavigate } from "@tanstack/react-router";
+import { useLoader, useNavigate, useRouter } from "@tanstack/react-router";
 import { Button, Flex, FormControl, FormLabel, Input, Select, Text } from "@chakra-ui/react";
 import { updateUserById } from "@/api/index.js";
 
@@ -9,6 +9,7 @@ export const AdminUpdateUser = () => {
    */
   const user = useLoader();
   const navigate = useNavigate();
+  const router = useRouter();
   const otherRole = user.role === "admin" ? "client" : "admin";
 
   const modifyUserInfo = async (e) => {
@@ -17,6 +18,7 @@ export const AdminUpdateUser = () => {
     try {
       const response = await updateUserById(user.id, payload);
       if (response.status === 200) {
+        router.invalidate({ matchId: "admin" });
         navigate({ to: "admin", from: "/" });
       }
     } catch (err) {
