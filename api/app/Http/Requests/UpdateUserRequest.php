@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use App\Enum\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rules\Password;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -24,8 +26,10 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email" => ["unique:users,email"],
-            "role" => ["required", new Enum(UserRole::class)],
+            "email" => ["required", Rule::unique("users")->ignore($this->user)],
+            "role" => [new Enum(UserRole::class), "required"],
+            "password" => ["required", Password::defaults(), "confirmed"],
+            "password_confirmation" => ["required", Password::defaults()],
         ];
     }
 }
