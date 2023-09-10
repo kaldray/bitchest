@@ -22,7 +22,10 @@ class UserFactory extends Factory
             "email" => fake()
                 ->unique()
                 ->safeEmail(),
-            "password" => Hash::make("test"), // password
+            "password" =>
+                env("APP_ENV", "local") === "local"
+                    ? Hash::make("test")
+                    : Hash::make("Jordray77127@"), // password
         ];
     }
 }
