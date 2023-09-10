@@ -31,7 +31,7 @@ export const AdminCreateUser = () => {
     try {
       const response = await addUser(payload);
       if (response.status === 200) {
-        router.invalidate({ matchId: "admin" });
+        router.invalidate();
         navigate({ to: "admin", from: "/" });
       }
     } catch (err) {

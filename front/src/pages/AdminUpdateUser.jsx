@@ -18,7 +18,7 @@ export const AdminUpdateUser = () => {
     try {
       const response = await updateUserById(user.id, payload);
       if (response.status === 200) {
-        router.invalidate({ matchId: "admin" });
+        router.invalidate();
         navigate({ to: "admin", from: "/" });
       }
     } catch (err) {
