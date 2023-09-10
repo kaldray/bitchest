@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
                     ->count(30)
                     ->generateQuoting(),
             )
-            ->has(CryptoWallet::factory(2))
+            ->has(CryptoWallet::factory(1))
             ->create();
     }
 }
