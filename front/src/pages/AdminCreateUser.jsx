@@ -49,7 +49,9 @@ export const AdminCreateUser = () => {
           <>
             <Alert status="error" my={"1rem"}>
               <AlertIcon />
-              <AlertDescription>{error.message}</AlertDescription>
+              <AlertDescription>
+                {error.errors?.email?.map((val) => val)} {error.errors?.password?.map((val) => val)}
+              </AlertDescription>
             </Alert>
           </>
         )}
