@@ -1,6 +1,18 @@
 import { useLoader, useNavigate, useRouter } from "@tanstack/react-router";
-import { Button, Flex, FormControl, FormLabel, Input, Select, Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Text,
+} from "@chakra-ui/react";
 import { updateUserById } from "@/api/index.js";
+import { useState } from "react";
 
 export const AdminUpdateUser = () => {
   /**
@@ -10,11 +22,18 @@ export const AdminUpdateUser = () => {
   const user = useLoader();
   const navigate = useNavigate();
   const router = useRouter();
+  const [error, setError] = useState(null);
   const otherRole = user.role === "admin" ? "client" : "admin";
 
   const modifyUserInfo = async (e) => {
     e.preventDefault();
-    const payload = { role: e.target.role.value };
+    const target = e.target;
+    const payload = {
+      email: target.email.value,
+      password: target.password.value,
+      password_confirmation: target.password_confirmation.value,
+      role: target.role.value,
+    };
     try {
       const response = await updateUserById(user.id, payload);
       if (response.status === 200) {
@@ -22,7 +41,7 @@ export const AdminUpdateUser = () => {
         navigate({ to: "admin", from: "/" });
       }
     } catch (err) {
-      console.log(err);
+      setError(err);
     }
   };
 
@@ -37,6 +56,16 @@ export const AdminUpdateUser = () => {
         <Text as={"h1"} my={"1rem"}>
           Modifier un utilisateur
         </Text>
+        {error !== null && (
+          <>
+            <Alert status="error" my={"1rem"}>
+              <AlertIcon />
+              <AlertDescription>
+                {error.errors?.email?.map((val) => val)} {error.errors?.password?.map((val) => val)}
+              </AlertDescription>
+            </Alert>
+          </>
+        )}
         <Flex
           p={"2rem"}
           border={"1px"}
@@ -48,7 +77,25 @@ export const AdminUpdateUser = () => {
           onSubmit={(e) => modifyUserInfo(e)}>
           <FormControl>
             <FormLabel>Email address</FormLabel>
-            <Input name={"email"} readOnly={true} value={user.email} type="email" />
+            <Input name={"email"} defaultValue={user.email} type="email" />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Mot de passe</FormLabel>
+            <Input
+              name={"password"}
+              required={true}
+              type="password"
+              autoComplete={"new-password"}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Vérifier le mot de passe</FormLabel>
+            <Input
+              name={"password_confirmation"}
+              required={true}
+              type="password"
+              autoComplete={"new-password"}
+            />
           </FormControl>
           <FormControl>
             <FormLabel>Rôle</FormLabel>
