@@ -188,7 +188,9 @@ const purchaseRoute = new Route({
   },
   component: Pages.PurchaseCurrency,
   validateSearch: (search) => {
+    console.log(typeof search.quoting);
     return {
+      quoting: search.quoting,
       currency_id: search.currency_id,
       currency_name: search.currency_name,
     };
