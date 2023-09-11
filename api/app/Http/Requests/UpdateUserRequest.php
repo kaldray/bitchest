@@ -28,8 +28,6 @@ class UpdateUserRequest extends FormRequest
         return [
             "email" => ["required", Rule::unique("users")->ignore($this->user)],
             "role" => [new Enum(UserRole::class), "required"],
-            "password" => ["required", Password::defaults(), "confirmed"],
-            "password_confirmation" => ["required", Password::defaults()],
         ];
     }
 }

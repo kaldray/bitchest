@@ -30,8 +30,6 @@ export const AdminUpdateUser = () => {
     const target = e.target;
     const payload = {
       email: target.email.value,
-      password: target.password.value,
-      password_confirmation: target.password_confirmation.value,
       role: target.role.value,
     };
     try {
@@ -78,24 +76,6 @@ export const AdminUpdateUser = () => {
           <FormControl>
             <FormLabel>Email address</FormLabel>
             <Input name={"email"} defaultValue={user.email} type="email" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Mot de passe</FormLabel>
-            <Input
-              name={"password"}
-              required={true}
-              type="password"
-              autoComplete={"new-password"}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Vérifier le mot de passe</FormLabel>
-            <Input
-              name={"password_confirmation"}
-              required={true}
-              type="password"
-              autoComplete={"new-password"}
-            />
           </FormControl>
           <FormControl>
             <FormLabel>Rôle</FormLabel>
