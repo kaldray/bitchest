@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Flex, FormControl, FormLabel, Input, Text, useToast } from "@chakra-ui/react";
+
 import { purchaseRoute } from "@/router/route";
-import { purchaseCurrency } from "@/api";
-import { useState } from "react";
 
 export const PurchaseCurrency = () => {
   const { currency_id, currency_name, quoting } = useSearch({ from: purchaseRoute.id });
@@ -22,7 +22,8 @@ export const PurchaseCurrency = () => {
       currency_id: currency_id,
     };
     try {
-      const response = await purchaseCurrency(payload);
+      const lazyLoading = await import("@/api/index");
+      const response = await lazyLoading.purchaseCurrency(payload);
       if (response.status === 201) {
         setSuccess(true);
         router.invalidate();

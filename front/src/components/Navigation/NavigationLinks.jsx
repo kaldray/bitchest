@@ -3,7 +3,6 @@ import { useNavigate } from "@tanstack/react-router";
 import { Button, Collapse, Flex } from "@chakra-ui/react";
 
 import { userStore } from "@/store/userStore";
-import { signOut } from "@/api";
 import { AdminNavLink } from "@/components/Navigation/AdminNavLink";
 import { ClientNavLink } from "@/components/Navigation/ClientNavLink";
 import { CustomLink } from "@/components/Navigation/CustomLink";
@@ -28,7 +27,8 @@ export const NavigationLinks = () => {
 
   const signOutAndRedirect = async () => {
     try {
-      const response = await signOut();
+      const lazyLoading = await import("@/api/index");
+      const response = await lazyLoading.signOut();
       if (response.status === 200) {
         setState({ user: null });
         navigate({ to: "/", replace: true });

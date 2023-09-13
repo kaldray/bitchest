@@ -11,7 +11,6 @@ import {
   Select,
   Text,
 } from "@chakra-ui/react";
-import { addUser } from "@/api/index.js";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 
@@ -29,7 +28,8 @@ export const AdminCreateUser = () => {
       role: target.role.value,
     };
     try {
-      const response = await addUser(payload);
+      const lazySignIn = await import("@/api/index");
+      const response = await lazySignIn.addUser(payload);
       if (response.status === 200) {
         router.invalidate();
         navigate({ to: "admin", from: "/" });

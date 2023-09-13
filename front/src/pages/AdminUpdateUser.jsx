@@ -11,7 +11,6 @@ import {
   Select,
   Text,
 } from "@chakra-ui/react";
-import { updateUserById } from "@/api/index.js";
 import { useState } from "react";
 
 export const AdminUpdateUser = () => {
@@ -33,7 +32,8 @@ export const AdminUpdateUser = () => {
       role: target.role.value,
     };
     try {
-      const response = await updateUserById(user.id, payload);
+      const lazyLoading = await import("@/api/index");
+      const response = await lazyLoading.updateUserById(user.id, payload);
       if (response.status === 200) {
         router.invalidate();
         navigate({ to: "admin", from: "/" });

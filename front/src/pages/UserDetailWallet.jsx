@@ -2,7 +2,6 @@ import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
 import { useLoader, useRouter } from "@tanstack/react-router";
 
 import * as CustomTable from "@/components/table/Table";
-import { sellCurrency } from "@/api";
 
 /**
  * @typedef {Object} CryptoWallet
@@ -36,7 +35,8 @@ export const UserDetailWallet = () => {
   const sellACurrency = async (e, id) => {
     e.preventDefault();
     try {
-      const res = await sellCurrency(id);
+      const lazyLoading = await import("@/api/index");
+      const res = await lazyLoading.sellCurrency(id);
       if (res.status === 201) {
         router.invalidate();
       }

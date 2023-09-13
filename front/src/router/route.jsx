@@ -1,7 +1,5 @@
-import { RootRoute, Route, Outlet, redirect } from "@tanstack/react-router";
+import { RootRoute, Route, Outlet, redirect, lazyRouteComponent } from "@tanstack/react-router";
 
-import * as Pages from "@/pages/index.js";
-import { Layout } from "@/components/Navigation/Layout";
 import {
   getAllUsers,
   getCurrencies,
@@ -16,6 +14,8 @@ import { router } from "@/router/index.js";
 import { userStore } from "@/store/userStore.js";
 import { TableSkeleton } from "@/components/skeleton/TableSkeleton";
 import { Skeleton } from "@chakra-ui/react";
+// eslint-disable-next-line react-refresh/only-export-components
+const Layout = lazyRouteComponent(() => import("@/components/Navigation/Layout"), "Layout");
 
 const { setState, getState } = userStore;
 
@@ -24,13 +24,15 @@ let rootRoute = new RootRoute();
 const layout = new RootRoute({
   getParentRoute: () => unauthenticatedGuard,
   id: "layout",
-  component: () => (
-    <>
-      <Layout>
-        <Outlet />
-      </Layout>
-    </>
-  ),
+  component: () => {
+    return (
+      <>
+        <Layout>
+          <Outlet />
+        </Layout>
+      </>
+    );
+  },
   loader: async ({ abortController }) => {
     try {
       if (getState().user === "client") {
@@ -98,7 +100,7 @@ const authenticatedGuard = new Route({
         router.navigate({ to: "wallet", from: "/" });
       }
     } catch (e) {
-      return Pages.Login;
+      return lazyRouteComponent(() => import("@/pages"), "Login");
     }
   },
 });
@@ -106,16 +108,12 @@ const authenticatedGuard = new Route({
 const loginRoute = new Route({
   getParentRoute: () => authenticatedGuard,
   path: "/",
-  component: Pages.Login,
+  component: lazyRouteComponent(() => import("@/pages"), "Login"),
 });
 const adminRoute = new Route({
   getParentRoute: () => layout,
   path: "admin",
-  component: () => (
-    <>
-      <Pages.Admin />
-    </>
-  ),
+  component: lazyRouteComponent(() => import("@/pages"), "Admin"),
   loader: async ({ abortController }) => {
     return getAllUsers(abortController);
   },
@@ -132,7 +130,7 @@ const updateUserRoute = new Route({
   loader: async ({ params: { id }, abortController }) => {
     return getUserById(id, abortController);
   },
-  component: Pages.AdminUpdateUser,
+  component: lazyRouteComponent(() => import("@/pages"), "AdminUpdateUser"),
   wrapInSuspense: true,
   pendingComponent: () => (
     <>
@@ -143,13 +141,13 @@ const updateUserRoute = new Route({
 const createUserRoute = new Route({
   getParentRoute: () => layout,
   path: "create-user",
-  component: Pages.AdminCreateUser,
+  component: lazyRouteComponent(() => import("@/pages"), "AdminCreateUser"),
 });
 
 const currenciesListRoute = new Route({
   getParentRoute: () => layout,
   path: "currencies",
-  component: Pages.CurrenciesList,
+  component: lazyRouteComponent(() => import("@/pages"), "CurrenciesList"),
   loader: async ({ abortController }) => {
     return getCurrencies(abortController);
   },
@@ -164,7 +162,7 @@ const currenciesListRoute = new Route({
 const currencyRate = new Route({
   getParentRoute: () => layout,
   path: "currency/$id",
-  component: Pages.CurrencyRate,
+  component: lazyRouteComponent(() => import("@/pages"), "CurrencyRate"),
   loader: async ({ params: { id }, abortController }) => {
     return getCurrencyRate(id, abortController);
   },
@@ -186,7 +184,7 @@ const purchaseRoute = new Route({
       });
     }
   },
-  component: Pages.PurchaseCurrency,
+  component: lazyRouteComponent(() => import("@/pages"), "PurchaseCurrency"),
   validateSearch: (search) => {
     console.log(typeof search.quoting);
     return {
@@ -200,7 +198,7 @@ const purchaseRoute = new Route({
 const walletRoute = new Route({
   path: "wallet",
   getParentRoute: () => layout,
-  component: Pages.UserWallets,
+  component: lazyRouteComponent(() => import("@/pages"), "UserWallets"),
   loader: async ({ abortController }) => {
     return getUsersCryptoWallet(abortController);
   },
@@ -218,7 +216,7 @@ const walletDetailRoute = new Route({
   loader: async ({ params: { id }, abortController }) => {
     return getUserCryptoWalletDetail(id, abortController);
   },
-  component: Pages.UserDetailWallet,
+  component: lazyRouteComponent(() => import("@/pages"), "UserDetailWallet"),
   wrapInSuspense: true,
   pendingComponent: ({ useMatch, useRouteContext }) => (
     <>

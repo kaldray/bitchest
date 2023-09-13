@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { signIn } from "@/api/index.js";
+// import { signIn } from "@/api/index.js";
 import { userStore } from "@/store/userStore.js";
 
 export const Login = () => {
@@ -36,7 +36,8 @@ export const Login = () => {
       password,
     };
     try {
-      const response = await signIn(credentials);
+      const lazyLoading = await import("@/api/index");
+      const response = await lazyLoading.signIn(credentials);
       if (response.status === 200 && response.data.user === "admin") {
         setState({ user: response.data.user });
         return navigate({ to: "/admin" });
