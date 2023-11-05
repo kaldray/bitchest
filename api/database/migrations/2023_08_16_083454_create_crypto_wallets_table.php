@@ -23,7 +23,7 @@ return new class extends Migration {
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table
-                ->foreignId("currency_id")
+                ->foreignId("currency_histories_id")
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

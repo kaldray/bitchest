@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Currency;
 use App\Models\CurrencyHistory;
 use App\Models\User;
 use App\Models\Wallet;
@@ -37,7 +36,7 @@ class CryptoWalletFactory extends Factory
             "sell_at" => null,
             "quantity" => 2,
             "capital_gain" => null,
-            "currency_id" => Currency::factory(),
+            "currency_histories_id" => $randomHistories->id,
             "user_id" => $currentUser,
         ];
     }

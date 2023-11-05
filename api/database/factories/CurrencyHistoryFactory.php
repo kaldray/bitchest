@@ -37,7 +37,7 @@ class CurrencyHistoryFactory extends Factory
      */
     public function generateQuoting(): Factory
     {
-        if ($this::$index === 0) {
+        if ($this::$index === 1) {
             $this->state(function (array $att, Currency $currency) {
                 return ["quoting" => Quoting::getFirstCotation($currency->crypto_name)];
             });
