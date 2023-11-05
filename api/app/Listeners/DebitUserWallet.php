@@ -23,11 +23,11 @@ class DebitUserWallet
      */
     public function handle(CryptoPurchase $event): void
     {
-        $quoting = $this->currencyHistory->getQuotingAtCurrentDate(
-            $event->cryptoWallet->currency_id,
+        $history = $this->currencyHistory->getQuotingWithId(
+            $event->cryptoWallet->currency_histories_id,
         );
         $userWallet = $this->wallet->getUserWallet();
-        $debit = $quoting->quoting * $event->cryptoWallet->quantity;
+        $debit = $history->quoting * $event->cryptoWallet->quantity;
         $userWallet->quantity = $userWallet->quantity - $debit;
         $userWallet->save();
     }

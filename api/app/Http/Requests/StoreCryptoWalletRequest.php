@@ -24,7 +24,7 @@ class StoreCryptoWalletRequest extends FormRequest
     {
         return [
             "quantity" => ["numeric", new EnoughMoney()],
-            "currency_id" => "exists:currencies,id",
+            "currency_histories_id" => "exists:currency_histories,id",
         ];
     }
 
