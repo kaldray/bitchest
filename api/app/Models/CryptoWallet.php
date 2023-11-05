@@ -19,7 +19,7 @@ class CryptoWallet extends Model
 
     const DELETED_AT = "sell_at";
 
-    protected $fillable = ["quantity", "user_id", "currency_id", "capital_gain"];
+    protected $fillable = ["quantity", "user_id", "currency_histories_id", "capital_gain"];
 
     public function currencyHistories(): BelongsTo
     {
