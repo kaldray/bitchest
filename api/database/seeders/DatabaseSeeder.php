@@ -23,13 +23,13 @@ class DatabaseSeeder extends Seeder
             ->state(new Sequence(["role" => "client"], ["role" => "admin"]))
             ->has(Wallet::factory()->count(1))
             ->create();
-        Currency::factory(10)
+        Currency::factory(5)
             ->has(
                 CurrencyHistory::factory()
-                    ->count(30)
-                    ->generateQuoting(),
+                    ->generateQuoting()
+                    ->count(30),
             )
-            ->has(CryptoWallet::factory(1))
             ->create();
+        CryptoWallet::factory(10)->create();
     }
 }
