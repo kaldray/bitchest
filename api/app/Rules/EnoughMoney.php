@@ -40,11 +40,10 @@ class EnoughMoney implements DataAwareRule, ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $walletQuantity = Wallet::where("user_id", "=", \Auth::user()->id)->first(["quantity"]);
-        $quoting = CurrencyHistory::whereDate("date", now())
-            ->where("currency_id", "=", $this->data["currency_id"])
-            ->first(["quoting"]);
+        $quoting = CurrencyHistory::where("id", "=", $this->data["currency_histories_id"])->first()
+            ->quoting;
 
-        $max = $walletQuantity->quantity / $quoting->quoting;
+        $max = $walletQuantity->quantity / $quoting;
         if ($value > $max) {
             $fail("Vous n'avez pas assez de fonds !");
         }

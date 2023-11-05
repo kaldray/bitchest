@@ -43,6 +43,11 @@ class CurrencyHistory extends Model
             ->first(["quoting"]);
     }
 
+    public function getQuotingWithId($id)
+    {
+        return $this::where("id", "=", $id)->first();
+    }
+
     public function getQuotingForDates(\Illuminate\Support\Collection $dates, Collection $currency)
     {
         return $this::whereIn("date", $dates)
