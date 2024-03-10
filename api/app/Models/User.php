@@ -3,12 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -52,24 +56,16 @@ class User extends Authenticatable
         return $this->hasMany(CryptoWallet::class);
     }
 
-    public function getUserCryptoWalletListWithTrashed(): \Illuminate\Database\Eloquent\Collection|array
+    public function getUserCryptoWalletListWithTrashed()
     {
-        return $this::with([
-            "wallet",
-            "cryptoWallets" => function (HasMany $query) {
-                $query
-                    ->select([
-                        "user_id",
-                        "currency_id",
-                        \DB::raw("SUM(capital_gain) as capital_gain"),
-                        \DB::raw("SUM(quantity) as quantity"),
-                    ])
-                    ->groupBy(["user_id", "currency_id"])
-                    ->withTrashed();
-            },
-            "cryptoWallets.currency",
-        ])
-            ->where("id", \Auth::user()->id)
+        return DB::table("currency_histories")
+            ->select(['currency_histories.id as ch_id', "quoting", "date", "currency_id", "crypto_name", "crypto_wallets.id as cw_id", "capital_gain", "quantity"])
+            ->join("crypto_wallets", function (JoinClause $join) {
+                $join->on('currency_histories.id', '=', 'crypto_wallets.currency_histories_id')
+                    ->where('crypto_wallets.user_id', '=', \Auth::user()->id);
+            })
+            ->join("currencies", "currency_histories.currency_id", "=", "currencies.id")
+            ->whereNotNull("currency_histories_id")
             ->get();
     }
 
@@ -79,9 +75,9 @@ class User extends Authenticatable
         return $this::with([
             "wallet",
             "cryptoWallets" => function (HasMany $query) use ($currency) {
-                return $query->where("currency_id", $currency->id)->withTrashed();
+                return $query->where("currency_histories_id", $currency->id)->withTrashed();
             },
-            "cryptoWallets.currency",
+            "cryptoWallets.currency_histories",
         ])
             ->where("id", \Auth::user()->id)
             ->get();

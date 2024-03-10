@@ -18,10 +18,10 @@ class ClientController extends Controller
      * Display user's wallets with aggregate quantity for each currency
      * @return AnonymousResourceCollection|\Exception
      */
-    public function index(): AnonymousResourceCollection|\Exception
+    public function index()
     {
         try {
-            return UserResource::collection($this->user->getUserCryptoWalletListWithTrashed());
+            return $this->user->getUserCryptoWalletListWithTrashed();
         } catch (\Exception $exception) {
             return $exception;
         }

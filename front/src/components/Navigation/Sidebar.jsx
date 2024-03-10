@@ -22,7 +22,8 @@ export const Sidebar = () => {
         maxW={["100%", "100%", "250px"]}
         w={"100%"}
         position={["fixed", "fixed", "initial"]}
-        h={["auto", "auto", "100vh"]}
+        h={["auto", "auto"]}
+        minH={"100dvh"}
         zIndex={10}
         as="nav"
         display={"inline-block"}>
@@ -38,12 +39,12 @@ export const Sidebar = () => {
           <Image src="/bitchest_logo.png" alt="Logo de Bitchest" />
         </Box>
         <Flex
-          justifyContent={"space-between"}
+          justifyContent={"flex-start"}
           flexDir={"column"}
           alignItems={"center"}
           h={"calc(100% - 61.1667px)"}>
           <Flex
-            justifyContent={["space-between", "space-between", "center"]}
+            justifyContent={["flex-start", "flex-start", "center"]}
             w={"100%"}
             alignItems={"center"}>
             {getState().user === "client" && (

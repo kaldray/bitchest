@@ -13,10 +13,11 @@ class Currency extends Model
 {
     use HasFactory;
 
-    public function currencyHistories(): HasMany
+    public function currency_histories(): HasMany
     {
         return $this->hasMany(CurrencyHistory::class);
     }
+
     public function getCurrenciesWithHistories(): \Illuminate\Database\Eloquent\Collection|array
     {
         return $this::with([
