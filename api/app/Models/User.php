@@ -70,7 +70,7 @@ class User extends Authenticatable
     }
 
     public function getUserCryptoWalletListDetailsWithTrashed(
-        Currency $currency,
+        CurrencyHistory $currency,
     ): \Illuminate\Database\Eloquent\Collection|array {
         return $this::with([
             "wallet",

@@ -89,7 +89,7 @@ export const UserWallets = () => {
                       to={{
                         to: "/wallet/detail/$id",
                         from: "/",
-                        params: { id: val.currency_id },
+                        params: { id: val.ch_id },
                       }}
                       bg={"blue.700"}
                       color={"white"}
