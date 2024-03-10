@@ -56,7 +56,7 @@ class User extends Authenticatable
         return $this->hasMany(CryptoWallet::class);
     }
 
-    public function getUserCryptoWalletListWithTrashed()
+    public function getUserCryptoWalletListWithTrashed(): \Illuminate\Support\Collection
     {
         return DB::table("currency_histories")
             ->select(['currency_histories.id as ch_id', "quoting", "date", "currency_id", "crypto_name", "crypto_wallets.id as cw_id", "capital_gain", "quantity"])
@@ -71,15 +71,16 @@ class User extends Authenticatable
 
     public function getUserCryptoWalletListDetailsWithTrashed(
         CurrencyHistory $currency,
-    ): \Illuminate\Database\Eloquent\Collection|array {
-        return $this::with([
-            "wallet",
-            "cryptoWallets" => function (HasMany $query) use ($currency) {
-                return $query->where("currency_histories_id", $currency->id)->withTrashed();
-            },
-            "cryptoWallets.currency_histories",
-        ])
-            ->where("id", \Auth::user()->id)
+    ): \Illuminate\Support\Collection {
+        return DB::table("currency_histories")
+            ->select(['currency_histories.id as ch_id',  "currency_id", "crypto_name", "crypto_wallets.id as cw_id", "capital_gain", "quantity", "sell_at", "crypto_wallets.created_at as purchased_at"])
+            ->join("crypto_wallets", function (JoinClause $join) use ($currency) {
+                $join->on('currency_histories.id', '=', 'crypto_wallets.currency_histories_id')
+                    ->where("currency_histories.id", "=", $currency->id)
+                    ->where('crypto_wallets.user_id', '=', \Auth::user()->id);
+            })
+            ->join("currencies", "currency_histories.currency_id", "=", "currencies.id")
+            ->whereNotNull("currency_histories_id")
             ->get();
     }
 
