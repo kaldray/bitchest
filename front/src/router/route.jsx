@@ -186,7 +186,6 @@ const purchaseRoute = new Route({
   },
   component: lazyRouteComponent(() => import("@/pages"), "PurchaseCurrency"),
   validateSearch: (search) => {
-    console.log(typeof search.quoting);
     return {
       quoting: search.quoting,
       currency_id: search.currency_id,
