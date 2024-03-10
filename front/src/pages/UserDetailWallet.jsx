@@ -75,8 +75,8 @@ export const UserDetailWallet = () => {
             {userDetailedWallet.map((val) => {
               return (
                 <Tr key={val.cw_id}>
+                  <Td>{val.crypto_name}</Td>
                   <Td>{val.purchased_at}</Td>
-                  <Td>{val.created_at}</Td>
                   <Td>{val.sell_at ?? "non vendu"}</Td>
                   <Td>{val.quantity}</Td>
                   <Td>{val.capital_gain ?? 0} €</Td>
@@ -95,7 +95,7 @@ export const UserDetailWallet = () => {
                       aria-disabled={typeof val.sell_at === "string"}
                       isDisabled={typeof val.sell_at === "string"}
                       type={"button"}
-                      onClick={(e) => sellACurrency(e, val.id)}>
+                      onClick={(e) => sellACurrency(e, val.cw_id)}>
                       Vendre
                     </Button>
                   </Td>
