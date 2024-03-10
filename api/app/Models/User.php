@@ -59,15 +59,26 @@ class User extends Authenticatable
     public function getUserCryptoWalletListWithTrashed(): \Illuminate\Support\Collection
     {
         return DB::table("currency_histories")
-            ->select(['currency_histories.id as ch_id', "quoting", "date", "currency_id", "crypto_name", "crypto_wallets.id as cw_id", "capital_gain", "quantity"])
+            ->select([
+                "crypto_name",
+                "currency_histories_id as ch_id",
+                "crypto_wallets.user_id as user_id"
+            ])
+            ->selectRaw("SUM(quantity) as quantity")
+            ->selectRaw("SUM(capital_gain) as capital_gain")
             ->join("crypto_wallets", function (JoinClause $join) {
                 $join->on('currency_histories.id', '=', 'crypto_wallets.currency_histories_id')
                     ->where('crypto_wallets.user_id', '=', \Auth::user()->id);
             })
             ->join("currencies", "currency_histories.currency_id", "=", "currencies.id")
             ->whereNotNull("currency_histories_id")
+            ->groupBy(["user_id", "ch_id"])
             ->get();
     }
+    //  \DB::raw("SUM(capital_gain) as capital_gain"),
+    //             \DB::raw("SUM(quantity) as quantity"),
+    //         ])
+    //         ->groupBy(["user_id", "currency_id"])
 
     public function getUserCryptoWalletListDetailsWithTrashed(
         CurrencyHistory $currency,
