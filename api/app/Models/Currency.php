@@ -21,7 +21,7 @@ class Currency extends Model
     public function getCurrenciesWithHistories(): \Illuminate\Database\Eloquent\Collection|array
     {
         return $this::with([
-            "currencyHistories" => function (HasMany $query) {
+            "currency_histories" => function (HasMany $query) {
                 $query->orderBy("date", "desc");
             },
         ])->get();
@@ -30,6 +30,6 @@ class Currency extends Model
     public function getCurrencyHistory(
         Currency $currency,
     ): Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null {
-        return $this::with("currencyHistories")->findOrFail($currency->id);
+        return $this::with("currency_histories")->findOrFail($currency->id);
     }
 }

@@ -18,7 +18,7 @@ class CurrencyResource extends JsonResource
             "id" => $this->id,
             "crypto_name" => $this->crypto_name,
             "currency_histories" => CurrencyHistoryResource::collection(
-                $this->whenLoaded("currencyHistories"),
+                $this->whenLoaded("currency_histories"),
             ),
         ];
     }
