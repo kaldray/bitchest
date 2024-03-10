@@ -21,7 +21,7 @@ class CryptoWallet extends Model
 
     protected $fillable = ["quantity", "user_id", "currency_histories_id", "capital_gain"];
 
-    public function currencyHistories(): BelongsTo
+    public function currency_histories(): BelongsTo
     {
         return $this->belongsTo(CurrencyHistory::class);
     }

@@ -35,12 +35,29 @@ import { CustomLink } from "@/components/Navigation/CustomLink";
  * @property {number} quantity - The quantity of funds in the wallet.
  */
 
+/**
+ *
+ * @typedef {Object} UserCryptoWallet
+ * @property {number} ch_id
+ * @property {number} quoting
+ * @property {string} date
+ * @property {number} currency_id
+ * @property {string} crypto_name
+ * @property {string} cw_id
+ * @property {null|string} capital_gain
+ * @property {number} quantity
+ */
+
 export const UserWallets = () => {
   /**
    * An array containing user information and their crypto wallets.
-   * @type {User[]}
+   * @type {Array<UserCryptoWallet>}
    */
   const userWithWallet = useLoader();
+
+  if (!userWithWallet.length) {
+    <p>Votre portefeuille est vide </p>;
+  }
 
   return (
     <>
@@ -49,47 +66,43 @@ export const UserWallets = () => {
         alignItems={"center"}
         height={"100%"}
         mt={["5rem", "5rem", "0rem"]}>
-        {userWithWallet[0].crypto_wallets.length === 0 ? (
-          <p>Votre portefeuille est vide </p>
-        ) : (
-          <CustomTable.TableRoot title={"Mon portefeuille"}>
-            <CustomTable.CustomThead>
-              <Tr>
-                <Th>Crypto-monnaie</Th>
-                <Th>Quantité</Th>
-                <Th>
-                  Bénéfices <sup>en euros</sup>
-                </Th>
-                <Th>Détails</Th>
-              </Tr>
-            </CustomTable.CustomThead>
-            <CustomTable.CustomTbody>
-              {userWithWallet[0]?.crypto_wallets.map((val) => {
-                return (
-                  <Tr key={val.currency.id}>
-                    <Td>{val.currency.crypto_name}</Td>
-                    <Td>{val.quantity} </Td>
-                    <Td>{val.capital_gain ?? 0} €</Td>
-                    <Td>
-                      <CustomLink
-                        to={{
-                          to: "/wallet/detail/$id",
-                          from: "/",
-                          params: { id: val.currency.id },
-                        }}
-                        bg={"blue.700"}
-                        color={"white"}
-                        borderRadius={"6px"}
-                        p={2.5}>
-                        Voir le détail
-                      </CustomLink>
-                    </Td>
-                  </Tr>
-                );
-              })}
-            </CustomTable.CustomTbody>
-          </CustomTable.TableRoot>
-        )}
+        <CustomTable.TableRoot title={"Mon portefeuille"}>
+          <CustomTable.CustomThead>
+            <Tr>
+              <Th>Crypto-monnaie</Th>
+              <Th>Quantité</Th>
+              <Th>
+                Bénéfices <sup>en euros</sup>
+              </Th>
+              <Th>Détails</Th>
+            </Tr>
+          </CustomTable.CustomThead>
+          <CustomTable.CustomTbody>
+            {userWithWallet.map((val) => {
+              return (
+                <Tr key={val.cw_id}>
+                  <Td>{val.crypto_name}</Td>
+                  <Td>{val.quantity} </Td>
+                  <Td>{val.capital_gain ?? 0} €</Td>
+                  <Td>
+                    <CustomLink
+                      to={{
+                        to: "/wallet/detail/$id",
+                        from: "/",
+                        params: { id: val.currency_id },
+                      }}
+                      bg={"blue.700"}
+                      color={"white"}
+                      borderRadius={"6px"}
+                      p={2.5}>
+                      Voir le détail
+                    </CustomLink>
+                  </Td>
+                </Tr>
+              );
+            })}
+          </CustomTable.CustomTbody>
+        </CustomTable.TableRoot>
       </Flex>
     </>
   );
