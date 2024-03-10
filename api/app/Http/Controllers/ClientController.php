@@ -33,12 +33,10 @@ class ClientController extends Controller
      * @param CurrencyHistory $currency
      * @return \Exception|AnonymousResourceCollection
      */
-    public function show(CurrencyHistory $currency): \Exception|AnonymousResourceCollection
+    public function show(CurrencyHistory $currency)
     {
         try {
-            return UserResource::collection(
-                $this->user->getUserCryptoWalletListDetailsWithTrashed($currency),
-            );
+            return $this->user->getUserCryptoWalletListDetailsWithTrashed($currency);
         } catch (\Exception $exception) {
             return $exception;
         }

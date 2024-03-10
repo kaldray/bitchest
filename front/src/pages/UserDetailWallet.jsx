@@ -15,10 +15,15 @@ import * as CustomTable from "@/components/table/Table";
 
 /**
  * @typedef {Object} UserData
- * @property {number} id - L'identifiant de l'utilisateur.
- * @property {string} email - L'adresse e-mail de l'utilisateur.
- * @property {CryptoWallet[]} crypto_wallets - Les portefeuilles de crypto-monnaie de l'utilisateur.
- * @property {import("@/pages/UserWallets").Wallet} wallet - Les données du portefeuille de l'utilisateur.
+ * @property {string} cw_id
+ * @property {number} ch_id
+ * @property {number} quoting
+ * @property {null|string} sell_at
+ * @property {number} currency_id
+ * @property {string} crypto_name
+ * @property {null|string} capital_gain
+ * @property {number} quantity
+ * @property {string} purchased_at
  */
 
 export const UserDetailWallet = () => {
@@ -67,10 +72,10 @@ export const UserDetailWallet = () => {
             </Tr>
           </CustomTable.CustomThead>
           <CustomTable.CustomTbody>
-            {userDetailedWallet[0].crypto_wallets.map((val, key) => {
+            {userDetailedWallet.map((val) => {
               return (
-                <Tr key={val.currency.id + key}>
-                  <Td>{val.currency.crypto_name}</Td>
+                <Tr key={val.cw_id}>
+                  <Td>{val.purchased_at}</Td>
                   <Td>{val.created_at}</Td>
                   <Td>{val.sell_at ?? "non vendu"}</Td>
                   <Td>{val.quantity}</Td>
