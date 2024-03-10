@@ -38,14 +38,11 @@ import { CustomLink } from "@/components/Navigation/CustomLink";
 /**
  *
  * @typedef {Object} UserCryptoWallet
- * @property {number} ch_id
- * @property {number} quoting
- * @property {string} date
  * @property {number} currency_id
  * @property {string} crypto_name
- * @property {string} cw_id
  * @property {null|string} capital_gain
  * @property {number} quantity
+ * @property {number} user_id
  */
 
 export const UserWallets = () => {
