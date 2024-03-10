@@ -6,7 +6,6 @@ use App\Events\CryptoPurchase;
 use App\Http\Requests\StoreCryptoWalletRequest;
 use App\Models\CryptoWallet;
 use App\Services\CryptoWalletServices;
-use App\Services\CurrencyHistoryServices;
 use App\Services\WalletService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
@@ -19,7 +18,6 @@ class CryptoWalletController extends Controller
 
     public function __construct(
         protected CryptoWalletServices $cryptoWalletServices,
-        protected CurrencyHistoryServices $currencyHistoryServices,
         protected WalletService $walletService,
     ) {
     }
