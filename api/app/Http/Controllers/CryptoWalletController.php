@@ -52,11 +52,8 @@ class CryptoWalletController extends Controller
     public function delete(CryptoWallet $cryptoWallet): JsonResponse|\Exception
     {
         try {
-            $quotingForSell = $this->currencyHistoryServices->getQuotingAtCurrentDate(
-                $cryptoWallet->currency_id,
-            );
+            $quotingForSell = $cryptoWallet->currency_histories()->get()->first();
             $deletedCrypto = $this->cryptoWalletServices->deleteCrypto($cryptoWallet);
-
             $amountAtSellingDate = $this->walletService->creditUserWallet(
                 $quotingForSell,
                 $deletedCrypto,
