@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
 use App\Models\Currency;
+use App\Models\CurrencyHistory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -29,10 +30,10 @@ class ClientController extends Controller
 
     /***
      * Display user's wallet with data for one currency only
-     * @param Currency $currency
+     * @param CurrencyHistory $currency
      * @return \Exception|AnonymousResourceCollection
      */
-    public function show(Currency $currency): \Exception|AnonymousResourceCollection
+    public function show(CurrencyHistory $currency): \Exception|AnonymousResourceCollection
     {
         try {
             return UserResource::collection(
