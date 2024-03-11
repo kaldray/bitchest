@@ -5,7 +5,7 @@ import { Button, Flex, FormControl, FormLabel, Input, Text, useToast } from "@ch
 import { purchaseRoute } from "@/router/route";
 
 export const PurchaseCurrency = () => {
-  const { currency_id, currency_name, quoting } = useSearch({ from: purchaseRoute.id });
+  const { currency_name, quoting, ch_id } = useSearch({ from: purchaseRoute.id });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -19,7 +19,7 @@ export const PurchaseCurrency = () => {
     const target = e.target;
     const payload = {
       quantity: target.quantity.value,
-      currency_id: currency_id,
+      currency_histories_id: ch_id,
     };
     try {
       const lazyLoading = await import("@/api/index");
