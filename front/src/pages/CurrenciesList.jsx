@@ -58,6 +58,7 @@ export const CurrenciesList = () => {
                             currency_id: val.id,
                             currency_name: val.crypto_name,
                             quoting: val.currency_histories[0].quoting,
+                            ch_id: val.currency_histories.at(0).id,
                           },
                         }}
                         p={2.5}
