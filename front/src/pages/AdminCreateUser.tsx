@@ -1,3 +1,4 @@
+import type { UserRole } from "@/api/index";
 import {
   Alert,
   AlertDescription,
@@ -13,20 +14,23 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
+import { WrongCredientials, type WrongCredientialsType } from ".";
 
 export const AdminCreateUser = () => {
   const navigate = useNavigate();
   const router = useRouter();
-  const [error, setError] = useState(null);
-  const addNewUser = async (e) => {
+  const [error, setError] = useState<{ errors: WrongCredientialsType } | null>(null);
+  const addNewUser = async (e: HTMLFormElement) => {
     e.preventDefault();
-    const target = e.target;
+    const form = new FormData(e);
+
     const payload = {
-      email: target.email.value,
-      password: target.password.value,
-      password_confirmation: target.password_confirmation.value,
-      role: target.role.value,
+      email: form.get("email") as string,
+      role: form.get("role") as UserRole["role"],
+      password: form.get("password") as string,
+      password_confirmation: form.get("assword_confirmation") as string,
     };
+
     try {
       const lazySignIn = await import("@/api/index");
       const response = await lazySignIn.addUser(payload);
@@ -35,7 +39,9 @@ export const AdminCreateUser = () => {
         navigate({ to: "admin", from: "/" });
       }
     } catch (err) {
-      setError(err);
+      if (err instanceof WrongCredientials) {
+        setError(err);
+      }
     }
   };
 
@@ -62,6 +68,7 @@ export const AdminCreateUser = () => {
           as={"form"}
           gap={"1rem"}
           flexDir={"column"}
+          //@ts-ignore
           onSubmit={(e) => addNewUser(e)}>
           <FormControl>
             <FormLabel>Email</FormLabel>

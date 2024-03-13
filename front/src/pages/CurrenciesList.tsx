@@ -1,15 +1,18 @@
-import { useLoader } from "@tanstack/react-router";
 import { Flex, Td, Th, Tr } from "@chakra-ui/react";
 
 import * as CustomTable from "@/components/table/Table.jsx";
 import { userStore } from "@/store/userStore";
 import { CustomLink } from "@/components/Navigation/CustomLink";
+import { currenciesListRoute } from "@/router/route";
+
+export type CurrenciesList = {
+  id: string;
+  crypto_name: string;
+  currency_histories: Array<{ id: number; quoting: number; date: string }>;
+};
 
 export const CurrenciesList = () => {
-  /**
-   * @type {[{id:string,crypto_name:string,currency_histories:[{id:number,quoting:number,date:string}]}]}
-   */
-  const currencies = useLoader();
+  const currencies: Array<CurrenciesList> = currenciesListRoute.useLoader();
   const { getState } = userStore;
 
   return (
@@ -58,7 +61,7 @@ export const CurrenciesList = () => {
                             currency_id: val.id,
                             currency_name: val.crypto_name,
                             quoting: val.currency_histories[0].quoting,
-                            ch_id: val.currency_histories.at(0).id,
+                            ch_id: val.currency_histories[0].id,
                           },
                         }}
                         p={2.5}

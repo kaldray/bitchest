@@ -1,16 +1,12 @@
-import { Link as ChakraLink } from "@chakra-ui/react";
-import { Link } from "@tanstack/react-router";
+import { Link as ChakraLink, type ChakraComponent, type ComponentWithAs } from "@chakra-ui/react";
+import { Link, type LinkPropsOptions } from "@tanstack/react-router";
 import { useSidebarStore } from "@/store/sidebarStore";
 
-/**
- * @param {Object} props
- * @param {import("@tanstack/react-router").LinkPropsOptions} props.to
- * @param {JSX.Element} props.children
- * @param {Object} props.style
- * @returns {JSX.Element}
- * @constructor
- */
-export const CustomLink = ({ to, children, ...style }) => {
+interface CustomLinkProps extends ChakraComponent<ComponentWithAs<"a">, TanStackRouterLinkProps> {}
+interface TanStackRouterLinkProps {
+  to: LinkPropsOptions;
+}
+export const CustomLink: CustomLinkProps = ({ children, to, ...style }) => {
   const closeSidebar = useSidebarStore((state) => state.closeSideBar);
   const shouldCloseSideBar = () => {
     if (window.innerWidth < 768) {

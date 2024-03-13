@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { RootRoute, Route, Outlet, redirect, lazyRouteComponent } from "@tanstack/react-router";
 
 import {
@@ -174,6 +175,13 @@ const currencyRate = new Route({
   ),
 });
 
+type PurchaseSearch = {
+  ch_id: number;
+  quoting: number;
+  currency_id: number;
+  currency_name: string;
+};
+
 const purchaseRoute = new Route({
   getParentRoute: () => layout,
   path: "purchase",
@@ -187,9 +195,10 @@ const purchaseRoute = new Route({
   component: lazyRouteComponent(() => import("@/pages"), "PurchaseCurrency"),
   validateSearch: (search) => {
     return {
-      quoting: search.quoting,
-      currency_id: search.currency_id,
-      currency_name: search.currency_name,
+      ch_id: String(search.ch_id),
+      quoting: String(search.quoting),
+      currency_id: String(search.currency_id),
+      currency_name: String(search.currency_name),
     };
   },
 });
@@ -217,13 +226,9 @@ const walletDetailRoute = new Route({
   },
   component: lazyRouteComponent(() => import("@/pages"), "UserDetailWallet"),
   wrapInSuspense: true,
-  pendingComponent: ({ useMatch, useRouteContext }) => (
+  pendingComponent: () => (
     <>
-      <TableSkeleton
-        skeletonHeight={"400px"}
-        useMatch={useMatch}
-        useRouteContext={useRouteContext}
-      />
+      <TableSkeleton skeletonHeight={"400px"} />
     </>
   ),
 });

@@ -1,12 +1,10 @@
 import { Flex, Skeleton } from "@chakra-ui/react";
 
-/**
- * @param {Object} props
- * @param {string}  props.skeletonHeight
- * @returns {JSX.Element}
- * @constructor
- */
-export const TableSkeleton = ({ skeletonHeight }) => {
+type TableSkeletonProps = {
+  skeletonHeight: string;
+};
+
+export const TableSkeleton = ({ skeletonHeight }: TableSkeletonProps) => {
   return (
     <>
       <Flex

@@ -1,13 +1,11 @@
 import { Table, TableCaption, TableContainer, Tbody, Tfoot, Thead } from "@chakra-ui/react";
+import type { PropsWithChildren } from "react";
 
-/**
- *
- * @param {Object} props
- * @param {string} props.title
- * @param {React.ReactNode} props.children
- * @returns {JSX.Element}
- */
-const TableRoot = ({ title, children }) => {
+type TableRootProps = PropsWithChildren & {
+  title: string;
+};
+
+const TableRoot = ({ title, children }: TableRootProps) => {
   return (
     <>
       <TableContainer border={"3px solid black"} width={"80%"}>
@@ -20,7 +18,7 @@ const TableRoot = ({ title, children }) => {
   );
 };
 
-const CustomThead = ({ children }) => {
+const CustomThead = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Thead> {children} </Thead>
@@ -28,7 +26,7 @@ const CustomThead = ({ children }) => {
   );
 };
 
-const CustomTbody = ({ children }) => {
+const CustomTbody = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Tbody>{children}</Tbody>
@@ -36,7 +34,7 @@ const CustomTbody = ({ children }) => {
   );
 };
 
-const CustomTfooter = ({ children }) => {
+const CustomTfooter = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Tfoot>{children} </Tfoot>

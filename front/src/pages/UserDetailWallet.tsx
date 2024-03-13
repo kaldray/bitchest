@@ -2,42 +2,26 @@ import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
 import { useLoader, useRouter } from "@tanstack/react-router";
 
 import * as CustomTable from "@/components/table/Table";
+import { walletDetailRoute } from "@/router/route";
+import type { MouseEvent } from "react";
 
-/**
- * @typedef {Object} CryptoWallet
- * @property {string} quantity - La quantité de crypto-monnaie dans le portefeuille.
- * @property {string} id - La quantité de crypto-monnaie dans le portefeuille.
- * @property {string} created_at - La date de création du portefeuille au format "JJ-MM-AAAA".
- * @property {string} sell_at - La date de vente du portefeuille au format "JJ-MM-AAAA".
- * @property {number|null} capital_gain - Le gain en capital (peut être null).
- * @property {import("@/pages/UserWallets").Currency} currency - Les informations sur la devise crypto associée.
- */
-
-/**
- * @typedef {Object} UserData
- * @property {string} cw_id
- * @property {number} ch_id
- * @property {number} quoting
- * @property {null|string} sell_at
- * @property {number} currency_id
- * @property {string} crypto_name
- * @property {null|string} capital_gain
- * @property {number} quantity
- * @property {string} purchased_at
- */
+type UserData = {
+  cw_id: string;
+  ch_id: number;
+  quoting: number;
+  sell_at: null | string;
+  currency_id: number;
+  crypto_name: string;
+  capital_gain: null | string;
+  quantity: number;
+  purchased_at: string;
+};
 
 export const UserDetailWallet = () => {
-  /** @type {UserData[]} */
-  const userDetailedWallet = useLoader();
+  const userDetailedWallet: Array<UserData> = useLoader({ from: walletDetailRoute.id });
   const router = useRouter();
 
-  /**
-   *
-   * @param {React.SyntheticEvent} e
-   * @param {string} id
-   * @returns {Promise<void>}
-   */
-  const sellACurrency = async (e, id) => {
+  const sellACurrency = async (e: MouseEvent<HTMLButtonElement>, id: string) => {
     e.preventDefault();
     try {
       const lazyLoading = await import("@/api/index");

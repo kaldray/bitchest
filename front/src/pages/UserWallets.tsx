@@ -3,54 +3,45 @@ import { Flex, Td, Th, Tr } from "@chakra-ui/react";
 
 import * as CustomTable from "@/components/table/Table.jsx";
 import { CustomLink } from "@/components/Navigation/CustomLink";
-
-/**
- * Represents a user with their crypto wallet information.
- * @typedef {Object} User
- * @property {number} id - The ID of the user.
- * @property {string} email - The email address of the user.
- * @property {CryptoWallet[]} crypto_wallets - An array of crypto wallets owned by the user.
- * @property {Wallet} wallet - The user's wallet information.
- */
+import { walletRoute } from "@/router/route";
 
 /**
  * Represents a crypto wallet.
- * @typedef {Object} CryptoWallet
- * @property {string} quantity - The quantity of cryptocurrency in the wallet.
- * @property {string|null} capital_gain - The capital gain for this cryptocurrency.
- * @property {Currency} currency - The currency information of the cryptocurrency.
  */
+export type CryptoWallet = {
+  quantity: string;
+  capital_gain: string | null;
+  currency: Currency;
+};
 
 /**
  * Represents a cryptocurrency.
- * @typedef {Object} Currency
- * @property {number} id - The ID of the cryptocurrency.
- * @property {string} crypto_name - The name of the cryptocurrency.
  */
+export type Currency = {
+  id: number;
+  crypto_name: string;
+};
 
 /**
  * Represents the user's main wallet.
- * @typedef {Object} Wallet
- * @property {number} id - The ID of the wallet.
- * @property {number} quantity - The quantity of funds in the wallet.
  */
+export type Wallet = {
+  id: number;
+  quantity: number;
+};
 
-/**
- *
- * @typedef {Object} UserCryptoWallet
- * @property {number} currency_id
- * @property {string} crypto_name
- * @property {null|string} capital_gain
- * @property {number} quantity
- * @property {number} user_id
- */
+export type UserCryptoWallet = {
+  currency_id: number;
+  crypto_name: string;
+  capital_gain: null | string;
+  quantity: number;
+  user_id: number;
+  cw_id: number;
+  ch_id: number;
+};
 
 export const UserWallets = () => {
-  /**
-   * An array containing user information and their crypto wallets.
-   * @type {Array<UserCryptoWallet>}
-   */
-  const userWithWallet = useLoader();
+  const userWithWallet: Array<UserCryptoWallet> = useLoader({ from: walletRoute.id });
 
   if (!userWithWallet.length) {
     <p>Votre portefeuille est vide </p>;
