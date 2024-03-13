@@ -1,4 +1,4 @@
-import { useLoader, useNavigate, useRouter } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import {
   Alert,
   AlertDescription,
@@ -12,34 +12,48 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { updateUserRoute } from "@/router/route";
+import type { UserRole } from "@/api/index";
+
+export type User = { id: number; email: string; role: string };
+
+export type WrongCredientialsType = {
+  email: Array<any>;
+  password: Array<any>;
+};
+export class WrongCredientials extends Error {
+  public errors: WrongCredientialsType;
+  constructor(message: string) {
+    super(message);
+    this.name = "Wrong Credientials";
+  }
+}
 
 export const AdminUpdateUser = () => {
-  /**
-   * @typedef {import("./Admin.jsx").User} User
-   * @type {User}
-   */
-  const user = useLoader();
+  const user: User = updateUserRoute.useLoader();
   const navigate = useNavigate();
   const router = useRouter();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<{ errors: WrongCredientialsType } | null>(null);
   const otherRole = user.role === "admin" ? "client" : "admin";
 
-  const modifyUserInfo = async (e) => {
+  const modifyUserInfo = async (e: HTMLFormElement) => {
     e.preventDefault();
-    const target = e.target;
+    const form = new FormData(e);
     const payload = {
-      email: target.email.value,
-      role: target.role.value,
+      email: form.get("email") as string,
+      role: form.get("role") as UserRole["role"],
     };
     try {
       const lazyLoading = await import("@/api/index");
-      const response = await lazyLoading.updateUserById(user.id, payload);
+      const response = await lazyLoading.updateUserById(String(user.id), payload);
       if (response.status === 200) {
         router.invalidate();
         navigate({ to: "admin", from: "/" });
       }
     } catch (err) {
-      setError(err);
+      if (err instanceof WrongCredientials) {
+        setError(err);
+      }
     }
   };
 
@@ -72,6 +86,7 @@ export const AdminUpdateUser = () => {
           as={"form"}
           gap={"1rem"}
           flexDir={"column"}
+          //@ts-ignore
           onSubmit={(e) => modifyUserInfo(e)}>
           <FormControl>
             <FormLabel>Email address</FormLabel>

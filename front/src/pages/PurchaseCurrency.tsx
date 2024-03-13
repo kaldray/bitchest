@@ -1,22 +1,38 @@
-import { useState } from "react";
-import { useRouter, useSearch } from "@tanstack/react-router";
+import { useState, type FormEvent } from "react";
+import { useRouter } from "@tanstack/react-router";
 import { Button, Flex, FormControl, FormLabel, Input, Text, useToast } from "@chakra-ui/react";
 
 import { purchaseRoute } from "@/router/route";
 
+export class ErrorResponse extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "Error Response";
+  }
+}
+
 export const PurchaseCurrency = () => {
-  const { currency_name, quoting, ch_id } = useSearch({ from: purchaseRoute.id });
+  const { currency_name, quoting, ch_id } = purchaseRoute.useSearch();
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const toast = useToast({
     duration: 5000,
     position: "top",
   });
 
-  const makePurchase = async (e) => {
+  interface ExtendedTarget extends EventTarget {
+    quantity?: {
+      value: string;
+    };
+  }
+
+  const makePurchase = async (e: FormEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const target = e.target;
+    const target: ExtendedTarget = e.target;
+    if (target.quantity == null) {
+      throw new Error("Missing required params");
+    }
     const payload = {
       quantity: target.quantity.value,
       currency_histories_id: ch_id,
@@ -30,7 +46,9 @@ export const PurchaseCurrency = () => {
         router.navigate({ to: "/currencies", from: "/" });
       }
     } catch (err) {
-      setError(err.message);
+      if (err instanceof ErrorResponse) {
+        setError(err.message);
+      }
     }
   };
 

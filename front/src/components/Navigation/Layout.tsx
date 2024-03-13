@@ -1,12 +1,8 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { Sidebar } from "@/components/Navigation/Sidebar";
+import type { PropsWithChildren } from "react";
 
-/**
- * @param {Object} props
- * @param {React.ReactNode} props.children
- * @returns {JSX.Element}
- */
-export const Layout = ({ children }) => {
+export const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Flex>

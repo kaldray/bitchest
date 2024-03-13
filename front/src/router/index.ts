@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Router } from "@tanstack/react-router";
 import {
   loginRoute,
@@ -31,4 +32,4 @@ const routeTree = rootRoute.addChildren([
   ]),
 ]);
 
-export const router = new Router({ routeTree, defaultPreload: "intent" });
+export const router = new Router(routeTree);

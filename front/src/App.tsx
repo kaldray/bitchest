@@ -15,6 +15,12 @@ const TanStackRouterDevtools = import.meta.env.PROD
       })),
     );
 
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
+
 function App() {
   return (
     <>

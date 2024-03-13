@@ -13,24 +13,19 @@ import {
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
-// import { signIn } from "@/api/index.js";
 import { userStore } from "@/store/userStore.js";
+import { ErrorResponse } from ".";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const { setState } = userStore;
 
-  /**
-   *
-   * @param {React.SyntheticEvent} e
-   * @returns {Promise<void>}
-   */
-  const login = async (e) => {
+  const login = async (e: HTMLFormElement) => {
     e.preventDefault();
-    const target = e.target;
-    const email = target.email.value;
-    const password = target.password.value;
+    const form = new FormData(e);
+    const email = form.get("email") as string;
+    const password = form.get("password") as string;
     const credentials = {
       email,
       password,
@@ -46,7 +41,9 @@ export const Login = () => {
         return navigate({ to: "/wallet" });
       }
     } catch (err) {
-      setError(err);
+      if (err instanceof ErrorResponse) {
+        setError(err.message);
+      }
     }
   };
 
@@ -58,7 +55,7 @@ export const Login = () => {
             <>
               <Alert status="error" my={"1rem"}>
                 <AlertIcon />
-                <AlertDescription>{error.message}</AlertDescription>
+                <AlertDescription>{error}</AlertDescription>
               </Alert>
             </>
           )}
@@ -70,6 +67,7 @@ export const Login = () => {
             w={"80%"}
             gap={5}
             as={"form"}
+            //@ts-ignore
             onSubmit={(e) => login(e)}>
             <FormControl isRequired>
               <FormLabel color={"black"}>Email</FormLabel>

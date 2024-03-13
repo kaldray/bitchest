@@ -1,4 +1,3 @@
-import { useLoader } from "@tanstack/react-router";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,20 +7,37 @@ import {
   Title,
   Tooltip,
   Legend,
+  type ChartOptions,
+  type ChartType,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Flex } from "@chakra-ui/react";
 
 import { convertApiDataToChartJsFormat } from "@/helpers";
+import { currencyRate as currencyRateRoute } from "@/router/route";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
+export type CurrenciesRateList = {
+  id: string;
+  crypto_name: string;
+  currency_histories: [
+    {
+      id: number;
+      quoting: number;
+      date: string;
+    },
+  ];
+};
+
+function assertIsString(label: unknown, value: unknown): asserts value is string {
+  if (typeof label !== "string" && typeof value !== "string") {
+    throw new Error("Not a string");
+  }
+}
+
 export const CurrencyRate = () => {
-  /**
-   *
-   * @type {{id:string,crypto_name:string,currency_histories:[{id:number,quoting:number,date:string}]}}
-   */
-  const currencyRate = useLoader();
+  const currencyRate: CurrenciesRateList = currencyRateRoute.useLoader();
 
   const { labels, chartData } = convertApiDataToChartJsFormat(currencyRate);
 
@@ -37,7 +53,7 @@ export const CurrencyRate = () => {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<ChartType> = {
     responsive: true,
     plugins: {
       tooltip: {
@@ -47,6 +63,7 @@ export const CurrencyRate = () => {
             label += " : ";
             let value = context.raw;
             value += " €";
+            assertIsString(value, label);
             return label + value;
           },
         },
@@ -63,7 +80,7 @@ export const CurrencyRate = () => {
       y: {
         ticks: {
           callback: function (val) {
-            return this.getLabelForValue(val) + " €";
+            return this.getLabelForValue(Number(val)) + " €";
           },
         },
       },
@@ -78,6 +95,8 @@ export const CurrencyRate = () => {
         height={"100%"}
         p={5}
         mt={["5rem", "5rem", "0rem"]}>
+        {/*
+          // @ts-ignore */}
         <Line options={options} data={data} />
       </Flex>
     </>

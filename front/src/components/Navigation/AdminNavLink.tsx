@@ -5,14 +5,14 @@ export const AdminNavLink = () => {
     <>
       <CustomLink
         to={{ to: "/admin", from: "/" }}
-        bg={"blue.700"}
         px={"16px"}
         py={"8px"}
         verticalAlign={"middle"}
         borderRadius={"6px"}
         minW={"130px"}
         textAlign={"center"}
-        color={"white"}>
+        color={"white"}
+        bg={"blue.700"}>
         Page d&apos;accueil
       </CustomLink>
     </>

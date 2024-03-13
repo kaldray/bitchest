@@ -4,16 +4,14 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { NavigationLinks } from "@/components/Navigation/NavigationLinks";
 import { useSidebarStore } from "@/store/sidebarStore";
 import { userStore } from "@/store/userStore";
-import { useLoader } from "@tanstack/react-router";
+import { layout } from "@/router/route";
+import type { Wallet } from "@/pages";
 
 export const Sidebar = () => {
   const { isOpen, toggleSidebar } = useSidebarStore((store) => store);
   const { getState } = userStore;
 
-  /**
-   * @type {import("@/pages/UserWallets").Wallet}
-   */
-  const wallet = useLoader();
+  const wallet: Wallet = layout.useLoader();
 
   return (
     <>
