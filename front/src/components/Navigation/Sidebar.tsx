@@ -4,14 +4,12 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { NavigationLinks } from "@/components/Navigation/NavigationLinks";
 import { useSidebarStore } from "@/store/sidebarStore";
 import { userStore } from "@/store/userStore";
-import { layout } from "@/router/route";
-import type { Wallet } from "@/pages";
 
 export const Sidebar = () => {
   const { isOpen, toggleSidebar } = useSidebarStore((store) => store);
   const { getState } = userStore;
 
-  const wallet: Wallet = layout.useLoader();
+  // const wallet: Wallet = layout.useLoader();
 
   return (
     <>
@@ -47,7 +45,7 @@ export const Sidebar = () => {
             alignItems={"center"}>
             {getState().user === "client" && (
               <Box as={"span"} fontWeight={"700"} p={2}>
-                Solde : {wallet.quantity} €
+                {/* Solde : {wallet.quantity} € */}
               </Box>
             )}
             <Flex p={2} hideFrom="md" justifyContent={"flex-end"}>

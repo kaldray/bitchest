@@ -1,9 +1,9 @@
-import { useLoader } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import { Flex, Td, Th, Tr } from "@chakra-ui/react";
 
 import * as CustomTable from "@/components/table/Table.jsx";
 import { CustomLink } from "@/components/Navigation/CustomLink";
-import { walletRoute } from "@/router/route";
+import { TableSkeleton } from "@/components/skeleton/TableSkeleton";
 
 /**
  * Represents a crypto wallet.
@@ -36,12 +36,16 @@ export type UserCryptoWallet = {
   capital_gain: null | string;
   quantity: number;
   user_id: number;
-  cw_id: number;
   ch_id: number;
 };
 
-export const UserWallets = () => {
-  const userWithWallet: Array<UserCryptoWallet> = useLoader({ from: walletRoute.id });
+export const Route = createLazyFileRoute("/_authenticated/_layout/wallet")({
+  component: Wallet,
+  pendingComponent: () => <TableSkeleton skeletonHeight={"300px"} />,
+});
+
+function Wallet() {
+  const userWithWallet: Array<UserCryptoWallet> = Route.useLoaderData();
 
   if (!userWithWallet.length) {
     <p>Votre portefeuille est vide </p>;
@@ -66,19 +70,17 @@ export const UserWallets = () => {
             </Tr>
           </CustomTable.CustomThead>
           <CustomTable.CustomTbody>
-            {userWithWallet.map((val) => {
+            {userWithWallet.map((val, i) => {
               return (
-                <Tr key={val.cw_id}>
+                <Tr key={val.ch_id + "key"}>
                   <Td>{val.crypto_name}</Td>
                   <Td>{val.quantity} </Td>
                   <Td>{val.capital_gain ?? 0} €</Td>
                   <Td>
                     <CustomLink
-                      to={{
-                        to: "/wallet/detail/$id",
-                        from: "/",
-                        params: { id: val.ch_id },
-                      }}
+                      to="/wallet/$id"
+                      //@ts-ignore
+                      params={{ id: val.ch_id }}
                       bg={"blue.700"}
                       color={"white"}
                       borderRadius={"6px"}
@@ -94,4 +96,4 @@ export const UserWallets = () => {
       </Flex>
     </>
   );
-};
+}

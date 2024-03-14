@@ -1,9 +1,9 @@
+import { createLazyFileRoute } from "@tanstack/react-router";
 import { Flex, Td, Th, Tr } from "@chakra-ui/react";
 
 import * as CustomTable from "@/components/table/Table.jsx";
 import { userStore } from "@/store/userStore";
 import { CustomLink } from "@/components/Navigation/CustomLink";
-import { currenciesListRoute } from "@/router/route";
 
 export type CurrenciesList = {
   id: string;
@@ -11,8 +11,12 @@ export type CurrenciesList = {
   currency_histories: Array<{ id: number; quoting: number; date: string }>;
 };
 
-export const CurrenciesList = () => {
-  const currencies: Array<CurrenciesList> = currenciesListRoute.useLoader();
+export const Route = createLazyFileRoute("/_authenticated/_layout/currencies")({
+  component: CurrenciesList,
+});
+
+function CurrenciesList() {
+  const currencies: Array<CurrenciesList> = Route.useLoaderData();
   const { getState } = userStore;
 
   return (
@@ -43,10 +47,13 @@ export const CurrenciesList = () => {
                   <Td>{val.currency_histories[0].quoting} €</Td>
                   <Td>
                     <CustomLink
-                      to={{ to: "currency/$id", from: "/", params: { id: val.id } }}
+                      to="/currencies/$currency"
+                      //@ts-ignore
+                      params={{ currency: val.id }}
                       p={2}
                       bg={"blue.700"}
                       color={"white"}
+                      preload="intent"
                       borderRadius={"6px"}>
                       Voir le cours
                     </CustomLink>
@@ -54,15 +61,12 @@ export const CurrenciesList = () => {
                   {getState().user === "client" && (
                     <Td>
                       <CustomLink
-                        to={{
-                          to: "purchase",
-                          from: "/",
-                          search: {
-                            currency_id: val.id,
-                            currency_name: val.crypto_name,
-                            quoting: val.currency_histories[0].quoting,
-                            ch_id: val.currency_histories[0].id,
-                          },
+                        to="/purchase"
+                        search={{
+                          //@ts-ignore
+                          currency_name: val.crypto_name,
+                          quoting: val.currency_histories[0].quoting,
+                          ch_id: val.currency_histories[0].id,
                         }}
                         p={2.5}
                         bg={"blue.500"}
@@ -80,4 +84,4 @@ export const CurrenciesList = () => {
       </Flex>
     </>
   );
-};
+}

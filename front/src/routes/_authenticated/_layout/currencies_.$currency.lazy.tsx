@@ -1,3 +1,4 @@
+import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,10 +14,8 @@ import {
 import { Line } from "react-chartjs-2";
 import { Flex } from "@chakra-ui/react";
 
-import { convertApiDataToChartJsFormat } from "@/helpers";
-import { currencyRate as currencyRateRoute } from "@/router/route";
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+import { assertIsString, convertApiDataToChartJsFormat } from "@/helpers";
+import { TableSkeleton } from "@/components/skeleton/TableSkeleton";
 
 export type CurrenciesRateList = {
   id: string;
@@ -30,14 +29,15 @@ export type CurrenciesRateList = {
   ];
 };
 
-function assertIsString(label: unknown, value: unknown): asserts value is string {
-  if (typeof label !== "string" && typeof value !== "string") {
-    throw new Error("Not a string");
-  }
-}
+export const Route = createLazyFileRoute("/_authenticated/_layout/currencies/$currency")({
+  component: CurrencyRate,
+  pendingComponent: () => <TableSkeleton skeletonHeight={"300px"} />,
+});
 
-export const CurrencyRate = () => {
-  const currencyRate: CurrenciesRateList = currencyRateRoute.useLoader();
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
+function CurrencyRate() {
+  const currencyRate: CurrenciesRateList = Route.useLoaderData();
 
   const { labels, chartData } = convertApiDataToChartJsFormat(currencyRate);
 
@@ -101,4 +101,4 @@ export const CurrencyRate = () => {
       </Flex>
     </>
   );
-};
+}

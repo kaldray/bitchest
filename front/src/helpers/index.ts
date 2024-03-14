@@ -9,3 +9,10 @@ export const convertApiDataToChartJsFormat = (data: Data) => {
   const chartData = data.currency_histories.map((val) => val.quoting);
   return { labels, chartData };
 };
+
+
+export function assertIsString(label: unknown, value: unknown): asserts value is string {
+  if (typeof label !== "string" && typeof value !== "string") {
+    throw new Error("Not a string");
+  }
+}

@@ -1,9 +1,8 @@
 import axios from "axios";
 
-import { router } from "@/router/index.js";
+import { router } from "@/App";
 import { userStore } from "@/store/userStore.js";
 import type { AxiosError, AxiosResponse } from "axios";
-import type { CurrenciesRateList } from "@/pages";
 
 const { setState } = userStore;
 
@@ -26,6 +25,24 @@ export type UserRole = {
   role: "client" | "admin";
 };
 type Users = Array<UserRole>;
+
+export type CurrenciesList = {
+  id: string;
+  crypto_name: string;
+  currency_histories: Array<{ id: number; quoting: number; date: string }>;
+};
+
+export type CurrenciesRateList = {
+  id: string;
+  crypto_name: string;
+  currency_histories: [
+    {
+      id: number;
+      quoting: number;
+      date: string;
+    },
+  ];
+};
 
 api.interceptors.response.use(
   (response) => response,
@@ -215,3 +232,10 @@ type Wallet = {
   const response = await api.get<Wallet>("/wallet", { signal: abortController.signal });
   return response.data;
 };
+
+export class ErrorResponse extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "Error Response";
+  }
+}

@@ -1,9 +1,14 @@
+import type { MouseEvent } from "react";
+import { useRouter, createLazyFileRoute } from "@tanstack/react-router";
 import { Button, Flex, Td, Th, Tr } from "@chakra-ui/react";
-import { useLoader, useRouter } from "@tanstack/react-router";
 
 import * as CustomTable from "@/components/table/Table";
-import { walletDetailRoute } from "@/router/route";
-import type { MouseEvent } from "react";
+import { TableSkeleton } from "@/components/skeleton/TableSkeleton";
+
+export const Route = createLazyFileRoute("/_authenticated/_layout/wallet/$id")({
+  component: UserDetailWallet,
+  pendingComponent: () => <TableSkeleton skeletonHeight={"300px"} />,
+});
 
 type UserData = {
   cw_id: string;
@@ -17,8 +22,8 @@ type UserData = {
   purchased_at: string;
 };
 
-export const UserDetailWallet = () => {
-  const userDetailedWallet: Array<UserData> = useLoader({ from: walletDetailRoute.id });
+function UserDetailWallet() {
+  const userDetailedWallet: Array<UserData> = Route.useLoaderData();
   const router = useRouter();
 
   const sellACurrency = async (e: MouseEvent<HTMLButtonElement>, id: string) => {
@@ -91,4 +96,4 @@ export const UserDetailWallet = () => {
       </Flex>
     </>
   );
-};
+}
