@@ -1,19 +1,9 @@
-import { RouterProvider } from "@tanstack/react-router";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import { router } from "@/router";
-import React from "react";
+import { routeTree } from "./routeTree.gen";
 
-const TanStackRouterDevtools = import.meta.env.PROD
-  ? () => null // Render nothing in production
-  : React.lazy(() =>
-      // Lazy load in development
-      import("@tanstack/router-devtools").then((res) => ({
-        default: res.TanStackRouterDevtools,
-        // For Embedded Mode
-        // default: res.TanStackRouterDevtoolsPanel
-      })),
-    );
+export const router = createRouter({ routeTree, defaultStaleTime: Infinity });
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -26,7 +16,6 @@ function App() {
     <>
       <ChakraProvider>
         <RouterProvider router={router} />
-        <TanStackRouterDevtools router={router} />
       </ChakraProvider>
     </>
   );

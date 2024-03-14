@@ -21,7 +21,7 @@ const TableRoot = ({ title, children }: TableRootProps) => {
 const CustomThead = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <Thead> {children} </Thead>
+      <Thead>{children}</Thead>
     </>
   );
 };

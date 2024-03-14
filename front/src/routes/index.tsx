@@ -1,3 +1,5 @@
+import { useState, type FormEvent } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   Alert,
   AlertDescription,
@@ -10,20 +12,29 @@ import {
   Input,
   VStack,
 } from "@chakra-ui/react";
-import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 
 import { userStore } from "@/store/userStore.js";
-import { ErrorResponse } from ".";
 
-export const Login = () => {
+class ErrorResponse extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "Error Response";
+  }
+}
+
+export const Route = createFileRoute("/")({
+  component: Login,
+});
+
+function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
+
   const { setState } = userStore;
 
-  const login = async (e: HTMLFormElement) => {
+  const login = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = new FormData(e);
+    const form = new FormData(e.currentTarget);
     const email = form.get("email") as string;
     const password = form.get("password") as string;
     const credentials = {
@@ -35,10 +46,10 @@ export const Login = () => {
       const response = await lazyLoading.signIn(credentials);
       if (response.status === 200 && response.data.user === "admin") {
         setState({ user: response.data.user });
-        return navigate({ to: "/admin" });
+        // return navigate({ to: "/admin" });
       } else {
         setState({ user: response.data.user });
-        return navigate({ to: "/wallet" });
+        return navigate({ to: "/currencies" });
       }
     } catch (err) {
       if (err instanceof ErrorResponse) {
@@ -89,4 +100,4 @@ export const Login = () => {
       </Container>
     </>
   );
-};
+}
