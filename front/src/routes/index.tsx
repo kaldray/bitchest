@@ -14,13 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 import { userStore } from "@/store/userStore.js";
-
-class ErrorResponse extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "Error Response";
-  }
-}
+import { ErrorResponse } from "@/api/index";
 
 export const Route = createFileRoute("/")({
   component: Login,
@@ -46,7 +40,7 @@ function Login() {
       const response = await lazyLoading.signIn(credentials);
       if (response.status === 200 && response.data.user === "admin") {
         setState({ user: response.data.user });
-        // return navigate({ to: "/admin" });
+        return navigate({ to: "/users" });
       } else {
         setState({ user: response.data.user });
         return navigate({ to: "/currencies" });
