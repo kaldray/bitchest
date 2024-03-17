@@ -4,12 +4,14 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { NavigationLinks } from "@/components/Navigation/NavigationLinks";
 import { useSidebarStore } from "@/store/sidebarStore";
 import { userStore } from "@/store/userStore";
+import { Await, useLoaderData } from "@tanstack/react-router";
+import { Suspense } from "react";
 
 export const Sidebar = () => {
   const { isOpen, toggleSidebar } = useSidebarStore((store) => store);
   const { getState } = userStore;
 
-  // const wallet: Wallet = layout.useLoader();
+  const { wallet } = useLoaderData({ from: "/_authenticated/_layout" });
 
   return (
     <>
@@ -19,7 +21,7 @@ export const Sidebar = () => {
         w={"100%"}
         position={["fixed", "fixed", "initial"]}
         h={["auto", "auto"]}
-        minH={"100dvh"}
+        minH={["auto", "auto", "100dvh"]}
         zIndex={10}
         as="nav"
         display={"inline-block"}>
@@ -45,7 +47,13 @@ export const Sidebar = () => {
             alignItems={"center"}>
             {getState().user === "client" && (
               <Box as={"span"} fontWeight={"700"} p={2}>
-                {/* Solde : {wallet.quantity} € */}
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Await promise={wallet}>
+                    {(data) => {
+                      return <>Solde : {data.quantity} €</>;
+                    }}
+                  </Await>
+                </Suspense>
               </Box>
             )}
             <Flex p={2} hideFrom="md" justifyContent={"flex-end"}>

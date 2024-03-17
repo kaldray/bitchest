@@ -44,6 +44,11 @@ export type CurrenciesRateList = {
   ];
 };
 
+export type WrongCredientialsType = {
+  email: Array<any>;
+  password: Array<any>;
+};
+
 api.interceptors.response.use(
   (response) => response,
   /**
@@ -237,5 +242,13 @@ export class ErrorResponse extends Error {
   constructor(message: string) {
     super(message);
     this.name = "Error Response";
+  }
+}
+
+export class WrongCredientials extends Error {
+  public errors: WrongCredientialsType;
+  constructor(message: string) {
+    super(message);
+    this.name = "Wrong Credientials";
   }
 }

@@ -4,7 +4,7 @@ export const AdminNavLink = () => {
   return (
     <>
       <CustomLink
-        to={{ to: "/admin", from: "/" }}
+        to="/users"
         px={"16px"}
         py={"8px"}
         verticalAlign={"middle"}
