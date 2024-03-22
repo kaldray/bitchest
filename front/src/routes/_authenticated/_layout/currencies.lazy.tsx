@@ -48,7 +48,6 @@ function CurrenciesList() {
                   <Td>
                     <CustomLink
                       to="/currencies/$currency"
-                      //@ts-ignore
                       params={{ currency: val.id }}
                       p={2}
                       bg={"blue.700"}

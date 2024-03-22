@@ -79,7 +79,6 @@ function UsersList() {
                   <Td>
                     <CustomLink
                       to="/users/update/$id"
-                      //@ts-ignore
                       params={{ id: u.id }}
                       p={3}
                       borderRadius={"6px"}

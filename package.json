@@ -7,7 +7,7 @@
     "front": "cd front && pnpm dev",
     "api": "docker compose up -d",
     "api-stop": "docker compose stop mysql api phpmyadmin",
-    "dev" :"pnpm front && pnpm api"
+    "dev": "pnpm front && pnpm api"
   },
   "keywords": [],
   "author": "",

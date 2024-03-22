@@ -70,7 +70,7 @@ function Wallet() {
             </Tr>
           </CustomTable.CustomThead>
           <CustomTable.CustomTbody>
-            {userWithWallet.map((val, i) => {
+            {userWithWallet.map((val) => {
               return (
                 <Tr key={val.ch_id + "key"}>
                   <Td>{val.crypto_name}</Td>
@@ -79,7 +79,6 @@ function Wallet() {
                   <Td>
                     <CustomLink
                       to="/wallet/$id"
-                      //@ts-ignore
                       params={{ id: val.ch_id }}
                       bg={"blue.700"}
                       color={"white"}

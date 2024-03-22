@@ -18,8 +18,8 @@ dependencies:
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.21)(react@18.2.0)
   '@tanstack/react-router':
-    specifier: 1.19.13
-    version: 1.19.13(react-dom@18.2.0)(react@18.2.0)
+    specifier: 1.22.2
+    version: 1.22.2(react-dom@18.2.0)(react@18.2.0)
   axios:
     specifier: ^1.5.0
     version: 1.5.0
@@ -1797,8 +1797,8 @@ packages:
       tiny-warning: 1.0.3
     dev: true
 
-  /@tanstack/react-router@1.19.13(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-q8YcjQPHDOZQWAGY/arxCw7Lb3MhBCIK8sQIDNTsZbBlhEuK7wfXJHsz2K4qAyFp3gv3QmpGm4s9rQnwY8NiXQ==}
+  /@tanstack/react-router@1.22.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-tME/i5pn5RYi7uTuX1HBI9rj9xIokC2FPQhlpi4Xy0aWj0S+2lsCYtWx7I3TsSyyVbRfeMGbXU9QRPG3KN3VSA==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16'
