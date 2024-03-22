@@ -70,29 +70,37 @@ function Wallet() {
             </Tr>
           </CustomTable.CustomThead>
           <CustomTable.CustomTbody>
-            {userWithWallet.map((val) => {
-              return (
-                <Tr key={val.ch_id + "key"}>
-                  <Td>{val.crypto_name}</Td>
-                  <Td>{val.quantity} </Td>
-                  <Td>{val.capital_gain ?? 0} €</Td>
-                  <Td>
-                    <CustomLink
-                      to="/wallet/$id"
-                      params={{ id: val.ch_id }}
-                      bg={"blue.700"}
-                      color={"white"}
-                      borderRadius={"6px"}
-                      p={2.5}>
-                      Voir le détail
-                    </CustomLink>
-                  </Td>
-                </Tr>
-              );
-            })}
+            <UserWithWalletMap userWithWallet={userWithWallet} />
           </CustomTable.CustomTbody>
         </CustomTable.TableRoot>
       </Flex>
+    </>
+  );
+}
+
+function UserWithWalletMap({ userWithWallet }: { userWithWallet: Array<UserCryptoWallet> }) {
+  return (
+    <>
+      {userWithWallet.map((val) => {
+        return (
+          <Tr key={val.ch_id + "key"}>
+            <Td>{val.crypto_name}</Td>
+            <Td>{val.quantity} </Td>
+            <Td>{val.capital_gain ?? 0} €</Td>
+            <Td>
+              <CustomLink
+                to="/wallet/$id"
+                params={{ id: val.ch_id }}
+                bg={"blue.700"}
+                color={"white"}
+                borderRadius={"6px"}
+                p={2.5}>
+                Voir le détail
+              </CustomLink>
+            </Td>
+          </Tr>
+        );
+      })}
     </>
   );
 }

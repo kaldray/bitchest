@@ -7,6 +7,7 @@ import { AdminNavLink } from "@/components/Navigation/AdminNavLink";
 import { ClientNavLink } from "@/components/Navigation/ClientNavLink";
 import { CustomLink } from "@/components/Navigation/CustomLink";
 import { useSidebarStore } from "@/store/sidebarStore";
+import { Match } from "../Match";
 
 export const NavigationLinks = () => {
   const { setState, getState } = userStore;
@@ -63,8 +64,12 @@ export const NavigationLinks = () => {
                 color={"white"}>
                 Liste des crypto-monnaies
               </CustomLink>
-              {getState().user === "admin" && <AdminNavLink />}
-              {getState().user === "client" && <ClientNavLink />}
+              <Match state="admin">
+                <AdminNavLink />
+              </Match>
+              <Match state="client">
+                <ClientNavLink />
+              </Match>
             </Flex>
           </Collapse>
         </>

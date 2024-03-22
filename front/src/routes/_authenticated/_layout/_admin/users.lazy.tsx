@@ -71,36 +71,7 @@ function UsersList() {
             </Tr>
           </CustomTable.CustomThead>
           <CustomTable.CustomTbody>
-            {users.map((u) => {
-              return (
-                <Tr key={u.id}>
-                  <Td>{u.email}</Td>
-                  <Td>{u.role}</Td>
-                  <Td>
-                    <CustomLink
-                      to="/users/update/$id"
-                      params={{ id: u.id }}
-                      p={3}
-                      borderRadius={"6px"}
-                      bg={"blue.700"}
-                      color={"white"}>
-                      Modifier
-                    </CustomLink>
-                  </Td>
-                  <Td>
-                    <Button
-                      type={"button"}
-                      bg={"red.500"}
-                      onClick={() => {
-                        onOpen();
-                        setUserId(String(u.id));
-                      }}>
-                      Supprimer
-                    </Button>
-                  </Td>
-                </Tr>
-              );
-            })}
+            <UserListMap setUserId={setUserId} users={users} onOpen={onOpen} />
           </CustomTable.CustomTbody>
         </CustomTable.TableRoot>
       </Flex>
@@ -128,6 +99,51 @@ function UsersList() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+    </>
+  );
+}
+
+function UserListMap({
+  users,
+  onOpen,
+  setUserId,
+}: {
+  users: Users;
+  onOpen: () => void;
+  setUserId: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  return (
+    <>
+      {users.map((u) => {
+        return (
+          <Tr key={u.id}>
+            <Td>{u.email}</Td>
+            <Td>{u.role}</Td>
+            <Td>
+              <CustomLink
+                to="/users/update/$id"
+                params={{ id: u.id }}
+                p={3}
+                borderRadius={"6px"}
+                bg={"blue.700"}
+                color={"white"}>
+                Modifier
+              </CustomLink>
+            </Td>
+            <Td>
+              <Button
+                type={"button"}
+                bg={"red.500"}
+                onClick={() => {
+                  onOpen();
+                  setUserId(String(u.id));
+                }}>
+                Supprimer
+              </Button>
+            </Td>
+          </Tr>
+        );
+      })}
     </>
   );
 }

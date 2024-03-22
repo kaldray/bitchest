@@ -61,39 +61,56 @@ function UserDetailWallet() {
             </Tr>
           </CustomTable.CustomThead>
           <CustomTable.CustomTbody>
-            {userDetailedWallet.map((val) => {
-              return (
-                <Tr key={val.cw_id}>
-                  <Td>{val.crypto_name}</Td>
-                  <Td>{val.purchased_at}</Td>
-                  <Td>{val.sell_at ?? "non vendu"}</Td>
-                  <Td>{val.quantity}</Td>
-                  <Td>{val.capital_gain ?? 0} €</Td>
-                  <Td>
-                    <Button
-                      bg={"blue.300"}
-                      _hover={{ bg: "blue.500" }}
-                      title={"Vendre la crypto-monnaie"}
-                      _disabled={{
-                        bg: "blue.100",
-                        cursor: "not-allowed",
-                        opacity: "0.5",
-                      }}
-                      color={"black"}
-                      borderRadius={"6px"}
-                      aria-disabled={typeof val.sell_at === "string"}
-                      isDisabled={typeof val.sell_at === "string"}
-                      type={"button"}
-                      onClick={(e) => sellACurrency(e, val.cw_id)}>
-                      Vendre
-                    </Button>
-                  </Td>
-                </Tr>
-              );
-            })}
+            <UserDetailWalletMap
+              userDetailedWallet={userDetailedWallet}
+              sellACurrency={sellACurrency}
+            />
           </CustomTable.CustomTbody>
         </CustomTable.TableRoot>
       </Flex>
+    </>
+  );
+}
+
+function UserDetailWalletMap({
+  userDetailedWallet,
+  sellACurrency,
+}: {
+  userDetailedWallet: Array<UserData>;
+  sellACurrency: (e: MouseEvent<HTMLButtonElement>, id: string) => void;
+}) {
+  return (
+    <>
+      {userDetailedWallet.map((val) => {
+        return (
+          <Tr key={val.cw_id}>
+            <Td>{val.crypto_name}</Td>
+            <Td>{val.purchased_at}</Td>
+            <Td>{val.sell_at ?? "non vendu"}</Td>
+            <Td>{val.quantity}</Td>
+            <Td>{val.capital_gain ?? 0} €</Td>
+            <Td>
+              <Button
+                bg={"blue.300"}
+                _hover={{ bg: "blue.500" }}
+                title={"Vendre la crypto-monnaie"}
+                _disabled={{
+                  bg: "blue.100",
+                  cursor: "not-allowed",
+                  opacity: "0.5",
+                }}
+                color={"black"}
+                borderRadius={"6px"}
+                aria-disabled={typeof val.sell_at === "string"}
+                isDisabled={typeof val.sell_at === "string"}
+                type={"button"}
+                onClick={(e) => sellACurrency(e, val.cw_id)}>
+                Vendre
+              </Button>
+            </Td>
+          </Tr>
+        );
+      })}
     </>
   );
 }
